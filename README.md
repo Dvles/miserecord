@@ -1,2 +1,2 @@
 # miserecord
-A platform for managing a fictional music label, including artists, albums, singles, products, genres, and news articles with role-based access control. Designed for admins, managers, and authors to collaborate efficiently. 
+A Symfony/PHP-based platform for managing a fictional music label. Features include artist profiles, albums, singles, genres, products (merch, vinyls, artwork), news articles with tagging, and a secure admin panel. Built with Symfony, Tailwind CSS, and a focus on SEO-friendly design. Includes role-based access control for authors, managers, and admins.symfo
