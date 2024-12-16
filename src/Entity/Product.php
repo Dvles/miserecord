@@ -18,9 +18,9 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: ProductTypesEnum::class)]
-    private array $type = [];
-
+    #[ORM\Column(type: Types::STRING, enumType: ProductTypesEnum::class)]
+    private ?ProductTypesEnum $type = null; 
+    
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
@@ -47,15 +47,14 @@ class Product
         return $this;
     }
 
-    /**
-     * @return ProductTypesEnum[]
-     */
-    public function getType(): array
+
+    public function getType(): ?ProductTypesEnum
     {
         return $this->type;
     }
 
-    public function setType(array $type): static
+    // Now we set a single ProductTypesEnum
+    public function setType(ProductTypesEnum $type): static
     {
         $this->type = $type;
 
