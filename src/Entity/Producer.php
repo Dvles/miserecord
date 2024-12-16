@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Enum\ProductTypesEnum;
+use App\Enum\ProducerRolesEnum;
 use App\Repository\ProducerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -54,7 +54,7 @@ class Producer
     }
 
     /**
-     * @return ProductTypesEnum[]
+     * @return ProducerRolesEnum[]
      */
     public function getProdRole(): array
     {
