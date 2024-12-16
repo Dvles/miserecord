@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum ProductType: string
+enum ProductTypesEnum: string
 {
     case ARTWORK = 'artwork';
     case VINYL = 'vinyl';
