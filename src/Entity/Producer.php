@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Enum\ProductTypesEnum;
 use App\Repository\ProducerRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProducerRepository::class)]
@@ -18,6 +20,9 @@ class Producer
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, enumType: ProducerRolesEnum::class)]
+    private array $prodRole = [];
 
     public function getId(): ?int
     {
@@ -44,6 +49,21 @@ class Producer
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return ProductTypesEnum[]
+     */
+    public function getProdRole(): array
+    {
+        return $this->prodRole;
+    }
+
+    public function setProdRole(array $prodRole): static
+    {
+        $this->prodRole = $prodRole;
 
         return $this;
     }
