@@ -17,17 +17,21 @@ class Artist
     #[ORM\Column(length: 100)]
     private ?string $artistName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]  
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]  
     private ?string $lastName = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]  
     private ?\DateTimeInterface $birthDate = null;
 
     #[ORM\Column(length: 350)]
     private ?string $bio = null;
+
+
+    #[ORM\Column(type: Types::BOOLEAN)] 
+    private bool $isBand = false;
 
     public function getId(): ?int
     {
@@ -51,7 +55,7 @@ class Artist
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(?string $firstName): static  // Nullable setter
     {
         $this->firstName = $firstName;
 
@@ -63,7 +67,7 @@ class Artist
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(?string $lastName): static  // Nullable setter
     {
         $this->lastName = $lastName;
 
@@ -75,7 +79,7 @@ class Artist
         return $this->birthDate;
     }
 
-    public function setBirthDate(\DateTimeInterface $birthDate): static
+    public function setBirthDate(?\DateTimeInterface $birthDate): static  // Nullable setter
     {
         $this->birthDate = $birthDate;
 
@@ -93,4 +97,18 @@ class Artist
 
         return $this;
     }
+
+
+    public function getIsBand(): bool
+    {
+        return $this->isBand;
+    }
+
+    public function setIsBand(bool $isBand): static
+    {
+        $this->isBand = $isBand;
+
+        return $this;
+    }
 }
+
