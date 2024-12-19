@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArtistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,17 @@ class Artist
 
     #[ORM\Column(type: Types::BOOLEAN)] 
     private bool $isBand = false;
+
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'artists')]
+    private Collection $artistProduct;
+
+    public function __construct()
+    {
+        $this->artistProduct = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,6 +120,30 @@ class Artist
     public function setIsBand(bool $isBand): static
     {
         $this->isBand = $isBand;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getArtistProduct(): Collection
+    {
+        return $this->artistProduct;
+    }
+
+    public function addArtistProduct(Product $artistProduct): static
+    {
+        if (!$this->artistProduct->contains($artistProduct)) {
+            $this->artistProduct->add($artistProduct);
+        }
+
+        return $this;
+    }
+
+    public function removeArtistProduct(Product $artistProduct): static
+    {
+        $this->artistProduct->removeElement($artistProduct);
 
         return $this;
     }

@@ -22,18 +22,32 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         $artistrep = $manager->getRepository(Artist::class);
         $artists = $artistrep->findAll();
         $productTypesEnum = [ProductTypesEnum::ARTWORK, ProductTypesEnum::VINYL, ProductTypesEnum::MERCH];
+        $productExtra = ["collector", "XXL", "limited edition", "signed", "unplugged"];
 
         for($i = 0; $i < 20; ++$i) {
 
+            
             $price = rand(5,85);
             $type = $productTypesEnum[rand(0, 2)];
             $artist = $artists[rand(0,count($artists)-1)];
             $artistName = $artist->getArtistName();
             $productName = $artistName . " " .  $type->value ; 
+            
+            if ($i % 3 == 0) {
+                $rnd = rand(0,4);
+                $productName = $artistName . " " .  $type->value  . " (" . $productExtra[$rnd] .")"; 
+        
+            } else {
 
+                $productName = $artistName . " " .  $type->value ; 
+
+            }
+
+            
             $product = new Product();
             $product->setName($productName);
             $product->setType($type);
+            $product->addArtist($artist);
             $product->setDescription($faker->paragraph(3));
             $product->setPrice($price);
             $product->setImg("https://via.placeholder.com/500x720");
