@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AlbumRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,17 @@ class Album
 
     #[ORM\Column]
     private ?int $numTracks = null;
+
+    /**
+     * @var Collection<int, Single>
+     */
+    #[ORM\OneToMany(targetEntity: Single::class, mappedBy: 'album')]
+    private Collection $single;
+
+    public function __construct()
+    {
+        $this->single = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +133,36 @@ class Album
     public function setNumTracks(int $numTracks): static
     {
         $this->numTracks = $numTracks;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Single>
+     */
+    public function getSingle(): Collection
+    {
+        return $this->single;
+    }
+
+    public function addSingle(Single $single): static
+    {
+        if (!$this->single->contains($single)) {
+            $this->single->add($single);
+            $single->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSingle(Single $single): static
+    {
+        if ($this->single->removeElement($single)) {
+            // set the owning side to null (unless already changed)
+            if ($single->getAlbum() === $this) {
+                $single->setAlbum(null);
+            }
+        }
 
         return $this;
     }
