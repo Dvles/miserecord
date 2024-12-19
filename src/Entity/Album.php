@@ -16,22 +16,22 @@ class Album
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(length: 355)]
+    private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 455)]
     private ?string $artwork = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 455)]
     private ?string $spotifyLink = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 455, nullable: true)]
     private ?string $youtubeLink = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 455, nullable: true)]
     private ?string $soundcloudLink = null;
 
     #[ORM\Column]
@@ -43,6 +43,10 @@ class Album
     #[ORM\OneToMany(targetEntity: Single::class, mappedBy: 'album')]
     private Collection $single;
 
+    #[ORM\ManyToOne(inversedBy: 'album')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Artist $artist = null;
+
     public function __construct()
     {
         $this->single = new ArrayCollection();
@@ -53,14 +57,14 @@ class Album
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): static
+    public function setTitle(string $title): static
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
@@ -163,6 +167,18 @@ class Album
                 $single->setAlbum(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(?Artist $artist): static
+    {
+        $this->artist = $artist;
 
         return $this;
     }

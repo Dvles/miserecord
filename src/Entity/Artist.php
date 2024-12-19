@@ -47,10 +47,17 @@ class Artist
     #[ORM\OneToMany(targetEntity: Single::class, mappedBy: 'artist')]
     private Collection $singles;
 
+    /**
+     * @var Collection<int, Album>
+     */
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist')]
+    private Collection $album;
+
     public function __construct()
     {
         $this->artistProduct = new ArrayCollection();
         $this->singles = new ArrayCollection();
+        $this->album = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +186,36 @@ class Artist
             // set the owning side to null (unless already changed)
             if ($single->getArtist() === $this) {
                 $single->setArtist(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Album>
+     */
+    public function getAlbum(): Collection
+    {
+        return $this->album;
+    }
+
+    public function addAlbum(Album $album): static
+    {
+        if (!$this->album->contains($album)) {
+            $this->album->add($album);
+            $album->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlbum(Album $album): static
+    {
+        if ($this->album->removeElement($album)) {
+            // set the owning side to null (unless already changed)
+            if ($album->getArtist() === $this) {
+                $album->setArtist(null);
             }
         }
 
