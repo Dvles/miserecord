@@ -23,20 +23,24 @@ class Single
     #[ORM\Column]
     private ?int $duration = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 455)]
     private ?string $artwork = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 455, nullable: true)]
     private ?string $spotifyLink = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 455, nullable: true)]
     private ?string $youtubeLinke = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 455, nullable: true)]
     private ?string $soundcloudLink = null;
 
     #[ORM\Column]
     private ?bool $isReleasedAsSingle = null;
+
+    #[ORM\ManyToOne(inversedBy: 'singles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Artist $artist = null;
 
     public function getId(): ?int
     {
@@ -103,12 +107,12 @@ class Single
         return $this;
     }
 
-    public function getYoutubeLinke(): ?string
+    public function getYoutubeLink(): ?string
     {
         return $this->youtubeLinke;
     }
 
-    public function setYoutubeLinke(?string $youtubeLinke): static
+    public function setYoutubeLink(?string $youtubeLinke): static
     {
         $this->youtubeLinke = $youtubeLinke;
 
@@ -135,6 +139,18 @@ class Single
     public function setReleasedAsSingle(bool $isReleasedAsSingle): static
     {
         $this->isReleasedAsSingle = $isReleasedAsSingle;
+
+        return $this;
+    }
+
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(?Artist $artist): static
+    {
+        $this->artist = $artist;
 
         return $this;
     }

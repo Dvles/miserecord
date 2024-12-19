@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.3",
         "fakerphp/faker": "^1.24",
+        "guzzlehttp/guzzle": "^7.9",
         "symfony/console": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2",

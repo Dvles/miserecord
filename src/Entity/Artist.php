@@ -41,9 +41,16 @@ class Artist
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'artists')]
     private Collection $artistProduct;
 
+    /**
+     * @var Collection<int, Single>
+     */
+    #[ORM\OneToMany(targetEntity: Single::class, mappedBy: 'artist')]
+    private Collection $singles;
+
     public function __construct()
     {
         $this->artistProduct = new ArrayCollection();
+        $this->singles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +151,36 @@ class Artist
     public function removeArtistProduct(Product $artistProduct): static
     {
         $this->artistProduct->removeElement($artistProduct);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Single>
+     */
+    public function getSingles(): Collection
+    {
+        return $this->singles;
+    }
+
+    public function addSingle(Single $single): static
+    {
+        if (!$this->singles->contains($single)) {
+            $this->singles->add($single);
+            $single->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSingle(Single $single): static
+    {
+        if ($this->singles->removeElement($single)) {
+            // set the owning side to null (unless already changed)
+            if ($single->getArtist() === $this) {
+                $single->setArtist(null);
+            }
+        }
 
         return $this;
     }
