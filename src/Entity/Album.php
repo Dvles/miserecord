@@ -22,16 +22,16 @@ class Album
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column(length: 600)]
+    #[ORM\Column(length: 850)]
     private ?string $artwork = null;
 
-    #[ORM\Column(length: 600)]
+    #[ORM\Column(length: 650)]
     private ?string $spotifyLink = null;
 
-    #[ORM\Column(length: 600, nullable: true)]
+    #[ORM\Column(length: 650, nullable: true)]
     private ?string $youtubeLink = null;
 
-    #[ORM\Column(length: 600, nullable: true)]
+    #[ORM\Column(length: 650, nullable: true)]
     private ?string $soundcloudLink = null;
 
     #[ORM\Column]

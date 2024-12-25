@@ -2,13 +2,16 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Artist;
+use Faker\Factory;
+use App\Entity\Album;
+use App\Entity\Single;
 use App\Entity\Producer;
-use App\Enum\ProductTypesEnum;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use App\Enum\ProducerRolesEnum;
+use App\DataFixtures\AlbumFixtures;
+use App\DataFixtures\SingleFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Faker\Factory;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
@@ -19,47 +22,70 @@ class ProducerFixtures extends Fixture implements DependentFixtureInterface
     {
 
         $faker = Factory::create("en_UK");
-        $artistrep = $manager->getRepository(Artist::class);
-        $artists = $artistrep->findAll();
-        $productTypesEnum = [ProductTypesEnum::ARTWORK, ProductTypesEnum::VINYL, ProductTypesEnum::MERCH];
-        $productExtra = ["collector", "XXL", "limited edition", "signed", "unplugged"];
+        $singleRep = $manager->getRepository(Single::class);
+        $singles = $singleRep->findAll();
+        $albumsRep = $manager->getRepository(Album::class);
+        $albums = $albumsRep ->findAll();
 
+        // map all producer 
+
+        $producerRolesEnum = [
+            ProducerRolesEnum::SONGWRITER,
+            ProducerRolesEnum::MIXING_ENGINEER,
+            ProducerRolesEnum::MASTERING_ENGINEER,
+            ProducerRolesEnum::RECORDING_ENGINEER,
+            ProducerRolesEnum::ARRANGER,
+            ProducerRolesEnum::COMPOSER,
+            ProducerRolesEnum::CO_PRODUCER,
+            ProducerRolesEnum::LYRICIST,
+            ProducerRolesEnum::SOUND_DESIGNER,
+            ProducerRolesEnum::VOCAL_PRODUCER,
+            ProducerRolesEnum::INSTRUMENTALIST,
+            ProducerRolesEnum::PRODUCTION_MANAGER,
+            ProducerRolesEnum::SESSION_MUSICIANS
+        ];
+
+
+        $mainProducers=[];
+        $otherProducers=[];
+
+
+        // producer role
         for($i = 0; $i < 20; ++$i) {
+            $producer = new Producer();
+            $producer->setFirstName($faker->firstName);
+            $producer->setLastName($faker->lastName);
+            $producer->setProdRole(ProducerRolesEnum::PRODUCER);
+            $manager->persist($producer);
+            $mainProducers[]=$producer;
 
-            
-            $price = rand(5,85);
-            $type = $productTypesEnum[rand(0, 2)];
-            $artist = $artists[rand(0,count($artists)-1)];
-            $artistName = $artist->getArtistName();
-            $productName = $artistName . " " .  $type->value ; 
-            
-            if ($i % 3 == 0) {
-                $rnd = rand(0,4);
-                $productName = $artistName . " " .  $type->value  . " (" . $productExtra[$rnd] .")"; 
-        
-            } else {
-
-                $productName = $artistName . " " .  $type->value ; 
-
-            }
-
-            
-            $product = new Product();
-            $product->setName($productName);
-            $product->setType($type);
-            $product->addArtist($artist);
-            $product->setDescription($faker->paragraph(3));
-            $product->setPrice($price);
-            $product->setImg("https://via.placeholder.com/500x720");
- 
-            $manager->persist($product);
         }
+
+        // other roles
+        for($i = 0; $i < 30; ++$i) {
+            $producer = new Producer();
+            $producer->setFirstName($faker->firstName);
+            $producer->setLastName($faker->lastName);
+            $producer->setProdRole($faker->randomElement($producerRolesEnum));
+            $manager->persist($producer);
+            $otherProducers[]=$producer;
+        }
+
+        foreach ($singles as $single) {
+            $randProd = random_int(0, count($mainProducers) - 1);
+            $single->addProducer($mainProducers[$randProd]);
+            $randProd = random_int(0, count($otherProducers) - 1);
+            $single->addProducer($otherProducers[$randProd]);
+        }
+        
+
         $manager->flush();
     }
 
     public function getDependencies(): array {
         return [
-            ArtistFixtures::class
+            SingleFixtures::class,
+            AlbumFixtures::class
             ];
     }
 }

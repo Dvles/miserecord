@@ -81,12 +81,24 @@ class Producer
         return $this->prodRole;
     }
 
-    public function setProdRole(array $prodRole): static
+    public function setProdRole($prodRole): static
     {
+        // If $prodRole is not an array, make it one
+        if (!is_array($prodRole)) {
+            $prodRole = [$prodRole];
+        }
+    
+        // Ensure all elements are of the correct enum type
+        foreach ($prodRole as $role) {
+            if (!$role instanceof ProducerRolesEnum) {
+                throw new \InvalidArgumentException('Invalid role type.');
+            }
+        }
+    
         $this->prodRole = $prodRole;
-
         return $this;
     }
+    
 
     /**
      * @return Collection<int, Single>
