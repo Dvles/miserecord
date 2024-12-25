@@ -47,9 +47,16 @@ class Album
     #[ORM\JoinColumn(nullable: false)]
     private ?Artist $artist = null;
 
+    /**
+     * @var Collection<int, Producer>
+     */
+    #[ORM\ManyToMany(targetEntity: Producer::class, mappedBy: 'albums')]
+    private Collection $producers;
+
     public function __construct()
     {
         $this->single = new ArrayCollection();
+        $this->producers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +186,33 @@ class Album
     public function setArtist(?Artist $artist): static
     {
         $this->artist = $artist;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Producer>
+     */
+    public function getProducers(): Collection
+    {
+        return $this->producers;
+    }
+
+    public function addProducer(Producer $producer): static
+    {
+        if (!$this->producers->contains($producer)) {
+            $this->producers->add($producer);
+            $producer->addAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProducer(Producer $producer): static
+    {
+        if ($this->producers->removeElement($producer)) {
+            $producer->removeAlbum($this);
+        }
 
         return $this;
     }

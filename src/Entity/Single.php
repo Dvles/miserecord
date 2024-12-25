@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SingleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +46,17 @@ class Single
 
     #[ORM\ManyToOne(inversedBy: 'single')]
     private ?Album $album = null;
+
+    /**
+     * @var Collection<int, Producer>
+     */
+    #[ORM\ManyToMany(targetEntity: Producer::class, mappedBy: 'singles')]
+    private Collection $producers;
+
+    public function __construct()
+    {
+        $this->producers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -166,6 +179,33 @@ class Single
     public function setAlbum(?Album $album): static
     {
         $this->album = $album;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Producer>
+     */
+    public function getProducers(): Collection
+    {
+        return $this->producers;
+    }
+
+    public function addProducer(Producer $producer): static
+    {
+        if (!$this->producers->contains($producer)) {
+            $this->producers->add($producer);
+            $producer->addSingle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProducer(Producer $producer): static
+    {
+        if ($this->producers->removeElement($producer)) {
+            $producer->removeSingle($this);
+        }
 
         return $this;
     }
