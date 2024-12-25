@@ -34,15 +34,14 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
         $singleRepository = $manager->getRepository(Single::class);
 
         $artists = $artistRepository->findAll();
-        $singles = $singleRepository->findAll();
 
         foreach ($artists as $artist) {
             $artistName = $artist->getArtistName();
 
-            // Step 2: Fetch album data for the artist
+            // Fetch album data for the artist
             $response = $client->get('https://api.spotify.com/v1/search', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken, // Use the token here
+                    'Authorization' => 'Bearer ' . $accessToken,
                 ],
                 'query' => [
                     'q' => 'artist:"' . $artistName . '"',
@@ -54,74 +53,85 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
             $data = json_decode($response->getBody(), true);
 
             // Add a delay to respect the API rate limit
-            usleep(200000); // 200ms delay between requests
+            usleep(200000);
 
-            // Step 3: Validate API response and fetch album data
             if (!isset($data['albums']['items']) || empty($data['albums']['items'])) {
                 echo "No album data found for artist: $artistName\n";
                 continue;
             }
 
+
             foreach ($data['albums']['items'] as $albumData) {
-                // Check if the artist is the main or a featured artist on the album
-                $mainArtistFound = false;
-                foreach ($albumData['artists'] as $index => $albumArtist) {
-                    if ($albumArtist['name'] === $artistName) {
-                        if (count($albumData['artists']) === 1 || $index === 0) {
-                            $mainArtistFound = true;
-                            break;
-                        }
-                    }
+
+                // Skip items that are not real album
+                if ($albumData['album_type'] !== 'album') {
+                    continue;
                 }
-            
+                $mainArtistFound = $this->isMainArtist($albumData['artists'], $artistName);
+
                 if ($mainArtistFound) {
                     // Create a new Album entity
                     $album = new Album();
                     $album->setTitle($albumData['name']);
                     $album->setReleaseDate(new \DateTime($albumData['release_date']));
-                    $album->setArtwork($albumData['images'][0]['url'] ?? null); // Use the first image as artwork
+                    $album->setArtwork($albumData['images'][0]['url'] ?? null);
                     $album->setSpotifyLink($albumData['external_urls']['spotify']);
                     $album->setArtist($artist);
-            
-                    // Step 1: Fetch tracks for the album
+
+                    // Fetch tracks for the album
                     $albumTracksResponse = $client->get('https://api.spotify.com/v1/albums/' . $albumData['id'] . '/tracks', [
                         'headers' => [
                             'Authorization' => 'Bearer ' . $accessToken,
                         ],
                     ]);
-            
+
                     $albumTracksData = json_decode($albumTracksResponse->getBody(), true);
-            
-                    // Step 2: Map track names to ensure singles belong to this album
-                    $albumTrackNames = array_map(function ($track) {
-                        return $track['name'];
-                    }, $albumTracksData['items']);
-            
-                    // Step 3: Link valid singles to the album
                     $numTracks = 0;
-                    foreach ($singles as $single) {
-                        if ($single->getArtist() === $artist && in_array($single->getTitle(), $albumTrackNames, true)) {
-                            $single->setAlbum($album);
-                            $album->addSingle($single);
-                            $numTracks++;
+
+                    foreach ($albumTracksData['items'] as $trackData) {
+                        // Check if the track already exists in the database
+                        $existingSingle = $singleRepository->findOneBy([
+                            'title' => $trackData['name'],
+                            'artist' => $artist,
+                        ]);
+
+                        if (!$existingSingle) {
+                            // Create a new Single entity for this track
+                            $single = new Single();
+                            $single->setTitle($trackData['name']);
+                            $single->setReleaseDate(new \DateTime($albumData['release_date']));
+                            $single->setDuration($trackData['duration_ms'] / 1000);
+                            $single->setArtwork($albumData['images'][0]['url'] ?? null);
+                            $single->setSpotifyLink($trackData['external_urls']['spotify']);
+                            $single->SetReleasedAsSingle(false); // Part of an album
+                            $single->setArtist($artist);
+
+                            // Persist the new Single
+                            $manager->persist($single);
+                        } else {
+                            $single = $existingSingle;
                         }
+
+                        // Associate the single with the album
+                        $single->setAlbum($album);
+                        $album->addSingle($single);
+                        $numTracks++;
                     }
-            
+
                     $album->setNumTracks($numTracks);
-            
-                    // Persist the album only if it has tracks
+
+                    // Persist the album if it has tracks
                     if ($numTracks > 0) {
                         $manager->persist($album);
                     }
+
+                    // Respect the API rate limit
+                    usleep(200000);
                 }
-            
-                // Add delay to respect rate limit
-                usleep(200000); // 200ms delay
             }
-            
         }
 
-        // Flush all changes to the database at once
+        // Flush all changes to the database
         $manager->flush();
     }
 

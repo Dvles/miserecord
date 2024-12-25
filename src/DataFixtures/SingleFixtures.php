@@ -79,6 +79,9 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
 
                 // If the artist is the only one in the track's artists array, create the "Single" entity
                 if ($mainArtistFound) {
+
+                    
+
                     $single = new Single();
                     $single->setTitle($track['name']);
                     $single->setReleaseDate(new \DateTime($track['album']['release_date']));

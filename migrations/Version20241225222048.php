@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241219130931 extends AbstractMigration
+final class Version20241225222048 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,7 +27,7 @@ final class Version20241219130931 extends AbstractMigration
         $this->addSql('CREATE TABLE genre (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE producer (id INT AUTO_INCREMENT NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, prod_role LONGTEXT NOT NULL COMMENT \'(DC2Type:simple_array)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, price INT NOT NULL, img VARCHAR(250) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE single (id INT AUTO_INCREMENT NOT NULL, artist_id INT NOT NULL, album_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, release_date DATE NOT NULL, duration INT NOT NULL, artwork VARCHAR(455) NOT NULL, spotify_link VARCHAR(455) DEFAULT NULL, youtube_linke VARCHAR(455) DEFAULT NULL, soundcloud_link VARCHAR(455) DEFAULT NULL, is_released_as_single TINYINT(1) NOT NULL, INDEX IDX_CAA72719B7970CF8 (artist_id), INDEX IDX_CAA727191137ABCF (album_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE single (id INT AUTO_INCREMENT NOT NULL, artist_id INT NOT NULL, album_id INT DEFAULT NULL, title VARCHAR(255) NOT NULL, release_date DATE NOT NULL, duration INT NOT NULL, artwork VARCHAR(600) NOT NULL, spotify_link VARCHAR(600) DEFAULT NULL, youtube_linke VARCHAR(600) DEFAULT NULL, soundcloud_link VARCHAR(600) DEFAULT NULL, is_released_as_single TINYINT(1) NOT NULL, INDEX IDX_CAA72719B7970CF8 (artist_id), INDEX IDX_CAA727191137ABCF (album_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE album ADD CONSTRAINT FK_39986E43B7970CF8 FOREIGN KEY (artist_id) REFERENCES artist (id)');
         $this->addSql('ALTER TABLE artist_product ADD CONSTRAINT FK_64055A9AB7970CF8 FOREIGN KEY (artist_id) REFERENCES artist (id) ON DELETE CASCADE');
