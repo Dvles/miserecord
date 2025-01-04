@@ -49,6 +49,9 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
 
             $data = json_decode($response->getBody(), true); // Deserialize the JSON response body from the Spotify API into an associative arrays
 
+            // Add a delay to respect the API rate limit
+            usleep(200000);
+            
             // Step 3: Validate API response and fetch track data
             if (!isset($data['tracks']['items'][0])) {
                 echo "No track data found for artist: $artistName\n";

@@ -13,26 +13,20 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-
-
 class ProducerFixtures extends Fixture implements DependentFixtureInterface
-
 {
     public function load(ObjectManager $manager): void
     {
-
         $faker = Factory::create("en_UK");
         $singleRep = $manager->getRepository(Single::class);
         $singles = $singleRep->findAll();
-        $albumsRep = $manager->getRepository(Album::class);
-        $albums = $albumsRep ->findAll();
+        $albumRep = $manager->getRepository(Album::class);
+        $albums = $albumRep->findAll();
 
-        // map all producer 
-
+        // Define producer roles
         $producerRolesEnum = [
             ProducerRolesEnum::SONGWRITER,
             ProducerRolesEnum::MIXING_ENGINEER,
-            ProducerRolesEnum::MASTERING_ENGINEER,
             ProducerRolesEnum::RECORDING_ENGINEER,
             ProducerRolesEnum::ARRANGER,
             ProducerRolesEnum::COMPOSER,
@@ -42,51 +36,71 @@ class ProducerFixtures extends Fixture implements DependentFixtureInterface
             ProducerRolesEnum::VOCAL_PRODUCER,
             ProducerRolesEnum::INSTRUMENTALIST,
             ProducerRolesEnum::PRODUCTION_MANAGER,
-            ProducerRolesEnum::SESSION_MUSICIANS
+            ProducerRolesEnum::SESSION_MUSICIANS,
         ];
+        $masteringProducers=[];
 
+        $mainProducers = [];
+        $otherProducers = [];
 
-        $mainProducers=[];
-        $otherProducers=[];
-
-
-        // producer role
-        for($i = 0; $i < 20; ++$i) {
+        // Create main producers with "PRODUCER" role
+        for ($i = 0; $i < 20; ++$i) {
             $producer = new Producer();
             $producer->setFirstName($faker->firstName);
             $producer->setLastName($faker->lastName);
             $producer->setProdRole(ProducerRolesEnum::PRODUCER);
             $manager->persist($producer);
-            $mainProducers[]=$producer;
-
+            $mainProducers[] = $producer;
         }
 
-        // other roles
-        for($i = 0; $i < 30; ++$i) {
+        // Create main producers with "MASTERING" role
+        for ($i = 0; $i < 10; ++$i) {
+            $producer = new Producer();
+            $producer->setFirstName($faker->firstName);
+            $producer->setLastName($faker->lastName);
+            $producer->setProdRole(ProducerRolesEnum::MASTERING_ENGINEER);
+            $manager->persist($producer);
+            $masteringProducers[] = $producer;
+        }
+
+        // Create other producers with random roles
+        for ($i = 0; $i < 30; ++$i) {
             $producer = new Producer();
             $producer->setFirstName($faker->firstName);
             $producer->setLastName($faker->lastName);
             $producer->setProdRole($faker->randomElement($producerRolesEnum));
             $manager->persist($producer);
-            $otherProducers[]=$producer;
+            $otherProducers[] = $producer;
         }
 
+        // Assign producers to each single
         foreach ($singles as $single) {
-            $randProd = random_int(0, count($mainProducers) - 1);
-            $single->addProducer($mainProducers[$randProd]);
-            $randProd = random_int(0, count($otherProducers) - 1);
-            $single->addProducer($otherProducers[$randProd]);
+            // Assign one random main producer & mastering engineer
+            $single->addProducer($faker->randomElement($mainProducers));
+            $single->addProducer($faker->randomElement($masteringProducers));
+
+            // Assign 3 unique random other producers
+            $randomProducers = $faker->randomElements($masteringProducers, 3);
+            foreach ($randomProducers as $producer) {
+                $single->addProducer($producer);
+            }
         }
-        
+
+        // Assign producers to each album
+        foreach ($albums as $album) {
+            // Assign one random main producer
+            $album->addProducer($faker->randomElement($mainProducers));
+            $album->addProducer($faker->randomElement($masteringProducers));
+        }
 
         $manager->flush();
     }
 
-    public function getDependencies(): array {
+    public function getDependencies(): array
+    {
         return [
             SingleFixtures::class,
-            AlbumFixtures::class
-            ];
+            AlbumFixtures::class,
+        ];
     }
 }
-
