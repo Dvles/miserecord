@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250104182515 extends AbstractMigration
+final class Version20250104191021 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,7 +24,7 @@ final class Version20250104182515 extends AbstractMigration
         $this->addSql('CREATE TABLE album_genre (album_id INT NOT NULL, genre_id INT NOT NULL, INDEX IDX_F5E879DE1137ABCF (album_id), INDEX IDX_F5E879DE4296D31F (genre_id), PRIMARY KEY(album_id, genre_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE artist (id INT AUTO_INCREMENT NOT NULL, artist_name VARCHAR(100) NOT NULL, first_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(255) DEFAULT NULL, birth_date DATE DEFAULT NULL, bio VARCHAR(350) NOT NULL, is_band TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE artist_product (artist_id INT NOT NULL, product_id INT NOT NULL, INDEX IDX_64055A9AB7970CF8 (artist_id), INDEX IDX_64055A9A4584665A (product_id), PRIMARY KEY(artist_id, product_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE artist_photo (id INT AUTO_INCREMENT NOT NULL, file_path VARCHAR(255) NOT NULL, caption VARCHAR(255) NOT NULL, uploaded_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE artist_photo (id INT AUTO_INCREMENT NOT NULL, artist_id INT NOT NULL, file_path VARCHAR(255) NOT NULL, caption VARCHAR(255) NOT NULL, uploaded_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_74BBB44BB7970CF8 (artist_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE genre (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE genre_album (genre_id INT NOT NULL, album_id INT NOT NULL, INDEX IDX_849E71864296D31F (genre_id), INDEX IDX_849E71861137ABCF (album_id), PRIMARY KEY(genre_id, album_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE genre_single (genre_id INT NOT NULL, single_id INT NOT NULL, INDEX IDX_211417394296D31F (genre_id), INDEX IDX_21141739E7C1D92B (single_id), PRIMARY KEY(genre_id, single_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -40,6 +40,7 @@ final class Version20250104182515 extends AbstractMigration
         $this->addSql('ALTER TABLE album_genre ADD CONSTRAINT FK_F5E879DE4296D31F FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE artist_product ADD CONSTRAINT FK_64055A9AB7970CF8 FOREIGN KEY (artist_id) REFERENCES artist (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE artist_product ADD CONSTRAINT FK_64055A9A4584665A FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE artist_photo ADD CONSTRAINT FK_74BBB44BB7970CF8 FOREIGN KEY (artist_id) REFERENCES artist (id)');
         $this->addSql('ALTER TABLE genre_album ADD CONSTRAINT FK_849E71864296D31F FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE genre_album ADD CONSTRAINT FK_849E71861137ABCF FOREIGN KEY (album_id) REFERENCES album (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE genre_single ADD CONSTRAINT FK_211417394296D31F FOREIGN KEY (genre_id) REFERENCES genre (id) ON DELETE CASCADE');
@@ -62,6 +63,7 @@ final class Version20250104182515 extends AbstractMigration
         $this->addSql('ALTER TABLE album_genre DROP FOREIGN KEY FK_F5E879DE4296D31F');
         $this->addSql('ALTER TABLE artist_product DROP FOREIGN KEY FK_64055A9AB7970CF8');
         $this->addSql('ALTER TABLE artist_product DROP FOREIGN KEY FK_64055A9A4584665A');
+        $this->addSql('ALTER TABLE artist_photo DROP FOREIGN KEY FK_74BBB44BB7970CF8');
         $this->addSql('ALTER TABLE genre_album DROP FOREIGN KEY FK_849E71864296D31F');
         $this->addSql('ALTER TABLE genre_album DROP FOREIGN KEY FK_849E71861137ABCF');
         $this->addSql('ALTER TABLE genre_single DROP FOREIGN KEY FK_211417394296D31F');
