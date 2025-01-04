@@ -53,9 +53,16 @@ class Single
     #[ORM\ManyToMany(targetEntity: Producer::class, mappedBy: 'singles')]
     private Collection $producers;
 
+    /**
+     * @var Collection<int, Genre>
+     */
+    #[ORM\OneToMany(targetEntity: Genre::class, mappedBy: 'single')]
+    private Collection $genres;
+
     public function __construct()
     {
         $this->producers = new ArrayCollection();
+        $this->genres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,6 +212,36 @@ class Single
     {
         if ($this->producers->removeElement($producer)) {
             $producer->removeSingle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): static
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres->add($genre);
+            $genre->setSingle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): static
+    {
+        if ($this->genres->removeElement($genre)) {
+            // set the owning side to null (unless already changed)
+            if ($genre->getSingle() === $this) {
+                $genre->setSingle(null);
+            }
         }
 
         return $this;

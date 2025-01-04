@@ -19,6 +19,12 @@ class Genre
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'genres')]
+    private ?Album $album = null;
+
+    #[ORM\ManyToOne(inversedBy: 'genres')]
+    private ?Single $single = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +50,30 @@ class Genre
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAlbum(): ?Album
+    {
+        return $this->album;
+    }
+
+    public function setAlbum(?Album $album): static
+    {
+        $this->album = $album;
+
+        return $this;
+    }
+
+    public function getSingle(): ?Single
+    {
+        return $this->single;
+    }
+
+    public function setSingle(?Single $single): static
+    {
+        $this->single = $single;
 
         return $this;
     }

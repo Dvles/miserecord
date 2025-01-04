@@ -53,10 +53,17 @@ class Album
     #[ORM\ManyToMany(targetEntity: Producer::class, mappedBy: 'albums')]
     private Collection $producers;
 
+    /**
+     * @var Collection<int, Genre>
+     */
+    #[ORM\OneToMany(targetEntity: Genre::class, mappedBy: 'album')]
+    private Collection $genres;
+
     public function __construct()
     {
         $this->single = new ArrayCollection();
         $this->producers = new ArrayCollection();
+        $this->genres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +219,36 @@ class Album
     {
         if ($this->producers->removeElement($producer)) {
             $producer->removeAlbum($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(Genre $genre): static
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres->add($genre);
+            $genre->setAlbum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): static
+    {
+        if ($this->genres->removeElement($genre)) {
+            // set the owning side to null (unless already changed)
+            if ($genre->getAlbum() === $this) {
+                $genre->setAlbum(null);
+            }
         }
 
         return $this;
