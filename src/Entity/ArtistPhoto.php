@@ -22,6 +22,10 @@ class ArtistPhoto
     #[ORM\Column]
     private ?\DateTimeImmutable $uploadedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'artistPhotos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Artist $artist = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class ArtistPhoto
     public function setUploadedAt(\DateTimeImmutable $uploadedAt): static
     {
         $this->uploadedAt = $uploadedAt;
+
+        return $this;
+    }
+
+    public function getArtist(): ?Artist
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(?Artist $artist): static
+    {
+        $this->artist = $artist;
 
         return $this;
     }
