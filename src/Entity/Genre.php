@@ -88,26 +88,18 @@ class Genre
     }
 
     public function getSingle(): Collection
-{
-    return $this->singles;
-}
+        {
+            return $this->singles;
+        }
 
-public function addSingle(Single $single): static
-{
-    if (!$this->singles->contains($single)) {
-        $this->singles->add($single);
-        $single->addGenre($this);
-    }
+        public function addSingle(Single $single): static
+        {
+            if (!$this->singles->contains($single)) {
+                $this->singles->add($single);
+                $single->addGenre($this);
+            }
 
-    return $this;
-}
+            return $this;
+        }
 
-public function removeSingle(Single $single): static
-{
-    if ($this->singles->removeElement($single)) {
-        $single->removeGenre($this);
-    }
-
-    return $this;
-}
 }
