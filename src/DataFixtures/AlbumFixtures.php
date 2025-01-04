@@ -2,13 +2,14 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Album;
+use App\Entity\Genre;
 use App\Entity\Artist;
 use App\Entity\Single;
-use App\Entity\Album;
-use GuzzleHttp\Client; // Importing Guzzle HTTP Client for making API requests to Spotify and other services
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use GuzzleHttp\Client; // Importing Guzzle HTTP Client for making API requests to Spotify and other services
 
 class AlbumFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -32,11 +33,37 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
         // Fetch repositories for Artist and Single entities
         $artistRepository = $manager->getRepository(Artist::class);
         $singleRepository = $manager->getRepository(Single::class);
+        $genreRepository = $manager->getRepository(Genre::class);
+
+        // Artist-to-genre mapping
+        $artistGenreMap = [
+            'Rudimental' => ['Pop', 'Electronic'],
+            'Kraftwerk' => ['Electronic'],
+            'Tommy Guerrero' => ['Electronic'],
+            'Flow Dan' => ['Hip Hop'],
+            'Azealia Banks' => ['Hip Hop', 'Electronic'],
+            'Dam Swindle' => ['Electronic'],
+            'Reinel Bakole' => ['R&B'],
+            'Geotheory' => ['Electronic'],
+            'Little Dragon' => ['Pop', 'Electronic'],
+        ];
+
 
         $artists = $artistRepository->findAll();
 
         foreach ($artists as $artist) {
             $artistName = $artist->getArtistName();
+
+            // Fetch the genres for this artist
+            $genres = [];
+            if (array_key_exists($artistName, $artistGenreMap)) {
+                foreach ($artistGenreMap[$artistName] as $genreName) {
+                    $genre = $genreRepository->findOneBy(['name' => $genreName]);
+                    if ($genre) {
+                        $genres[] = $genre;
+                    }
+                }
+            }
 
             // Fetch album data for the artist
             $response = $client->get('https://api.spotify.com/v1/search', [
@@ -77,6 +104,11 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
                     $album->setArtwork($albumData['images'][0]['url'] ?? null);
                     $album->setSpotifyLink($albumData['external_urls']['spotify']);
                     $album->setArtist($artist);
+
+                    // Assign genres to the album
+                    foreach ($genres as $genre) {
+                        $album->addGenre($genre); // Assuming a ManyToOne or ManyToMany relationship
+                    }
 
                     // Fetch tracks for the album
                     $albumTracksResponse = $client->get('https://api.spotify.com/v1/albums/' . $albumData['id'] . '/tracks', [
@@ -150,6 +182,7 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
         return [
             ArtistFixtures::class,
             SingleFixtures::class,
+            GenreFixtures::class
         ];
     }
 }

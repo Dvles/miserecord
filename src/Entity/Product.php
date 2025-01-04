@@ -23,13 +23,13 @@ class Product
     #[ORM\Column(type: Types::STRING, enumType: ProductTypesEnum::class)]
     private ?ProductTypesEnum $type = null; 
     
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 355)]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\Column(length: 250)]
+    #[ORM\Column(length: 450)]
     private ?string $img = null;
 
     /**
