@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\GenreRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GenreRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
 class Genre
@@ -19,11 +21,18 @@ class Genre
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'genres')]
-    private ?Album $album = null;
+    #[ORM\ManyToMany(targetEntity: Album::class, inversedBy: 'genres')]
+    private Collection $albums;
 
-    #[ORM\ManyToOne(inversedBy: 'genres')]
-    private ?Single $single = null;
+    #[ORM\ManyToMany(targetEntity: Single::class, inversedBy: 'genres')]
+    private Collection $singles;
+
+    public function __construct()
+        {
+            $this->albums = new ArrayCollection();
+            $this->singles = new ArrayCollection();
+        }
+
 
     public function getId(): ?int
     {
@@ -54,27 +63,51 @@ class Genre
         return $this;
     }
 
-    public function getAlbum(): ?Album
+    public function getAlbums(): Collection
     {
-        return $this->album;
+        return $this->albums;
     }
-
-    public function setAlbum(?Album $album): static
+    
+    public function addAlbum(Album $album): static
     {
-        $this->album = $album;
-
+        if (!$this->albums->contains($album)) {
+            $this->albums->add($album);
+            $album->addGenre($this);
+        }
+    
+        return $this;
+    }
+    
+    public function removeAlbum(Album $album): static
+    {
+        if ($this->albums->removeElement($album)) {
+            $album->removeGenre($this);
+        }
+    
         return $this;
     }
 
-    public function getSingle(): ?Single
-    {
-        return $this->single;
+    public function getSingle(): Collection
+{
+    return $this->singles;
+}
+
+public function addSingle(Single $single): static
+{
+    if (!$this->singles->contains($single)) {
+        $this->singles->add($single);
+        $single>addGenre($this);
     }
 
-    public function setSingle(?Single $single): static
-    {
-        $this->single = $single;
+    return $this;
+}
 
-        return $this;
+public function removeSingle(Single $single): static
+{
+    if ($this->singles->removeElement($single)) {
+        $single->removeGenre($this);
     }
+
+    return $this;
+}
 }

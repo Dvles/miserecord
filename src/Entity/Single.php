@@ -56,7 +56,7 @@ class Single
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\OneToMany(targetEntity: Genre::class, mappedBy: 'single')]
+    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'singles')]
     private Collection $genres;
 
     public function __construct()
@@ -229,21 +229,12 @@ class Single
     {
         if (!$this->genres->contains($genre)) {
             $this->genres->add($genre);
-            $genre->setSingle($this);
+            $genre->addSingle($this); // Ensure the relationship is bidirectional
         }
-
+    
         return $this;
     }
+    
 
-    public function removeGenre(Genre $genre): static
-    {
-        if ($this->genres->removeElement($genre)) {
-            // set the owning side to null (unless already changed)
-            if ($genre->getSingle() === $this) {
-                $genre->setSingle(null);
-            }
-        }
 
-        return $this;
-    }
 }

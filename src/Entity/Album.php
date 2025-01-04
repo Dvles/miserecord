@@ -56,7 +56,7 @@ class Album
     /**
      * @var Collection<int, Genre>
      */
-    #[ORM\OneToMany(targetEntity: Genre::class, mappedBy: 'album')]
+    #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'albums')]
     private Collection $genres;
 
     public function __construct()
@@ -236,7 +236,7 @@ class Album
     {
         if (!$this->genres->contains($genre)) {
             $this->genres->add($genre);
-            $genre->setAlbum($this);
+            $genre->addAlbum($this);
         }
 
         return $this;
@@ -245,10 +245,7 @@ class Album
     public function removeGenre(Genre $genre): static
     {
         if ($this->genres->removeElement($genre)) {
-            // set the owning side to null (unless already changed)
-            if ($genre->getAlbum() === $this) {
-                $genre->setAlbum(null);
-            }
+            $genre->removeAlbum($this);
         }
 
         return $this;
