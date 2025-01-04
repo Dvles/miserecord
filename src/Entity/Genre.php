@@ -96,7 +96,7 @@ public function addSingle(Single $single): static
 {
     if (!$this->singles->contains($single)) {
         $this->singles->add($single);
-        $single>addGenre($this);
+        $single->addGenre($this);
     }
 
     return $this;

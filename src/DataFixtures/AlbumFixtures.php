@@ -107,7 +107,7 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
 
                     // Assign genres to the album
                     foreach ($genres as $genre) {
-                        $album->addGenre($genre); // Assuming a ManyToOne or ManyToMany relationship
+                        $album->addGenre($genre); 
                     }
 
                     // Fetch tracks for the album

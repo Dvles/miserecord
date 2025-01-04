@@ -229,7 +229,7 @@ class Single
     {
         if (!$this->genres->contains($genre)) {
             $this->genres->add($genre);
-            $genre->addSingle($this); // Ensure the relationship is bidirectional
+            $genre->addSingle($this); 
         }
     
         return $this;

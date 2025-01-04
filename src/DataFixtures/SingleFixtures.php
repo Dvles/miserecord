@@ -1,13 +1,14 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Genre;
 use App\Entity\Artist;
 use App\Entity\Single;
-use GuzzleHttp\Client; // Importing Guzzle HTTP Client for making API requests to Spotify and other services
 use App\DataFixtures\ArtistFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use GuzzleHttp\Client; // Importing Guzzle HTTP Client for making API requests to Spotify and other services
 
 class SingleFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -28,12 +29,40 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
         $data = json_decode($response->getBody(), true);
         $accessToken = $data['access_token'];
 
+        // Fetch repositories for Artist and Single entities
+        $artistRepository = $manager->getRepository(Artist::class);
+        $genreRepository = $manager->getRepository(Genre::class);
+
+        // Artist-to-genre mapping
+        $artistGenreMap = [
+            'Rudimental' => ['Pop', 'Electronic'],
+            'Kraftwerk' => ['Electronic'],
+            'Tommy Guerrero' => ['Electronic'],
+            'Flow Dan' => ['Hip Hop'],
+            'Azealia Banks' => ['Hip Hop', 'Electronic'],
+            'Dam Swindle' => ['Electronic'],
+            'Reinel Bakole' => ['R&B'],
+            'Geotheory' => ['Electronic'],
+            'Little Dragon' => ['Pop', 'Electronic'],
+        ];
+
         // List of artists to fetch singles for
         $artistrep = $manager->getRepository(Artist::class);
         $artists = $artistrep->findAll();
 
         foreach ($artists as $artist) {
             $artistName = $artist->getArtistName();
+
+            // Fetch the genres for this artist
+            $genres = [];
+            if (array_key_exists($artistName, $artistGenreMap)) {
+                foreach ($artistGenreMap[$artistName] as $genreName) {
+                    $genre = $genreRepository->findOneBy(['name' => $genreName]);
+                    if ($genre) {
+                        $genres[] = $genre;
+                    }
+                }
+            }
 
             // Step 2: Fetch track data for the artist
             $response = $client->get('https://api.spotify.com/v1/search', [
@@ -51,7 +80,7 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
 
             // Add a delay to respect the API rate limit
             usleep(200000);
-            
+
             // Step 3: Validate API response and fetch track data
             if (!isset($data['tracks']['items'][0])) {
                 echo "No track data found for artist: $artistName\n";
@@ -93,6 +122,12 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
                     $single->setSpotifyLink($track['external_urls']['spotify']);
                     $single->setYoutubeLink(''); // You can integrate YouTube API for this later
 
+                    
+                    // Assign genres to the single
+                    foreach ($genres as $genre) {
+                        $single->addGenre($genre); 
+                    }
+                    
                     // Check if the track is part of an album or if it was released as a single
                     $albumType = $track['album']['album_type'];  // Get the album type field
                     if ($albumType === 'single') {
