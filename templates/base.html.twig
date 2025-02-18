@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>{% include "/includes/nav.html.twig" %}</header>
+            <main class="content">
+                {% block body %}{% endblock %}
+            </main>
+            <footer>{% include "/includes/footer.html.twig" %}</footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artist List{% endblock %}
+
+{% block body %}
+    <h1>Artist List</h1>
+    <div class="artist-container">
+        {% for artist in artists %}
+            <div class="artist-card">
+                <h2>{{ artist.artistName }}</h2>  {# Fixed from "artists" to "artist" #}
+                {% if artist.artistPhotos|length > 0 %}
+                    <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}">
+                {% else %}
+                    <p>No photo available</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
