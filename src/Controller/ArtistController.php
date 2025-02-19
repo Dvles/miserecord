@@ -44,10 +44,10 @@ final class ArtistController extends AbstractController
 
         $artistData = [];
         foreach ($artistDetails as $artistData) {
-            $toolReviewData[] = [
+            $artistData[] = [
                 'id' => $artistData->getId(),
                 'name' => $artistData->getArtistName(),
-                'firstName' => $artistData->getFirsttName(),
+                'firstName' => $artistData->getFirstName(),
                 'lastName' => $artistData->getLastName(),
                 'birthdate' => $artistData->getBirthDate(),
                 'bio' => $artistData->getBio(),
