@@ -27,7 +27,7 @@
             <p>No albums available.</p>
         {% endif %}
         
-{% if artist.single is not empty %}
+        {% if artist.single is not empty %}
             <h3>Singles</h3>
             <ul>
                 {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
@@ -36,6 +36,10 @@
                         {% if single.spotifyLink %}
                             - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
                         {% endif %}
+                        <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
+                            <i class="fas fa-circle-info"></i>
+</i>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -43,6 +47,5 @@
             <p>No singles available.</p>
         {% endif %}
 
-        <!-- <p><strong>Is this a band?</strong> {{ artist.isBand ? 'Yes' : 'No' }}</p> -->
     </div>
 {% endblock %}
