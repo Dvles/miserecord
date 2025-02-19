@@ -5,8 +5,12 @@
 {% block body %}
     <div class="container">
         <h1>{{ artist.name }}</h1>
+        {% if artist.firstName is not empty %}
         <p><strong>Full Name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
+        {% endif %}
+        {% if artist.isBand == 'No' %}
         <p><strong>Birthdate:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
+        {% endif %}
         <p><strong>Biography:</strong> {{ artist.bio }}</p>
         
         <h2>Discography</h2>
@@ -23,17 +27,22 @@
             <p>No albums available.</p>
         {% endif %}
         
-        {% if artist.single is not empty %}
+{% if artist.single is not empty %}
             <h3>Singles</h3>
             <ul>
                 {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
-                    <li>{{ single.title }} ({{ single.releaseDate|date('Y') }})</li>
+                    <li>
+                        {{ single.title }} ({{ single.releaseDate|date('Y') }})
+                        {% if single.spotifyLink %}
+                            - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}
             <p>No singles available.</p>
         {% endif %}
 
-        <p><strong>Is this a band?</strong> {{ artist.isBand ? 'Yes' : 'No' }}</p>
+        <!-- <p><strong>Is this a band?</strong> {{ artist.isBand ? 'Yes' : 'No' }}</p> -->
     </div>
 {% endblock %}
