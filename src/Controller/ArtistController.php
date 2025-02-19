@@ -38,29 +38,26 @@ final class ArtistController extends AbstractController
     {
         $artist_id = $request->get('artist_id');
         $artistDetails = $artistRepository->find($artist_id);
+    
         if (!$artistDetails) {
             throw $this->createNotFoundException('Artist not found');
         }
-
-        $artistData = [];
-        foreach ($artistDetails as $artistData) {
-            $artistData[] = [
-                'id' => $artistData->getId(),
-                'name' => $artistData->getArtistName(),
-                'firstName' => $artistData->getFirstName(),
-                'lastName' => $artistData->getLastName(),
-                'birthdate' => $artistData->getBirthDate(),
-                'bio' => $artistData->getBio(),
-                'album' => $artistData->getAlbums(),
-                'single' => $artistData->getSingle(),
-                'isBand'=>$artistData->getIsBand()
-            ];
-        }
-        
-        $vars = [
-            'artist' => $artistData,
+    
+        $artistData = [
+            'id' => $artistDetails->getId(),
+            'name' => $artistDetails->getArtistName(),
+            'firstName' => $artistDetails->getFirstName(),
+            'lastName' => $artistDetails->getLastName(),
+            'birthdate' => $artistDetails->getBirthDate(),
+            'bio' => $artistDetails->getBio(),
+            'album' => $artistDetails->getAlbums(),
+            'single' => $artistDetails->getSingle(),
+            'isBand' => $artistDetails->getIsBand(),
         ];
-        
-        return $this->render('artist/artist_list.html.twig', $vars);
+    
+        return $this->render('artist/single.html.twig', [
+            'artist' => $artistData,
+        ]);
     }
+    
 }
