@@ -7,7 +7,11 @@
     <div class="artist-container">
         {% for artist in artists %}
             <div class="artist-card">
-                <h2>{{ artist.artistName }}</h2>  {# Fixed from "artists" to "artist" #}
+                <h2>
+                    <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
+                        {{ artist.artistName }}
+                    </a>
+                </h2>
                 {% if artist.artistPhotos|length > 0 %}
                     <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}">
                 {% else %}
