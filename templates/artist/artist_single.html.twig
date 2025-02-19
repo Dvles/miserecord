@@ -25,7 +25,7 @@
         {% if artist.single is not empty %}
             <h3>Singles</h3>
             <ul>
-                {% for single in artist.single %}
+                {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
                     <li>{{ single.title }} ({{ single.releaseDate|date('Y') }})</li>
                 {% endfor %}
             </ul>
