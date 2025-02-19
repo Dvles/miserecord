@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Genre;
 use App\Entity\Artist;
 use App\Entity\Single;
@@ -8,14 +9,25 @@ use App\DataFixtures\ArtistFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use GuzzleHttp\Client; // Importing Guzzle HTTP Client for making API requests to Spotify and other services
+use GuzzleHttp\Client; 
 
 class SingleFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $client = new Client();
+        $faker = Factory::create("en_UK");
+        
+        // Fake custom artist data
+        $customArtists = [
+            'Elias Moreno' => 'https://placekitten.com/200/300',
+            'Lerato Ndlovu' => 'https://placekitten.com/200/300',
+            'Akari Tanakii' => 'https://placekitten.com/200/300', 
+            'Zephyr Collective' => 'https://placekitten.com/200/300',
+        ];
 
+        // Initialize Spotify client
+        $client = new Client();
+        
         // Step 1: Obtain an Access Token via the Client Credentials Flow
         $response = $client->post('https://accounts.spotify.com/api/token', [
             'headers' => [
@@ -29,42 +41,45 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
         $data = json_decode($response->getBody(), true);
         $accessToken = $data['access_token'];
 
-        // Fetch repositories for Artist and Single entities
+        // Step 2: Process artists and create Singles
         $artistRepository = $manager->getRepository(Artist::class);
         $genreRepository = $manager->getRepository(Genre::class);
 
-        // Artist-to-genre mapping
-        $artistGenreMap = [
-            'Rudimental' => ['Pop', 'Electronic'],
-            'Kraftwerk' => ['Electronic'],
-            'Tommy Guerrero' => ['Electronic'],
-            'Flow Dan' => ['Hip Hop'],
-            'Azealia Banks' => ['Hip Hop', 'Electronic'],
-            'Dam Swindle' => ['Electronic'],
-            'Reinel Bakole' => ['R&B'],
-            'Geotheory' => ['Electronic'],
-            'Little Dragon' => ['Pop', 'Electronic'],
-        ];
-
-        // List of artists to fetch singles for
-        $artistrep = $manager->getRepository(Artist::class);
-        $artists = $artistrep->findAll();
-
+        // Get all artists
+        $artists = $artistRepository->findAll();
+        
         foreach ($artists as $artist) {
             $artistName = $artist->getArtistName();
 
-            // Fetch the genres for this artist
-            $genres = [];
-            if (array_key_exists($artistName, $artistGenreMap)) {
-                foreach ($artistGenreMap[$artistName] as $genreName) {
-                    $genre = $genreRepository->findOneBy(['name' => $genreName]);
-                    if ($genre) {
-                        $genres[] = $genre;
-                    }
+            // Check if the artist is a custom artist
+            if (array_key_exists($artistName, $customArtists)) {
+                echo "Assigning custom image for: $artistName\n";
+
+                // Create a new single for the custom artist
+                $single = new Single();
+                $single->setTitle($faker->sentence)
+                       ->setReleaseDate(new \DateTime())
+                       ->setDuration(rand(180, 300)) // Random duration between 3 and 5 minutes
+                       ->setArtwork($customArtists[$artistName]) // Custom artwork URL
+                       ->setSpotifyLink('')
+                       ->setYoutubeLink('');
+
+                // Assign genres to the single (you can pick some random genres here)
+                $genres = $genreRepository->findBy([], null, 3); // Pick 3 random genres for each custom single
+                foreach ($genres as $genre) {
+                    $single->addGenre($genre);
                 }
+
+                $single->setReleasedAsSingle($albumType === 'single');
+
+                // Set the artist
+                $single->setArtist($artist);
+
+                $manager->persist($single);
+                continue; // Skip Spotify lookup for custom artists
             }
 
-            // Step 2: Fetch track data for the artist
+            // Step 3: Fetch track data for non-custom artists
             $response = $client->get('https://api.spotify.com/v1/search', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken, // Use the token here
@@ -76,12 +91,12 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
                 ],
             ]);
 
-            $data = json_decode($response->getBody(), true); // Deserialize the JSON response body from the Spotify API into an associative arrays
+            $data = json_decode($response->getBody(), true); // Deserialize the JSON response body from the Spotify API
 
             // Add a delay to respect the API rate limit
             usleep(200000);
 
-            // Step 3: Validate API response and fetch track data
+            // Check if the artist has any tracks
             if (!isset($data['tracks']['items'][0])) {
                 echo "No track data found for artist: $artistName\n";
                 continue;
@@ -89,54 +104,38 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
 
             // Loop through the fetched tracks
             foreach ($data['tracks']['items'] as $track) {
-                // Check if the artist is the main artist or featured artist, but not the other way around
+                // Check if the artist is the main artist or featured artist
                 $mainArtistFound = false;
                 foreach ($track['artists'] as $index => $trackArtist) {
                     if ($trackArtist['name'] === $artistName) {
-                        // Case 1: If the track has only one artist (the artist is the sole artist)
-                        if (count($track['artists']) === 1) {
-                            $mainArtistFound = true;
-                            break;
-                        }
-
-                        // Case 2: If the track has multiple artists, ensure the artist is either first or featured with another artist (not the other way around)
-                        if (count($track['artists']) === 2 && $index === 0) {
-                            // If the artist is first in a track with exactly two artists
-                            $mainArtistFound = true;
-                            break;
-                        }
+                        // If the artist is the main artist or featured, create a single
+                        $mainArtistFound = true;
+                        break;
                     }
                 }
 
-
-                // If the artist is the only one in the track's artists array, create the "Single" entity
+                // If the artist is the main artist, create the "Single" entity
                 if ($mainArtistFound) {
-
-                    
-
                     $single = new Single();
-                    $single->setTitle($track['name']);
-                    $single->setReleaseDate(new \DateTime($track['album']['release_date']));
-                    $single->setDuration($track['duration_ms'] / 1000); // Convert milliseconds to seconds
-                    $single->setArtwork($track['album']['images'][0]['url']); // Use the first image as artwork
-                    $single->setSpotifyLink($track['external_urls']['spotify']);
-                    $single->setYoutubeLink(''); // You can integrate YouTube API for this later
+                    $single->setTitle($track['name'])
+                           ->setReleaseDate(new \DateTime($track['album']['release_date']))
+                           ->setDuration($track['duration_ms'] / 1000) // Convert milliseconds to seconds
+                           ->setArtwork($track['album']['images'][0]['url']) // Use the first image as artwork
+                           ->setSpotifyLink($track['external_urls']['spotify'])
+                           ->setYoutubeLink(''); // You can integrate YouTube API for this later
 
-                    
-                    // Assign genres to the single
+                    // Add genres (can be defined based on your genre mapping logic)
+                    $genres = $genreRepository->findBy([], null, 3); // Pick 3 random genres
                     foreach ($genres as $genre) {
-                        $single->addGenre($genre); 
-                    }
-                    
-                    // Check if the track is part of an album or if it was released as a single
-                    $albumType = $track['album']['album_type'];  // Get the album type field
-                    if ($albumType === 'single') {
-                        $single->SetReleasedAsSingle(true); // Released only as a single
-                    } else {
-                        $single->SetReleasedAsSingle(false); // Part of an album
+                        $single->addGenre($genre);
                     }
 
+                    // Set the artist
                     $single->setArtist($artist);
+
+                    // Check if the track is a single or part of an album
+                    $albumType = $track['album']['album_type'];  // Get the album type field
+                    $single->setReleasedAsSingle($albumType === 'single'); // If it's a single
 
                     $manager->persist($single);
                 }
