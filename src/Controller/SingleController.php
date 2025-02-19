@@ -36,6 +36,30 @@ final class SingleController extends AbstractController
         
         return $this->render('single/single_list.html.twig', $vars);
     }
+
+    #[Route('/single/detail/{id}', name: 'single_detail')]
+    public function singleDetail(SingleRepository $singleRepository, Request $request, $id): Response
+    {
+        // Fetch the single by its ID
+        $single = $singleRepository->find($id);
+
+        if (!$single) {
+            throw $this->createNotFoundException('Single not found'); // CREATE COOL ERROR PAGE
+        }
+
+        $artist = $single->getArtist();
+        $album = $single->getAlbum();
+        $producers = $single->getProducers();
+        $genres = $single->getGenres();
+
+        return $this->render('single/single_detail.html.twig', [
+            'single' => $single,
+            'artist' => $artist,
+            'album' => $album,
+            'producers' => $producers,
+            'genres' => $genres
+        ]);
+    }
     
 
     
