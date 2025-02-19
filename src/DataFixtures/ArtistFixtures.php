@@ -128,6 +128,40 @@ class ArtistFixtures extends Fixture
                 'birthDate' => new DateTime('1999-01-05'),
                 'bio' => 'Lerato Ndlovu is a South African jazz and soul singer known for her rich vocals and fusion of Afro-jazz and contemporary R&B.',
                 'isBand' => false
+            ], 
+            [
+                'artistName' => 'DA SHO',
+                'firstName' => 'Daniella kim',
+                'lastName' => 'Shimuya',
+                'birthDate' => new DateTime('2000-04-09'),
+                'bio' => 'DA Sho is a young rapper known for giving it straight without saying sorry.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Sophia Reyes',
+                'firstName' => 'Sophia',
+                'lastName' => 'Reyes',
+                'birthDate' => new DateTime('1997-03-14'),
+                'bio' => 'Sophia Reyes is a Mexican-American indie singer-songwriter known for her heartfelt ballads and ethereal vocal style.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Night Pulse',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'Night Pulse is an electronic music duo blending chillwave and downtempo with soulful vocal samples and atmospheric production.',
+                'isBand' => true
+            ],
+            [
+                'artistName' => 'Yung KiXX',
+                'firstName' => "George Junior",
+                'lastName' => "Krayon",
+                'birthDate' => new DateTime('2003-08-10'),
+                'bio' => 'Yung Kixx, latest winner of Rythm and flow, is a rapper known for his slick lines and flipping classical music samples',
+                'isBand' => true
             ]
             
             

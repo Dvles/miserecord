@@ -23,7 +23,12 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
             'Lerato Ndlovu' => 'https://placekitten.com/200/300',
             'Akari Tanakii' => 'https://placekitten.com/200/300', 
             'Zephyr Collective' => 'https://placekitten.com/200/300',
+            'DA SHO' => 'https://placekitten.com/200/300',
+            'Sophia Reyes' => 'https://placekitten.com/200/300',
+            'Night Pulse' => 'https://placekitten.com/200/300',
+            'Yung KiXX' => 'https://placekitten.com/200/300',
         ];
+
 
         // Initialize Spotify client
         $client = new Client();
