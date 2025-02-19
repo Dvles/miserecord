@@ -14,7 +14,8 @@
         {% if artist.album is not empty %}
             <h3>Albums</h3>
             <ul>
-                {% for album in artist.album %}
+                {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
+                {% for album in sortedAlbums %}
                     <li>{{ album.title }} ({{ album.releaseDate|date('Y') }})</li>
                 {% endfor %}
             </ul>
