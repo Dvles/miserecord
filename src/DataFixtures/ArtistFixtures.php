@@ -85,7 +85,52 @@ class ArtistFixtures extends Fixture
                 'birthDate' => null,
                 'bio' => 'Little Dragon is a Swedish electronic music band blending synth-pop, R&B, and jazz influences.',
                 'isBand' => true
+            ],
+            [
+                'artistName' => 'Elias Moreno',
+                'firstName' => 'Elias',
+                'lastName' => 'Moreno',
+                'birthDate' => new DateTime('1985-03-15'),
+                'bio' => 'Elias Moreno is a Spanish guitarist and singer blending Latin rhythms with modern folk influences.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'The Velvet Echo',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'The Velvet Echo is a dream-pop and shoegaze band known for their ethereal soundscapes and haunting melodies.',
+                'isBand' => true
+            ],
+            
+            [
+                'artistName' => 'Akari Tanakii',
+                'firstName' => 'Akari',
+                'lastName' => 'Tanaka',
+                'birthDate' => new DateTime('1998-11-30'),
+                'bio' => 'Akari Tanaka is a Japanese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Zephyr Collective',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'Zephyr Collective is a progressive dub jazz ensemble pushing the boundaries of improvisation and electronic fusion.',
+                'isBand' => true
+            ],
+            [
+                'artistName' => 'Lerato Ndlovu',
+                'firstName' => 'Lerato Maya',
+                'lastName' => 'Ndlovu',
+                'birthDate' => new DateTime('1999-01-05'),
+                'bio' => 'Lerato Ndlovu is a South African jazz and soul singer known for her rich vocals and fusion of Afro-jazz and contemporary R&B.',
+                'isBand' => false
             ]
+            
+            
         ];
 
         // Loop through each artist and persist them

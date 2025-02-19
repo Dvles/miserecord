@@ -14,6 +14,16 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $customArtists = [
+            'Elias Moreno' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974094/elias_rw1b0g.jpg',
+            'The Velvet Echo' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974094/velvet_echo_oufqz5.png',
+            'Lerato Ndlovu' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974094/openart-image_h1621Lkw_1739972604685_raw_ed7o1u.png',
+            'Akari Tanakii' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739975403/akari_tanakii_tuklyx.jpg', 
+            'Zephyr Collective' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974093/zephyr_colllective_tkdxgm.jpg',
+            'Flow Dan' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739975171/flowdan_zdenoe.jpg'
+        ];
+        
+        
         $client = new Client();
 
         // Get Spotify access token
@@ -35,8 +45,22 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
 
         foreach ($artists as $artist) {
             $artistName = $artist->getArtistName();
-
-            // Request artist data from Spotify API
+        
+            // If the artist is in our predefined list, use our custom image
+            if (array_key_exists($artistName, $customArtists)) {
+                echo "Assigning custom image for: $artistName\n";
+        
+                $artistPhoto = new ArtistPhoto();
+                $artistPhoto->setFilePath($customArtists[$artistName]); 
+                $artistPhoto->setCaption($artistName . ' - Custom Image');
+                $artistPhoto->setUploadedAt(new \DateTimeImmutable());
+                $artistPhoto->setArtist($artist);
+        
+                $manager->persist($artistPhoto);
+                continue; // Skip Spotify lookup for this artist
+            }
+        
+            // Continue with Spotify API for other artists
             $response = $client->get('https://api.spotify.com/v1/search', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
@@ -47,35 +71,31 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
                     'limit' => 1, 
                 ],
             ]);
-
+        
             $data = json_decode($response->getBody(), true);
-
-            // Add a delay to respect the API rate limit
-            usleep(200000);
-
-            // Ensure artist images exist in response
-            if (isset($data['artists']['items'][0]['images'])) {
+            usleep(200000); // Delay to respect API rate limits
+        
+            if (isset($data['artists']['items'][0]['images']) && !empty($data['artists']['items'][0]['images'])) {
                 $images = $data['artists']['items'][0]['images'];
-
-                $largeImages = array_filter($images, function ($image) {
-                    return $image['height'] > 500 ; // Only select images with width greater than 300px
-                });
-
+                $largeImages = array_filter($images, fn($image) => $image['height'] > 500);
                 $imagesToSave = array_slice($largeImages, 0, 5);
-
+        
                 foreach ($imagesToSave as $image) {
                     $artistPhoto = new ArtistPhoto();
                     $artistPhoto->setFilePath($image['url']); 
                     $artistPhoto->setCaption($artistName);
                     $artistPhoto->setUploadedAt(new \DateTimeImmutable());
-                    $artistPhoto->setArtist($artist); // Associate with the artist
-
+                    $artistPhoto->setArtist($artist);
+        
                     $manager->persist($artistPhoto);
                 }
             } else {
                 echo "No image found for artist: $artistName\n";
             }
         }
+        
+
+        
 
         
         $manager->flush();
