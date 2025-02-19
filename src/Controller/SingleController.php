@@ -52,13 +52,15 @@ final class SingleController extends AbstractController
         $producers = $single->getProducers();
         $genres = $single->getGenres();
 
-        return $this->render('single/single_detail.html.twig', [
+        $vars=[
             'single' => $single,
             'artist' => $artist,
             'album' => $album,
             'producers' => $producers,
             'genres' => $genres
-        ]);
+        ];
+
+        return $this->render('single/single_detail.html.twig', $vars);
     }
     
 

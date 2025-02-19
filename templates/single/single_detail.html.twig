@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ single.title }} - Single Details{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ single.title }}</h1>
+        <p><strong>Release Date:</strong> {{ single.releaseDate|date('F j, Y') }}</p>
+        <p><strong>Duration:</strong> {{ single.duration }} seconds</p>
+        
+        <p><strong>Artist:</strong> <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">{{ artist.artistName }}</a></p>
+
+        {% if producers is not empty %}
+            <h3>Producers</h3>
+            <ul>
+                {% for producer in producers %}
+                    <li>
+                        {{ producer.firstName }} {{ producer.lastName }}
+                        {% if producer.prodRole is not empty %}
+                            : <strong>{{ producer.prodRole|map(role => role.value)|join(', ') }}</strong>
+                        {% else %}
+                            : <em>No role assigned</em>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No producers available.</p>
+        {% endif %}
+
+        {% if genres is not empty %}
+            <h3>Genres</h3>
+            <ul>
+                {% for genre in genres %}
+                    <li>{{ genre.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No genres available.</p>
+        {% endif %}
+
+        {% if single.spotifyLink %}
+            <p><a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a></p>
+        {% endif %}
+        
+        {% if single.youtubeLink %}
+            <p><a href="{{ single.youtubeLink }}" target="_blank">Watch on YouTube</a></p>
+        {% endif %}
+        
+        {% if single.soundcloudLink %}
+            <p><a href="{{ single.soundcloudLink }}" target="_blank">Listen on SoundCloud</a></p>
+        {% endif %}
+        
+        <p><strong>Is Released as Single:</strong> {{ single.isReleasedAsSingle ? 'Yes' : 'No' }}</p>
+    </div>
+{% endblock %}
