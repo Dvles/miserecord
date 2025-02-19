@@ -33,7 +33,7 @@ final class ArtistController extends AbstractController
         return $this->render('artist/artist_list.html.twig', $vars);
     }
 
-    #[Route('/artist/{artist_id}', name: 'artist_single')]
+    #[Route('/artist/profile/{artist_id}', name: 'artist_profile')]
     public function artistSingle(ArtistRepository $artistRepository, Request $request): Response
     {
         $artist_id = $request->get('artist_id');
@@ -50,12 +50,12 @@ final class ArtistController extends AbstractController
             'lastName' => $artistDetails->getLastName(),
             'birthdate' => $artistDetails->getBirthDate(),
             'bio' => $artistDetails->getBio(),
-            'album' => $artistDetails->getAlbums(),
-            'single' => $artistDetails->getSingle(),
+            'album' => $artistDetails->getAlbum(),
+            'single' => $artistDetails->getSingles(),
             'isBand' => $artistDetails->getIsBand(),
         ];
     
-        return $this->render('artist/single.html.twig', [
+        return $this->render('artist/artist_single.html.twig', [
             'artist' => $artistData,
         ]);
     }

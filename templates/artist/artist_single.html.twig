@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ artist.name }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ artist.name }}</h1>
+        <p><strong>Full Name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
+        <p><strong>Birthdate:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
+        <p><strong>Biography:</strong> {{ artist.bio }}</p>
+        
+        <h2>Discography</h2>
+        
+        {% if artist.album is not empty %}
+            <h3>Albums</h3>
+            <ul>
+                {% for album in artist.album %}
+                    <li>{{ album.title }} ({{ album.releaseDate|date('Y') }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No albums available.</p>
+        {% endif %}
+        
+        {% if artist.single is not empty %}
+            <h3>Singles</h3>
+            <ul>
+                {% for single in artist.single %}
+                    <li>{{ single.title }} ({{ single.releaseDate|date('Y') }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No singles available.</p>
+        {% endif %}
+
+        <p><strong>Is this a band?</strong> {{ artist.isBand ? 'Yes' : 'No' }}</p>
+    </div>
+{% endblock %}
