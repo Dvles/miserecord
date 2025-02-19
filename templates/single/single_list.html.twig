@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Singles List{% endblock %}
+{% block title %}{{ artist.artistName }} - Singles{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>All Singles</h1>
+        <h1>{{ artist.artistName }} - Singles</h1>
 
         {% if singles is not empty %}
+            {% set sortedSingles = singles|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
             <ul>
-                {% for single in singles %}
+                {% for single in sortedSingles %}
                     <li>
                         <strong>{{ single.title }}</strong> ({{ single.releaseDate|date('F j, Y') }})
                         {% if single.spotifyLink %}
