@@ -63,15 +63,20 @@ class ProducerFixtures extends Fixture implements DependentFixtureInterface
             $masteringProducers[] = $producer;
         }
 
-        // Create other producers with random roles
+        // Create other producers with diverse roles
         for ($i = 0; $i < 30; ++$i) {
             $producer = new Producer();
             $producer->setFirstName($faker->firstName);
             $producer->setLastName($faker->lastName);
-            $producer->setProdRole($faker->randomElement($producerRolesEnum));
+
+            // Select a random role using mt_rand
+            $randomIndex = mt_rand(0, count($producerRolesEnum) - 1);
+            $producer->setProdRole([$producerRolesEnum[$randomIndex]]);
+
             $manager->persist($producer);
             $otherProducers[] = $producer;
         }
+
 
         // Assign producers to each single
         foreach ($singles as $single) {
