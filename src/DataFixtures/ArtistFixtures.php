@@ -109,7 +109,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Akari',
                 'lastName' => 'Tanaka',
                 'birthDate' => new DateTime('1998-11-30'),
-                'bio' => 'Akari Tanaka is a Japanese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production.',
+                'bio' => 'Akari Tanaka is a young rapper known for giving it straight without saying sorry.Ò',
                 'isBand' => false
             ],
             
@@ -134,7 +134,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Daniella kim',
                 'lastName' => 'Shimuya',
                 'birthDate' => new DateTime('2000-04-09'),
-                'bio' => 'DA Sho is a young rapper known for giving it straight without saying sorry.',
+                'bio' => 'DA Sho is a Japanese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production.',
                 'isBand' => false
             ],
             
