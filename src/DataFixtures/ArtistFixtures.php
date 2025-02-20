@@ -96,7 +96,7 @@ class ArtistFixtures extends Fixture
             ],
             
             [
-                'artistName' => 'The Velvet Echo',
+                'artistName' => 'The Velvet Growl',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
