@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Releases{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>All Releases</h1>
+
+        <h2>Albums</h2>
+        {% if albums is not empty %}
+            <ul>
+                {% for album in albums %}
+                    <li>
+                        <a href="{{ path('album_detail', {'id': album.id}) }}">{{ album.title }}</a> 
+                        ({{ album.releaseDate|date('Y') }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No albums found.</p>
+        {% endif %}
+
+        <h2>Singles</h2>
+        {% if singles is not empty %}
+            <ul>
+                {% for single in singles %}
+                    <li>
+                        <a href="{{ path('single_detail', {'id': single.id}) }}">{{ single.title }}</a> 
+                        ({{ single.releaseDate|date('Y') }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No singles found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

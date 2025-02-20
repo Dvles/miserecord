@@ -19,7 +19,7 @@ class ReleasesController extends AbstractController
         $this->singleRepository = $singleRepository;
     }
 
-    #[Route('/releases', name: 'releases_list')]
+    #[Route('/releases/index', name: 'releases_list')]
     public function index(): Response
     {
         $albums = $this->albumRepository->findAll();
