@@ -10,6 +10,13 @@
         
         <p><strong>Artist:</strong> <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">{{ artist.artistName }}</a></p>
 
+        <!-- Display artwork image -->
+        {% if single.artwork %}
+            <div>
+                <img src="{{ asset(single.artwork) }}" alt="{{ single.title }} Artwork" class="img-fluid">
+            </div>
+        {% endif %}
+
         {% if producers is not empty %}
             <h3>Producers</h3>
             <ul>
