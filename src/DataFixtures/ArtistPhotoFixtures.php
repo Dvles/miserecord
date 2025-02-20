@@ -23,8 +23,18 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
             'Flow Dan' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739975171/flowdan_zdenoe.jpg',
             'DA SHO' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982445/openart-image_lSZ6QBaq_1739972516158_raw_uri3bg.jpg',
             'Sophia Reyes' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982446/sophia_fnui1k.png',
-            'Night Pulse' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982446/night_pulse_u6y7qa.png',
-            'Yung KiXX' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982445/yung_qs31es.png'
+            'Night Pulse' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740053874/night_xoywpz.jpg',
+            'Yung KiXX' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982445/yung_qs31es.png',
+            'Luna Vérité' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/luna_uru4zq.jpg',
+            'The Hollow Pines' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/hollow_keihov.jpg',
+            'Dante Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740053286/Dante2_xp14tl.png',
+            'Eclipse District' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Eclipse_lfq91t.png',
+            'Juno Starlight' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/juno_bbvt3k.png',
+            'Ghost Circuit' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/ghost_eojrm7.png',
+            'Malachai Blade' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/Malachai_e2nweg.png',
+            'Echoes of Orion' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/echoes_kfefrs.jpg',
+            'Velvet Hush' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/velvethush_cl8gyc.png',
+            'Solar Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Solarflux_dopbet.png'
         ];
         
         

@@ -162,7 +162,97 @@ class ArtistFixtures extends Fixture
                 'birthDate' => new DateTime('2003-08-10'),
                 'bio' => 'Yung Kixx, latest winner of Rythm and flow, is a rapper known for his slick lines and flipping classical music samples',
                 'isBand' => true
-            ]
+            ], 
+            [
+                'artistName' => 'Luna Vérité',
+                'firstName' => "Isabelle",
+                'lastName' => "Mercier",
+                'birthDate' => new DateTime('1995-04-22'),
+                'bio' => 'Luna Vérité is a French electro-pop sensation blending dreamlike vocals with deep house and ambient textures.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'The Hollow Pines',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'The Hollow Pines is a folk-rock band that tells haunting stories through melancholic melodies and raw harmonies.',
+                'isBand' => true
+            ],
+            
+            [
+                'artistName' => 'Dante Flux',
+                'firstName' => "Dante",
+                'lastName' => "Ramirez",
+                'birthDate' => new DateTime('1991-06-15'),
+                'bio' => 'Dante Flux is a neo-soul artist whose smooth vocals and poetic lyrics bridge the gap between R&B and alternative jazz.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Eclipse District',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'Eclipse District is an experimental synthwave collective known for their retro-futuristic soundscapes and neon-drenched visuals.',
+                'isBand' => true
+            ],
+            
+            [
+                'artistName' => 'Juno Starlight',
+                'firstName' => "Juniper",
+                'lastName' => "Hart",
+                'birthDate' => new DateTime('1998-11-02'),
+                'bio' => 'Juno Starlight is an indie pop artist with a cosmic aesthetic, crafting dreamy ballads about love and space travel.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Ghost Circuit',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'Ghost Circuit is a cyberpunk-inspired DJ duo blending dark techno, industrial beats, and glitchcore influences.',
+                'isBand' => true
+            ],
+            
+            [
+                'artistName' => 'Malachai Blade',
+                'firstName' => "Malachai",
+                'lastName' => "Brooks",
+                'birthDate' => new DateTime('1989-02-28'),
+                'bio' => 'Malachai Blade is a hard-hitting metal guitarist and vocalist, known for his aggressive riffs and dystopian themes.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Echoes of Orion',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'Echoes of Orion is an instrumental post-rock group creating atmospheric soundscapes inspired by astronomy and mythology.',
+                'isBand' => true
+            ],
+            
+            [
+                'artistName' => 'Velvet Hush',
+                'firstName' => "Mariana",
+                'lastName' => "Santos",
+                'birthDate' => new DateTime('1994-07-19'),
+                'bio' => 'Velvet Hush is a Brazilian singer-songwriter blending bossa nova rhythms with contemporary alternative R&B.',
+                'isBand' => false
+            ],
+            
+            [
+                'artistName' => 'Solar Flux',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => 'Solar Flux is an Afro-futurist electronic band that fuses deep house, jazz, and cosmic funk into an interstellar groove.',
+                'isBand' => true
+            ],
+            
             
             
         ];

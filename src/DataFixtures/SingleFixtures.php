@@ -27,6 +27,16 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
             'Sophia Reyes' => 'https://placekitten.com/200/300',
             'Night Pulse' => 'https://placekitten.com/200/300',
             'Yung KiXX' => 'https://placekitten.com/200/300',
+            'Luna Vérité' => 'https://placekitten.com/200/300',
+            'The Hollow Pines' => 'https://placekitten.com/200/300',
+            'Dante Flux' => 'https://placekitten.com/200/300',
+            'Eclipse District' => 'https://placekitten.com/200/300',
+            'Juno Starlight' => 'https://placekitten.com/200/300',
+            'Ghost Circuit' => 'https://placekitten.com/200/300',
+            'Malachai Blade' => 'https://placekitten.com/200/300',
+            'Echoes of Orion' => 'https://placekitten.com/200/300',
+            'Velvet Hush' => 'https://placekitten.com/200/300',
+            'Solar Flux' => 'https://placekitten.com/200/300',
         ];
 
 
