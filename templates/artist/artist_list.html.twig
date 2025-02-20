@@ -3,21 +3,72 @@
 {% block title %}Artist List{% endblock %}
 
 {% block body %}
-    <h1>Artist List</h1>
-    <div class="artist-container">
-        {% for artist in artists %}
-            <div class="artist-card">
-                <h2>
-                    <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
-                        {{ artist.artistName }}
-                    </a>
-                </h2>
-                {% if artist.artistPhotos|length > 0 %}
-                    <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}">
-                {% else %}
-                    <p>No photo available</p>
-                {% endif %}
-            </div>
-        {% endfor %}
+    
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for artist in artists %}
+                <div class="col">
+                    <div class="artist-card card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h2 class="artist-name">
+                                <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
+                                    {{ artist.artistName }}
+                                </a>
+                            </h2>
+                            {% if artist.artistPhotos|length > 0 %}
+                                <div class="artist-photo-wrapper">
+                                    <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid">
+                                </div>
+                            {% else %}
+                                <p>No photo available</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .artist-photo-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 100%; /* This makes the container square */
+        }
+
+        .artist-photo-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image is not stretched or distorted */
+        }
+
+        /* Remove background color from cards */
+        .artist-card {
+            background-color: transparent !important;
+        }
+
+        /* Style for artist names */
+        .artist-name {
+            font-size: 1rem; /* h2 style */
+            font-weight: bold;
+            text-align: right;
+            color: white;
+        }
+
+        /* Style for the links */
+        .artist-name a {
+            color: grey;
+            text-decoration: none; /* Remove underline */
+        }
+
+        .artist-name a:hover {
+            color: #FFEA00; /* Yellow hover effect */
+        }
+    </style>
 {% endblock %}
