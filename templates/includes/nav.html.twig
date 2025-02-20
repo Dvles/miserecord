@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
         <!-- Brand / Logo (optional) -->
         <a class="navbar-brand" href="#"><img class="logo" src="{{ asset('uploads/MISERECORD_Logo_WHITE.png') }}" alt="Miserecord Logo"></a>
@@ -11,18 +11,18 @@
         <!-- Navbar Links & Search Bar -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <li class="nav-item">
-        <a class="nav-link active" href="{{ path('artist_list') }}">Artists</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('releases_list') }}">Releases</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('product_list') }}">Shop</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="">Contact</a>
-    </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('artist_list') }}">Artists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('releases_list') }}">Releases</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('product_list') }}">Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Contact</a>
+                </li>
             </ul>
             
             <!-- Search Bar -->
@@ -35,21 +35,29 @@
 </nav>
 
 <style>
-
     .logo {
         height: 35px;
     }
 
-
+    /* Make navbar sticky */
     .navbar {
         background-color: black !important;
+        padding: 25px;
     }
+
+    .navbar.sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        width: 100%;
+    }
+
     .navbar-light .navbar-nav .nav-link {
-        color:rgba(255, 255, 255, 0.43);
+        color: rgba(255, 255, 255, 0.43);
         text-transform: uppercase;
         font-size: 13px;
-        
     }
+
     .navbar-light .navbar-nav .nav-link:hover {
         color: #ffeA00;
     }
@@ -60,27 +68,27 @@
         text-transform: uppercase !important;
         border: none;
         border-bottom: 1px solid #FFEA00;
-        color:rgba(255, 255, 255, 0.43);
+        color: rgba(255, 255, 255, 0.43);
     }
 
-    .custom-input:hover{
+    .custom-input:hover {
         background-color: #FFEA00;
         color: white;
     }
 
-.custom-input:focus {
-    outline: none;  /* Removes the default blue outline */
-    border-bottom: 2px solid yellow; /* Keeps the yellow bottom border */
-}
+    .custom-input:focus {
+        outline: none;
+        border-bottom: 2px solid yellow;
+    }
 
     button.btn.custom-btn {
         text-transform: uppercase;
-        color:rgb(255, 255, 255);
+        color: rgb(255, 255, 255);
         font-size: 13px;
     }
 
-    button.btn.custom-btn:hover{
-        color: : #FFEA00 !important;
+    button.btn.custom-btn:hover {
+        color: #FFEA00 !important;
     }
 
     input.form-control.me-2.custom-input {
@@ -97,5 +105,14 @@
     .custom-btn:hover {
         background-color: transparent;
         color: #FFEA00 !important;
+    }
+
+    /* Custom Styling for Hamburger Icon */
+    .navbar-toggler-icon {
+        background-color: white !important;
+    }
+
+    .navbar-toggler:hover .navbar-toggler-icon {
+        background-color: #FFEA00 !important;
     }
 </style>
