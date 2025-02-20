@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h1>{{ artist.name }}</h1>
+        <h1 class="glitch-text">{{ artist.name }}</h1>
         <div class="row">
             <!-- Left Column: Artist Image, Full Name, Bio, Date of Birth -->
             <div class="col-md-6">
@@ -28,22 +28,29 @@
                 
                 <h2>Discography</h2>
                 
-                {% if artist.album is not empty %}
+{% if artist.album is not empty %}
                     <h3>Albums</h3>
-                    <ul>
+                    <div class="row album-gallery">
                         {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
                         {% for album in sortedAlbums %}
-                            <li>
-                                {{ album.title }} ({{ album.releaseDate|date('Y') }})
-                                <a href="{{ path('album_detail', {'id': album.id}) }}" class="info-button" title="More info">
-                                    <i class="fas fa-circle-info"></i>
-                                </a>
-                            </li>
+                            <div class="col-md-3 col-sm-4 col-xs-6 mb-3">
+                                <div class="album-card">
+                                    <a href="{{ path('album_detail', {'id': album.id}) }}" class="album-link">
+                                        {% if album.artwork %}
+                                            <img src="{{ asset(album.artwork) }}" alt="{{ album.title }}" class="img-fluid album-img">
+                                        {% else %}
+                                            <div class="no-image">No cover</div>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
                         {% endfor %}
-                    </ul>
+                    </div>
                 {% else %}
                     <p>No albums available.</p>
                 {% endif %}
+
+
                 
                 {% if artist.single is not empty %}
                     <h3>Singles</h3>
@@ -67,28 +74,7 @@
         </div>
         <a href="{{ path('artist_list') }}" class="btn btn-primary mt-3">Return to Artist List</a>
     </div>
-    {% if relatedProducts is not empty %}
-    <h2>Related Products</h2>
-    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            {% for product in relatedProducts %}
-                <div class="carousel-item {% if loop.first %}active{% endif %}">
-                    <a href="{{ path('product_detail', { id: product.id }) }}">
-                        <img src="{{ product.img }}" class="d-block w-100" alt="{{ product.name }}">
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-{% endif %}
+    
 
 
 
@@ -132,29 +118,104 @@
             background-color: #FFC107;
         }
 
-        .info-button i {
-            color: white; /* Default color is white */
-            transition: color 0.3s ease; /* Smooth transition on hover */
+        .album-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .info-button:hover i {
-            color: #FFEA00; /* Yellow on hover */
-        }
-
-        .carousel-item img {
-            max-height: 200px; /* Reduce image height */
-            width: auto; /* Maintain aspect ratio */
-            object-fit: contain; /* Ensure the full image is visible */
-            border-radius: 10px;
-            margin: auto; /* Center the image */
-        }
-
-        .carousel-caption {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px;
+        .album-card {
+            position: relative;
+            text-align: center;
             border-radius: 5px;
-            font-size: 14px; /* Smaller text */
+            overflow: hidden;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-            </style>
+        .album-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .album-img {
+            width: 100%;
+            height: 150px; /* Make all images same size */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .no-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .album-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+            text-transform: capitalize;
+        }
+
+        .album-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .album-link:hover .album-title {
+            color: #FFEA00;
+        }
+
+        .glitch-text {
+            display: inline-block;
+            overflow: hidden;
+            font-size: 45px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .glitch-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: slideIn 0.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let title = document.querySelector("h1");
+            let text = title.innerText;
+            title.innerHTML = "";
+
+            text.split("").forEach((char, index) => {
+                let span = document.createElement("span");
+                span.innerText = char;
+                span.style.animationDelay = `${index * 0.05}s`; // Stagger effect
+                title.appendChild(span);
+            });
+
+            title.classList.add("glitch-text");
+        });
+    </script>
+
+            
 {% endblock %}
