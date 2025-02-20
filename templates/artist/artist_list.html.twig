@@ -17,7 +17,10 @@
                             </h2>
                             {% if artist.artistPhotos|length > 0 %}
                                 <div class="artist-photo-wrapper">
-                                    <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid">
+                                    <!-- Wrap the image in the same link tag -->
+                                    <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
+                                        <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid artist-img">
+                                    </a>
                                 </div>
                             {% else %}
                                 <p>No photo available</p>
@@ -45,15 +48,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the image is not stretched or distorted */
+            object-fit: cover; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Remove background color from cards */
+        .artist-photo-wrapper:hover img {
+            transform: scale(1.1); 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+        }
+
         .artist-card {
             background-color: transparent !important;
         }
 
-        /* Style for artist names */
         .artist-name {
             font-size: 1rem;
             font-weight: 100px !important;
