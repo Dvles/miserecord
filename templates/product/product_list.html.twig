@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Products</h1>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="{{ product.img }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p>No products available.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
