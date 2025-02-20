@@ -19,7 +19,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Rudimental is a British drum and bass band known for their eclectic mix of genres including electronic, soul, and jazz.',
+                'bio' => 'Rudimental is a British drum and bass band known for blending electronic, soul, and jazz influences into their music. Their breakthrough came with the hit "Feel the Love," showcasing their energetic and uplifting style. The group has since become a staple in the UK dance music scene.',
                 'isBand' => true
             ],
             [
@@ -27,7 +27,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Kraftwerk is a German electronic band widely considered to be pioneers of electronic music and influential in the genre.',
+                'bio' => 'Kraftwerk is a German electronic band widely considered pioneers of electronic music. Their innovative sound and robotic aesthetic influenced countless genres, including synth-pop and techno. Albums like "Autobahn" and "The Man-Machine" remain groundbreaking.',
                 'isBand' => true
             ],
             [
@@ -35,7 +35,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Tommy',
                 'lastName' => 'Guerrero',
                 'birthDate' => new DateTime('1966-09-09'),
-                'bio' => 'Tommy Guerrero is an American skateboarder and musician, known for his instrumental hip hop and soulful sound.',
+                'bio' => 'Tommy Guerrero is an American skateboarder and musician, blending instrumental hip-hop with laid-back, soulful guitar melodies. His music often evokes a sense of nostalgia and urban cool, making him a favorite in chillout and downtempo scenes. He first gained fame as a member of the legendary Bones Brigade skate team.',
                 'isBand' => false
             ],
             [
@@ -43,7 +43,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Daniel',
                 'lastName' => 'Lowe',
                 'birthDate' => new DateTime('1987-07-03'),
-                'bio' => 'Flow Dan is a British grime artist and one of the pioneers of the UK grime scene.',
+                'bio' => 'Flow Dan is a British grime artist and a founding member of the influential collective Roll Deep. Known for his deep, commanding voice, he has worked with artists like The Bug and Chase & Status. His raw energy and powerful delivery make him a key figure in UK grime culture.',
                 'isBand' => false
             ],
             [
@@ -51,7 +51,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Azealia',
                 'lastName' => 'Banks',
                 'birthDate' => new DateTime('1991-05-31'),
-                'bio' => 'Azealia Banks is an American rapper, singer, and songwriter known for her bold, unique style and often controversial lyrics.',
+                'bio' => 'Azealia Banks is an American rapper, singer, and songwriter known for her genre-blending music and unapologetic persona. Rising to fame with "212," she quickly made a name for herself with rapid-fire flows and bold lyricism. Her influence spans hip-hop, electronic, and house music.',
                 'isBand' => false
             ],
             [
@@ -59,7 +59,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Dam Swindle is a Dutch duo producing deep house, disco, and soulful house music.',
+                'bio' => 'Dam Swindle is a Dutch electronic duo known for their deep house, disco, and soulful house productions. Their groove-heavy sound draws inspiration from classic funk and jazz, making them a staple in the underground dance scene. They have released music on labels like Heist Recordings and Aus Music.',
                 'isBand' => true
             ],
             [
@@ -67,7 +67,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Reinel',
                 'lastName' => 'Bakole',
                 'birthDate' => new DateTime('1994-12-14'),
-                'bio' => 'Reinel Bakole is a young African artist known for her work blending afrobea and soul with contemporary music.',
+                'bio' => 'Reinel Bakole is an African singer-songwriter blending afrobeats, soul, and contemporary electronic elements. Her music is deeply expressive, often exploring themes of identity and heritage. With her distinctive voice and genre-fusing approach, she is an emerging force in global music.',
                 'isBand' => false
             ],
             [
@@ -75,7 +75,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Geotheory is an electronic music producer known for ambient and cinematic compositions with organic sound design.',
+                'bio' => 'Geotheory is an electronic music producer known for his atmospheric, cinematic soundscapes. His work incorporates elements of ambient, future beats, and organic sound design, creating immersive and emotional listening experiences. His experimental approach has earned him a dedicated following in underground electronic music.',
                 'isBand' => true
             ],
             [
@@ -83,7 +83,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Little Dragon is a Swedish electronic music band blending synth-pop, R&B, and jazz influences.',
+                'bio' => 'Little Dragon is a Swedish electronic band blending synth-pop, R&B, and jazz influences. Fronted by the soulful vocals of Yukimi Nagano, their music is known for its dreamy production and eclectic rhythms. Over the years, they have collaborated with artists like Gorillaz, SBTRKT, and ODESZA.',
                 'isBand' => true
             ],
             [
@@ -91,34 +91,33 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Elias',
                 'lastName' => 'Moreno',
                 'birthDate' => new DateTime('1985-03-15'),
-                'bio' => 'Elias Moreno is a Spanish guitarist and singer blending Latin rhythms with modern folk influences.',
+                'bio' => 'Elias Moreno is a Spanish guitarist and singer known for blending Latin rhythms with modern folk influences. His music combines intricate guitar work with heartfelt storytelling, drawing inspiration from traditional flamenco and contemporary indie sounds. He has captivated audiences with his dynamic live performances.',
                 'isBand' => false
             ],
+            
             
             [
                 'artistName' => 'The Velvet Growl',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'The Velvet Echo is a dream-pop and shoegaze band known for their ethereal soundscapes and haunting melodies.',
+                'bio' => 'The Velvet Growl is a dream-pop and shoegaze band known for their ethereal soundscapes and haunting melodies. Their music blends lush reverb-drenched guitars with introspective lyrics, creating a hypnotic and immersive listening experience. Their live shows are known for their atmospheric visuals and emotionally charged performances.',
                 'isBand' => true
             ],
-            
             [
                 'artistName' => 'Akari Tanakii',
                 'firstName' => 'Akari',
                 'lastName' => 'Tanaka',
                 'birthDate' => new DateTime('1998-11-30'),
-                'bio' => 'Akari Tanaka is a young rapper known for giving it straight without saying sorry.Ò',
+                'bio' => 'Akari Tanaka is a Japanese rapper known for her fearless lyricism and unapologetic delivery. She blends sharp storytelling with hard-hitting beats, tackling themes of identity and resilience. Her sound is a fusion of old-school hip-hop and modern trap influences.',
                 'isBand' => false
             ],
-            
             [
                 'artistName' => 'Zephyr Collective',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Zephyr Collective is a progressive dub jazz ensemble pushing the boundaries of improvisation and electronic fusion.',
+                'bio' => 'Zephyr Collective is a progressive dub jazz ensemble pushing the boundaries of improvisation and electronic fusion. Their genre-defying sound combines deep grooves, intricate instrumentation, and hypnotic textures. Known for their experimental live sets, they create an ever-evolving sonic experience.',
                 'isBand' => true
             ],
             [
@@ -126,94 +125,88 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Lerato Maya',
                 'lastName' => 'Ndlovu',
                 'birthDate' => new DateTime('1999-01-05'),
-                'bio' => 'Lerato Ndlovu is a South African jazz and soul singer known for her rich vocals and fusion of Afro-jazz and contemporary R&B.',
+                'bio' => 'Lerato Ndlovu is a South African jazz and soul singer known for her rich vocals and fusion of Afro-jazz and contemporary R&B. Her music blends traditional African rhythms with modern production, creating a soulful and uplifting sound. She has quickly become a rising star in the global jazz scene.',
                 'isBand' => false
             ], 
             [
                 'artistName' => 'DA SHO',
-                'firstName' => 'Daniella kim',
+                'firstName' => 'Daniella Kim',
                 'lastName' => 'Shimuya',
                 'birthDate' => new DateTime('2000-04-09'),
-                'bio' => 'DA Sho is a Japanese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production.',
+                'bio' => 'DA SHO is a Japanese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production. Her music evokes nostalgia with dreamy melodies and introspective songwriting. With a dedicated online following, she continues to push the boundaries of bedroom pop.',
                 'isBand' => false
             ],
-            
             [
                 'artistName' => 'Sophia Reyes',
                 'firstName' => 'Sophia',
                 'lastName' => 'Reyes',
                 'birthDate' => new DateTime('1997-03-14'),
-                'bio' => 'Sophia Reyes is a Mexican-American indie singer-songwriter known for her heartfelt ballads and ethereal vocal style.',
+                'bio' => 'Sophia Reyes is a Mexican-American indie singer-songwriter known for her heartfelt ballads and ethereal vocal style. Her music blends folk, pop, and Latin influences, creating deeply personal and emotionally resonant songs. She has gained recognition for her poetic lyrics and delicate yet powerful voice.',
                 'isBand' => false
             ],
-            
             [
                 'artistName' => 'Night Pulse',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Night Pulse is an electronic music duo blending chillwave and downtempo with soulful vocal samples and atmospheric production.',
+                'bio' => 'Night Pulse is an electronic music duo blending chillwave and downtempo with soulful vocal samples and atmospheric production. Their signature sound is cinematic and moody, drawing listeners into a world of deep, hypnotic beats. They have built a reputation for crafting late-night anthems perfect for introspective moments.',
                 'isBand' => true
             ],
+            
             [
                 'artistName' => 'Yung KiXX',
                 'firstName' => "George Junior",
                 'lastName' => "Krayon",
                 'birthDate' => new DateTime('2003-08-10'),
-                'bio' => 'Yung Kixx, latest winner of Rythm and flow, is a rapper known for his slick lines and flipping classical music samples',
-                'isBand' => true
+                'bio' => 'Yung KiXX, the latest winner of *Rhythm & Flow*, is a rapper known for his slick wordplay and unique ability to flip classical music samples into hard-hitting beats. His music fuses old-school lyricism with modern trap production, making him a standout voice in the new wave of hip-hop. His rapid rise has solidified him as a fresh talent to watch.',
+                'isBand' => false
             ], 
             [
                 'artistName' => 'Luna Vérité',
                 'firstName' => "Isabelle",
                 'lastName' => "Mercier",
                 'birthDate' => new DateTime('1995-04-22'),
-                'bio' => 'Luna Vérité is a French electro-pop sensation blending dreamlike vocals with deep house and ambient textures.',
+                'bio' => 'Luna Vérité is a French electro-pop sensation blending dreamy vocals with deep house and ambient textures. Her music creates a hypnotic, cinematic atmosphere, often exploring themes of love, longing, and self-discovery. With a dedicated European following, she continues to push the boundaries of electronic music.',
                 'isBand' => false
             ],
-            
             [
                 'artistName' => 'The Hollow Pines',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'The Hollow Pines is a folk-rock band that tells haunting stories through melancholic melodies and raw harmonies.',
+                'bio' => 'The Hollow Pines is a folk-rock band weaving haunting stories through melancholic melodies and raw harmonies. Their sound is steeped in nostalgia, evoking imagery of misty forests and lost love. With a deep connection to nature and storytelling, their music resonates with fans of introspective and acoustic-driven soundscapes.',
                 'isBand' => true
             ],
-            
             [
                 'artistName' => 'Dante Flux',
                 'firstName' => "Dante",
                 'lastName' => "Ramirez",
                 'birthDate' => new DateTime('1991-06-15'),
-                'bio' => 'Dante Flux is a neo-soul artist whose smooth vocals and poetic lyrics bridge the gap between R&B and alternative jazz.',
+                'bio' => 'Dante Flux is a neo-soul artist whose smooth vocals and poetic lyrics bridge the gap between R&B and alternative jazz. His music is a fusion of sultry grooves, introspective storytelling, and timeless soul influences. With a sound reminiscent of D’Angelo and Frank Ocean, he’s carving his own lane in modern soul music.',
                 'isBand' => false
             ],
-            
             [
                 'artistName' => 'Eclipse District',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Eclipse District is an experimental synthwave collective known for their retro-futuristic soundscapes and neon-drenched visuals.',
+                'bio' => 'Eclipse District is an experimental synthwave collective known for their retro-futuristic soundscapes and neon-drenched visuals. Their music fuses cinematic synths, pulsating basslines, and nostalgic 80s influences. Their aesthetic pays homage to classic sci-fi while delivering a fresh take on electronic music.',
                 'isBand' => true
             ],
-            
             [
                 'artistName' => 'Juno Starlight',
                 'firstName' => "Juniper",
                 'lastName' => "Hart",
                 'birthDate' => new DateTime('1998-11-02'),
-                'bio' => 'Juno Starlight is an indie pop artist with a cosmic aesthetic, crafting dreamy ballads about love and space travel.',
+                'bio' => 'Juno Starlight is an indie pop artist with a cosmic aesthetic, crafting dreamy ballads about love and space travel. Her ethereal voice and lush synth-driven production create an otherworldly listening experience. Inspired by the stars, she brings a celestial touch to modern pop music.',
                 'isBand' => false
             ],
-            
             [
                 'artistName' => 'Ghost Circuit',
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Ghost Circuit is a cyberpunk-inspired DJ duo blending dark techno, industrial beats, and glitchcore influences.',
+                'bio' => 'Ghost Circuit is a cyberpunk-inspired DJ duo blending dark techno, industrial beats, and glitchcore influences. Their music is a pulsating, high-energy mix of distorted synths and eerie vocal samples, creating an immersive club experience. With a soundscape straight out of a dystopian future, they dominate underground electronic scenes worldwide.',
                 'isBand' => true
             ],
             
@@ -222,7 +215,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => "Malachai",
                 'lastName' => "Brooks",
                 'birthDate' => new DateTime('1989-02-28'),
-                'bio' => 'Malachai Blade is a hard-hitting metal guitarist and vocalist, known for his aggressive riffs and dystopian themes.',
+                'bio' => 'Malachai Blade is a powerhouse metal guitarist and vocalist known for his aggressive riffs and dystopian themes. His music fuses thrash, doom, and industrial influences, creating a dark, cinematic experience. With raw intensity and intricate compositions, he continues to push the boundaries of modern metal.',
                 'isBand' => false
             ],
             
@@ -231,7 +224,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Echoes of Orion is an instrumental post-rock group creating atmospheric soundscapes inspired by astronomy and mythology.',
+                'bio' => 'Echoes of Orion is an instrumental post-rock group crafting atmospheric soundscapes inspired by astronomy and mythology. Their cinematic compositions blend soaring guitar melodies with ambient textures, creating an immersive sonic journey. Their music evokes a sense of wonder, transporting listeners to celestial realms.',
                 'isBand' => true
             ],
             
@@ -240,7 +233,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => "Mariana",
                 'lastName' => "Santos",
                 'birthDate' => new DateTime('1994-07-19'),
-                'bio' => 'Velvet Hush is a Brazilian singer-songwriter blending bossa nova rhythms with contemporary alternative R&B.',
+                'bio' => 'Velvet Hush is a Brazilian singer-songwriter blending bossa nova rhythms with contemporary alternative R&B. Her sultry vocals and hypnotic melodies create an intimate, soulful sound. Drawing from her Latin roots, she seamlessly merges classic Brazilian music with modern production.',
                 'isBand' => false
             ],
             
@@ -249,9 +242,10 @@ class ArtistFixtures extends Fixture
                 'firstName' => null,
                 'lastName' => null,
                 'birthDate' => null,
-                'bio' => 'Solar Flux is an Afro-futurist electronic band that fuses deep house, jazz, and cosmic funk into an interstellar groove.',
+                'bio' => 'Solar Flux is an Afro-futurist electronic band merging deep house, jazz, and cosmic funk into an interstellar groove. Their music features pulsating basslines, hypnotic rhythms, and spacey synth textures. Inspired by sci-fi and Afrofuturism, they create a sound that feels both ancient and futuristic.',
                 'isBand' => true
             ],
+            
             
             
             
