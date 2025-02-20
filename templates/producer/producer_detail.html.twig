@@ -1,0 +1,44 @@
+{# templates/producer/producer_detail.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ producer.firstName }} {{ producer.lastName }} - Producer Details{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ producer.firstName }} {{ producer.lastName }}</h1>
+        
+        {% if producer.prodRole is not empty %}
+            <p><strong>Roles:</strong> {{ producer.prodRole|map(role => role.value)|join(', ') }}</p>
+        {% else %}
+            <p><strong>Roles:</strong> No roles assigned.</p>
+        {% endif %}
+
+        <h2>Singles Collaborated On</h2>
+        {% if singles is not empty %}
+            <ul>
+                {% for single in singles %}
+                    <li>
+                        <a href="{{ path('single_detail', {'id': single.id}) }}">{{ single.title }}</a> 
+                        ({{ single.releaseDate|date('Y') }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No singles found for this producer.</p>
+        {% endif %}
+
+        <h2>Albums Collaborated On</h2>
+        {% if albums is not empty %}
+            <ul>
+                {% for album in albums %}
+                    <li>
+                        <a href="{{ path('album_detail', {'id': album.id}) }}">{{ album.title }}</a> 
+                        ({{ album.releaseDate|date('Y') }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No albums found for this producer.</p>
+        {% endif %}
+    </div>
+{% endblock %}
