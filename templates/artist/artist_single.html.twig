@@ -6,10 +6,10 @@
     <div class="container">
         <h1>{{ artist.name }}</h1>
         {% if artist.firstName is not empty %}
-        <p><strong>Full Name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
+            <p><strong>Full Name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
         {% endif %}
         {% if artist.isBand == 'No' %}
-        <p><strong>Birthdate:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
+            <p><strong>Birthdate:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
         {% endif %}
         <p><strong>Biography:</strong> {{ artist.bio }}</p>
         
@@ -20,7 +20,12 @@
             <ul>
                 {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
                 {% for album in sortedAlbums %}
-                    <li>{{ album.title }} ({{ album.releaseDate|date('Y') }})</li>
+                    <li>
+                        {{ album.title }} ({{ album.releaseDate|date('Y') }})
+                        <a href="{{ path('album_detail', {'id': album.id}) }}" class="info-button" title="More info">
+                            <i class="fas fa-circle-info"></i>
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -38,7 +43,6 @@
                         {% endif %}
                         <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
                             <i class="fas fa-circle-info"></i>
-</i>
                         </a>
                     </li>
                 {% endfor %}
@@ -46,6 +50,5 @@
         {% else %}
             <p>No singles available.</p>
         {% endif %}
-
     </div>
 {% endblock %}
