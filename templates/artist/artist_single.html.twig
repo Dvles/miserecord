@@ -5,50 +5,103 @@
 {% block body %}
     <div class="container">
         <h1>{{ artist.name }}</h1>
-        {% if artist.firstName is not empty %}
-            <p><strong>Full Name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
-        {% endif %}
-        {% if artist.isBand == 'No' %}
-            <p><strong>Birthdate:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
-        {% endif %}
-        <p><strong>Biography:</strong> {{ artist.bio }}</p>
-        
-        <h2>Discography</h2>
-        
-        {% if artist.album is not empty %}
-            <h3>Albums</h3>
-            <ul>
-                {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
-                {% for album in sortedAlbums %}
-                    <li>
-                        {{ album.title }} ({{ album.releaseDate|date('Y') }})
-                        <a href="{{ path('album_detail', {'id': album.id}) }}" class="info-button" title="More info">
-                            <i class="fas fa-circle-info"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No albums available.</p>
-        {% endif %}
-        
-        {% if artist.single is not empty %}
-            <h3>Singles</h3>
-            <ul>
-                {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
-                    <li>
-                        {{ single.title }} ({{ single.releaseDate|date('Y') }})
-                        {% if single.spotifyLink %}
-                            - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
-                        {% endif %}
-                        <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
-                            <i class="fas fa-circle-info"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No singles available.</p>
-        {% endif %}
+        <div class="row">
+            <!-- Left Column: Artist Image, Full Name, Bio, Date of Birth -->
+            <div class="col-md-6">
+                <div class="artist-image">
+                    {% if artist.artistPhotos|length > 0 %}
+                        <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.name }}" class="img-fluid">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                </div>
+                {% if artist.firstName is not empty %}
+                    <p><strong></strong> {{ artist.firstName }} {{ artist.lastName }}</p>
+                {% endif %}
+                {% if artist.isBand == 'No' %}
+                    <p><strong>Date of Birth:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
+                {% endif %}
+                <p><strong></strong> {{ artist.bio }}</p>
+            </div>
+
+            <!-- Right Column: Discography -->
+            <div class="col-md-6">
+                <h2>Discography</h2>
+                
+                {% if artist.album is not empty %}
+                    <h3>Albums</h3>
+                    <ul>
+                        {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
+                        {% for album in sortedAlbums %}
+                            <li>
+                                {{ album.title }} ({{ album.releaseDate|date('Y') }})
+                                <a href="{{ path('album_detail', {'id': album.id}) }}" class="info-button" title="More info">
+                                    <i class="fas fa-circle-info"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No albums available.</p>
+                {% endif %}
+                
+                {% if artist.single is not empty %}
+                    <h3>Singles</h3>
+                    <ul>
+                        {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
+                            <li>
+                                {{ single.title }} ({{ single.releaseDate|date('Y') }})
+                                {% if single.spotifyLink %}
+                                    - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
+                                {% endif %}
+                                <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
+                                    <i class="fas fa-circle-info"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No singles available.</p>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{{ path('artist_list') }}" class="btn btn-primary mt-3">Return to Artist List</a>
     </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+    <style>
+        /* Ensure images are responsive and have a nice margin */
+        .artist-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        /* Optional: Add some padding and spacing between sections */
+        .artist-image, .artist-bio, .discography {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the return button */
+        .btn {
+            background-color: #FFEA00;
+            color: #000;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #FFC107;
+        }
+
+        .info-button i {
+            color: white; /* Default color is white */
+            transition: color 0.3s ease; /* Smooth transition on hover */
+        }
+
+        .info-button:hover i {
+            color: #FFEA00; /* Yellow on hover */
+        }
+            </style>
 {% endblock %}
