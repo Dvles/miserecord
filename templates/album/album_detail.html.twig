@@ -51,9 +51,10 @@
             <p><a href="{{ album.soundcloudLink }}" target="_blank">Listen on SoundCloud</a></p>
         {% endif %}
 
+        <!-- Display album artwork -->
         {% if album.artwork %}
             <div>
-                <img src="{{ album.artwork }}" alt="{{ album.title }} Album Artwork" class="img-fluid">
+                <img src="{{ asset(album.artwork) }}" alt="{{ album.title }} Album Artwork" class="img-fluid">
             </div>
         {% endif %}
     </div>
