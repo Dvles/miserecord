@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h1>{{ artist.name }}</h1>
+        
         <div class="row">
             <!-- Left Column: Artist Image, Full Name, Bio, Date of Birth -->
             <div class="col-md-6">
@@ -18,14 +18,14 @@
                 {% if artist.firstName is not empty %}
                     <p><strong></strong> {{ artist.firstName }} {{ artist.lastName }}</p>
                 {% endif %}
-                {% if artist.isBand == 'No' %}
-                    <p><strong>Date of Birth:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
+                {% if artist.isBand == false %}                    <p> {{ artist.birthdate|date('F j, Y') }}</p>
                 {% endif %}
                 <p><strong></strong> {{ artist.bio }}</p>
             </div>
 
             <!-- Right Column: Discography -->
             <div class="col-md-6">
+                <h1>{{ artist.name }}</h1>
                 <h2>Discography</h2>
                 
                 {% if artist.album is not empty %}
@@ -67,6 +67,31 @@
         </div>
         <a href="{{ path('artist_list') }}" class="btn btn-primary mt-3">Return to Artist List</a>
     </div>
+    {% if relatedProducts is not empty %}
+    <h2>Related Products</h2>
+    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for product in relatedProducts %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <a href="{{ path('product_detail', { id: product.id }) }}">
+                        <img src="{{ product.img }}" class="d-block w-100" alt="{{ product.name }}">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+{% endif %}
+
+
+
 {% endblock %}
 
 
@@ -77,6 +102,18 @@
             max-width: 100%;
             height: auto;
             border-radius: 5px;
+        }
+
+        p{
+            font-size:14px;
+        }
+
+        h2{
+            font-size: 20px !important;
+        }
+
+        h3{
+            font-size: 15px !important;
         }
 
         /* Optional: Add some padding and spacing between sections */
@@ -103,5 +140,21 @@
         .info-button:hover i {
             color: #FFEA00; /* Yellow on hover */
         }
+
+        .carousel-item img {
+            max-height: 200px; /* Reduce image height */
+            width: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Ensure the full image is visible */
+            border-radius: 10px;
+            margin: auto; /* Center the image */
+        }
+
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px; /* Smaller text */
+        }
+
             </style>
 {% endblock %}

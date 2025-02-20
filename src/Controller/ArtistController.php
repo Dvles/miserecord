@@ -60,8 +60,11 @@ final class ArtistController extends AbstractController
             'artistPhotos' => $artistPhotos, // Add the photos to the artist data
         ];
         
+        $relatedProducts = $artistDetails->getArtistProduct();
+
         return $this->render('artist/artist_single.html.twig', [
             'artist' => $artistData,
+            'relatedProducts' => $relatedProducts, // Pass related products
         ]);
     }
     
