@@ -164,27 +164,34 @@ $(document).ready(function () {
 #search-results {
     max-height: 250px;
     overflow-y: auto;
-    position: fixed; /* Keeps it on top of content */
-    top: 60px; /* Adjust based on navbar height */
+    position: fixed; 
+    top: 60px; 
     left: 0;
-    width: 100vw; /* Full width */
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
-    backdrop-filter: blur(10px); /* Blurs content underneath */
+    width: 100vw; 
+    background: rgba(0, 0, 0, 0.6); 
+    backdrop-filter: blur(10px); 
     border-bottom: 2px solid #FFEA00;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 9999;
+    padding-bottom: 0; 
 }
 
-#search-results .dropdown-item {
-    padding: 12px 45px;
-    text-transform: uppercase;
-    color: white !important;
-}
+    #search-results .dropdown-item {
+        padding: 0px 45px;
+        text-transform: uppercase;
+        color: white !important;
+        font-size: 14px;
+    }
 
-#search-results .dropdown-item:hover {
-    background-color: #FFEA00;
-    color: black !important;
-}
+    #search-results .dropdown-item:last-child {
+        margin-bottom: 0;
+    }
+
+    #search-results .dropdown-item:hover {
+        background-color: #FFEA00;
+        color: black !important;
+    }
+
 
 
 </style>

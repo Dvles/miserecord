@@ -51,14 +51,14 @@ class SearchController extends AbstractController
 
         foreach ($albums as $album) {
             $results[] = [
-                'name' => 'Album: ' . $album->getTitle(),
+                'name' => $album->getTitle() . ' [album] by ' . $album->getArtist()->getArtistName(),
                 'url' => $this->generateUrl('album_detail', ['id' => $album->getId()])
             ];
         }
 
         foreach ($singles as $single) {
             $results[] = [
-                'name' => 'Single: ' . $single->getTitle(),
+               'name' => $single->getTitle() . ' [single] by ' . $single->getArtist()->getArtistName(),
                 'url' => $this->generateUrl('single_detail', ['id' => $single->getId()])
             ];
         }
