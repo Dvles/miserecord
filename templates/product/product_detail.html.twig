@@ -3,22 +3,115 @@
 {% block title %}{{ product.name }} - Product Details{% endblock %}
 
 {% block body %}
-    <div class="product-detail-container">
-        <h1>{{ product.name }}</h1>
-        <img src="{{ product.img }}" alt="{{ product.name }}" class="product-image">
+    <div class="container product-detail-container">
+        <h1 class="product-title">{{ product.name }}</h1>
         
-        <p><strong>Price:</strong> ${{ product.price }}</p>
-        <p><strong>Type:</strong> {{ product.type.value }}</p>
-        <p><strong>Description:</strong> {{ product.description }}</p>
+        <div class="row product-detail-row">
+            <!-- Product Image Column -->
+            <div class="col-md-6 product-image-col">
+                <img src="{{ asset(product.img) }}" alt="{{ product.name }}" class="product-image img-fluid">
+            </div>
 
-        {% if product.artists|length > 0 %}
-            <p><strong>Artists:</strong> 
-                {% for artist in product.artists %}
-                    {{ artist.artistName }}{% if not loop.last %}, {% endif %}
-                {% endfor %}
-            </p>
-        {% endif %}
+            <!-- Product Information Column -->
+            <div class="col-md-6 product-info-col">
+                <p><strong>Price:</strong> ${{ product.price }}</p>
+                <p><strong>Type:</strong> {{ product.type.value }}</p>
+                <p><strong>Description:</strong> {{ product.description }}</p>
 
-        <a href="{{ path('product_list') }}" class="btn btn-primary">Back to Products</a>
+                {% if product.artists|length > 0 %}
+                    <p><strong>Artists:</strong>
+                        {% for artist in product.artists %}
+                            <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}" class="artist-link">{{ artist.artistName }}</a>
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+
+                <a href="{{ path('product_list') }}" class="btn btn-back-to-products">Back to Products</a>
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* General layout adjustments */
+        .product-detail-container {
+            margin-top: 30px;
+        }
+
+        .product-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .product-detail-row {
+            margin-top: 30px;
+        }
+
+        /* Image styling */
+        .product-image-col {
+            text-align: center;
+        }
+
+        .product-image {
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Product info styling */
+        .product-info-col p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .product-info-col a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .product-info-col a:hover {
+            color: #FFEA00;
+        }
+
+        .btn-back-to-products {
+            background-color: #FFEA00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-back-to-products:hover {
+            background-color: #FFC107;
+        }
+
+        /* Styling for the artist links */
+        .artist-link {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .artist-link:hover {
+            color: #FFEA00;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // Add any necessary JavaScript here
+    </script>
 {% endblock %}

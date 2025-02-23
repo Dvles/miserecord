@@ -40,6 +40,9 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
             'T-Droplets' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/drop_ssahrn.jpg',
             'N.D.R.P' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/NDRO_nekbcb.jpg',
             'Neon Mirage' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/neon_q8drxx.png',
+            'Kay' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740340742/kayy_kutppe.png',
+            'Bizzo' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740340682/Bizza_ldvbih.png',
+            'Sir Lorem' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740340682/Sir_Lorem_roicxx.png',
         ];
         
         

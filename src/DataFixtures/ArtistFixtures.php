@@ -237,6 +237,33 @@ class ArtistFixtures extends Fixture
                 'isBand' => false
             ],
             
+                [
+                    'artistName' => 'Kay',
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Washington',
+                    'birthDate' =>new DateTime( '1994-07-15'),
+                    'bio' => 'Kay is a neo-R&B singer-songwriter known for their ethereal vocals and deeply personal lyricism. Inspired by jazz, electronic, and lo-fi aesthetics, they crafts immersive soundscapes.',
+                    'isBand' => false
+                ],
+                [
+                    'artistName' => 'Bizzo',
+                    'firstName' => 'Bianca',
+                    'lastName' => 'Zhou',
+                    'birthDate' => new DateTime('1997-03-22'),
+                    'bio' => 'Bizzo is a boundary-pushing hip-hop artist blending experimental beats with razor-sharp lyricism. She fuses elements of UK grime, Afrofuturism, and alt-pop to create a sound that is as unpredictable as it is hypnotic.',
+                    'isBand' => false
+                ],
+                [
+                    'artistName' => 'Sir Lorem',
+                    'firstName' => 'Lorenzo',
+                    'lastName' => 'Michaels',
+                    'birthDate' => new DateTime('1989-11-08'),
+                    'bio' => 'Sir Lorem is a baritone-voiced crooner who seamlessly blends classic soul with modern indie-rock influences. With a stage presence reminiscent of rock legends and a voice dripping with old-school charm, he turns every performance into a cinematic experience.',
+                    'isBand' => false
+                ],
+            
+            
+            
             [
                 'artistName' => 'Solar Flux',
                 'firstName' => null,
