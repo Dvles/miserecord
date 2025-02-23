@@ -20,32 +20,13 @@ class AlbumRepository extends ServiceEntityRepository
         $this->logger = $logger;
     }
 
-    public function findByName($name)
+    public function findByTitle(string $query)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.title LIKE :name')
-            ->setParameter('name', '%'.$name.'%')
+            ->where('a.title LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
             ->getQuery()
             ->getResult();
     }
-
-    public function findBySearchQuery(string $query)
-    {
-        try {
-            $qb = $this->createQueryBuilder('a')
-                       ->where('a.title LIKE :name')
-                       ->setParameter('query', '%'.$query.'%');
-            
-            $query = $qb->getQuery();
-            $results = $query->getResult();
     
-            return $results;
-        } catch (\Exception $e) {
-            // Log the exception or return an empty array to prevent 500 error
-            // Log the error message to Symfony log
-            $this->get('logger')->error('Error in findBySearchQuery: '.$e->getMessage());
-            
-            return [];
-        }
-    }
 }

@@ -2,72 +2,71 @@
 
 namespace App\Controller;
 
-use App\Entity\Album;
-use App\Entity\Artist;
-use App\Entity\Single;
 use App\Repository\AlbumRepository;
 use App\Repository\ArtistRepository;
 use App\Repository\SingleRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
 
 class SearchController extends AbstractController
 {
-    private $entityManager;
+    private $artistRepository;
+    private $albumRepository;
+    private $singleRepository;
     private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    public function __construct(ArtistRepository $artistRepository, AlbumRepository $albumRepository, SingleRepository $singleRepository, LoggerInterface $logger)
     {
-        $this->entityManager = $entityManager;
+        $this->artistRepository = $artistRepository;
+        $this->albumRepository = $albumRepository;
+        $this->singleRepository = $singleRepository;
         $this->logger = $logger;
     }
 
-    #[Route('/search/results', name: 'ajax_search')]
-    public function ajaxSearch(Request $request): JsonResponse
+    #[Route('/search/results', name: 'ajax_search', methods: ['GET'])]
+    public function searchAction(Request $request): JsonResponse
     {
-        $query = $request->query->get('query');
-        
-        if (!$query) {
-            return new JsonResponse([]);
+        $query = $request->query->get('query', '');
+
+        if (empty($query)) {
+            return new JsonResponse(['error' => 'No search term provided'], 400);
         }
 
-        try {
-            // Log the incoming query to check if the request is received correctly
-            $this->logger->info('Search query received: ' . $query);
+        // Search in different repositories
+        $artists = $this->artistRepository->findByName($query);
+        $albums = $this->albumRepository->findByTitle($query);
+        $singles = $this->singleRepository->findByTitle($query);
 
-            // Get the repository for each entity
-            $artistRepo = $this->entityManager->getRepository(Artist::class);
-            $albumRepo = $this->entityManager->getRepository(Album::class);
-            $singleRepo = $this->entityManager->getRepository(Single::class);
+        $results = [];
 
-            // Log the repositories to ensure they are properly loaded
-            $this->logger->info('Repositories loaded: Artist, Album, Single');
-
-            // Call the custom methods on the repositories
-            $artists = $artistRepo->findBySearchQuery($query);
-            $albums = $albumRepo->findBySearchQuery($query);
-            $singles = $singleRepo->findBySearchQuery($query);
-
-            // Log the results to ensure we're getting some data
-            $this->logger->info('Results found: Artists - ' . count($artists) . ', Albums - ' . count($albums) . ', Singles - ' . count($singles));
-
-            // Combine all results into one array
-            $results = array_merge($artists, $albums, $singles);
-
-            return new JsonResponse($results);
-        } catch (\Exception $e) {
-            // Log the full exception trace for detailed debugging
-            $this->logger->error('Error in search results: ' . $e->getMessage());
-            $this->logger->error('Stack trace: ' . $e->getTraceAsString());
-            $this->logger->info('Search query received: ' . $query);
-
-
-
-            return new JsonResponse(['error' => 'An error occurred while processing your request.'], 500);
+        foreach ($artists as $artist) {
+            $results[] = [
+                'name' => $artist->getArtistName(),
+                'url' => $this->generateUrl('artist_profile', ['artist_id' => $artist->getId()])
+            ];
         }
+
+        foreach ($albums as $album) {
+            $results[] = [
+                'name' => 'Album: ' . $album->getTitle(),
+                'url' => $this->generateUrl('album_detail', ['id' => $album->getId()])
+            ];
+        }
+
+        foreach ($singles as $single) {
+            $results[] = [
+                'name' => 'Single: ' . $single->getTitle(),
+                'url' => $this->generateUrl('single_detail', ['id' => $single->getId()])
+            ];
+        }
+
+        if (empty($results)) {
+            return new JsonResponse(['error' => 'No results found'], 404);
+        }
+
+        return new JsonResponse($results);
     }
 }

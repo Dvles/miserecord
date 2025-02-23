@@ -19,33 +19,14 @@ class ArtistRepository extends ServiceEntityRepository
         parent::__construct($registry, Artist::class);
         $this->logger = $logger;
     }
+// src/Repository/ArtistRepository.php
+public function findByName(string $query)
+{
+    return $this->createQueryBuilder('a')
+        ->where('a.artistName LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+}
 
-    public function findByArtist($artist)
-    {
-        return $this->createQueryBuilder('a')
-                    ->where('a.artistName = :artist')
-                    ->setParameter('artist', $artist)
-                    ->getQuery()
-                    ->getResult();
-    }
-
-    public function findBySearchQuery(string $query)
-    {
-        try {
-            $qb = $this->createQueryBuilder('a')
-                       ->where('a.artistName LIKE :query')
-                       ->setParameter('query', '%'.$query.'%');
-            
-            $query = $qb->getQuery();
-            $results = $query->getResult();
-    
-            return $results;
-        } catch (\Exception $e) {
-            // Log the exception or return an empty array to prevent 500 error
-            // Log the error message to Symfony log
-            $this->get('logger')->error('Error in findBySearchQuery: '.$e->getMessage());
-            
-            return [];
-        }
-    }
 }

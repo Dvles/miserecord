@@ -20,32 +20,14 @@ class SingleRepository extends ServiceEntityRepository
         $this->logger = $logger;
     }
 
-    public function findByName($name)
+    public function findByTitle(string $query)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.title LIKE :name')
-            ->setParameter('name', '%'.$name.'%')
+            ->where('s.title LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
             ->getQuery()
             ->getResult();
     }
-
-    public function findBySearchQuery(string $query)
-    {
-        try {
-            $qb = $this->createQueryBuilder('s')
-                    ->where('s.title LIKE :name')
-                    ->setParameter('query', '%'.$query.'%');
-            
-            $query = $qb->getQuery();
-            $results = $query->getResult();
-
-            return $results;
-        } catch (\Exception $e) {
-            // Log the exception or return an empty array to prevent 500 error
-            // Log the error message to Symfony log
-            $this->get('logger')->error('Error in findBySearchQuery: '.$e->getMessage());
-            
-            return [];
-        }
-    }
+    
+    
 }
