@@ -10,11 +10,7 @@
                 <div class="col">
                     <div class="artist-card card border-0 shadow-sm">
                         <div class="card-body">
-                            <h2 class="artist-name">
-                                <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
-                                    {{ artist.artistName }}
-                                </a>
-                            </h2>
+
                             {% if artist.artistPhotos|length > 0 %}
                                 <div class="artist-photo-wrapper">
                                     <!-- Wrap the image in the same link tag -->
@@ -25,58 +21,62 @@
                             {% else %}
                                 <p>No photo available</p>
                             {% endif %}
+                                                        <h2 class="artist-name">
+                                <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
+                                    {{ artist.artistName }}
+                                </a>
+                            </h2>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-{% endblock %}
 
-{% block stylesheets %}
     <style>
-        .artist-photo-wrapper {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            padding-top: 100%; /* This makes the container square */
-        }
+    
+    .artist-card {
+    background-color: transparent !important;
+    margin-top: 100px;
+}
 
-        .artist-photo-wrapper img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+.artist-photo-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 100%; /* Square aspect ratio */
+}
 
-        .artist-photo-wrapper:hover img {
-            transform: scale(1.1); 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
-        }
+.artist-photo-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .artist-card {
-            background-color: transparent !important;
-        }
+.artist-photo-wrapper:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
 
-        .artist-name {
-            font-size: 1rem;
-            font-weight: 100px !important;
-            text-align: right;
-            color: white;
-        }
+.artist-name {
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: right;
+    margin-top: 10px;
+}
 
-        /* Style for the links */
-        .artist-name a {
-            color: grey;
-            text-decoration: none; 
-            font-weight: 100px !important;
-        }
+.artist-name a {
+    color: grey;
+    text-decoration: none;
+}
 
-        .artist-name a:hover {
-            color: #FFEA00; 
-        }
-    </style>
+.artist-name a:hover {
+    color: #FFEA00;
+}
+</style>
 {% endblock %}

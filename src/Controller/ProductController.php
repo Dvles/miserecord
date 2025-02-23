@@ -28,8 +28,11 @@ final class ProductController extends AbstractController
             throw $this->createNotFoundException('Product not found');
         }
 
-        return $this->render('product/product_detail.html.twig', [
+        $vars=[
             'product' => $product,
-        ]);
+
+        ];
+
+        return $this->render('product/product_detail.html.twig',$vars );
     }
 }
