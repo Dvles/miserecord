@@ -35,47 +35,51 @@
 </nav>
 
 <!-- Search Results Display -->
-<div id="search-results"></div>
+<div id="search-results" class="dropdown-menu w-100" style="display: none;"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
-        // Trigger search when user types in the search bar
-        $('#search-form').on('submit', function(e) {
-            e.preventDefault(); // Prevent form submission
-
-            var query = $('#search-input').val();
-
-            // Perform an Ajax request to search
-            $.ajax({
-                url: "{{ path('ajax_search') }}", // Define route to handle the search
-                method: "GET",
-                data: { query: query },
-                success: function(response) {
-                    // Display the search results
-                    $('#search-results').html(response);
-                }
-            });
-        });
-
-        // Optional: Trigger search as the user types
+        // Trigger search as the user types
         $('#search-input').on('input', function() {
             var query = $(this).val();
 
-            $.ajax({
-                url: "{{ path('ajax_search') }}",
-                method: "GET",
-                data: { query: query },
-                success: function(response) {
-                    $('#search-results').html(response);
-                }
-            });
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{{ path('ajax_search') }}", // Define route to handle the search
+                    method: "GET",
+                    data: { query: query },
+                    success: function(response) {
+                        // Display the search results in the dropdown
+                        var resultsHTML = '';
+                        if (response.length > 0) {
+                            response.forEach(function(item) {
+                                resultsHTML += '<a class="dropdown-item" href="' + item.url + '">' + item.name + '</a>';
+                            });
+                        } else {
+                            resultsHTML = '<p class="dropdown-item">No results found</p>';
+                        }
+
+                        $('#search-results').html(resultsHTML).show();
+                    }
+                });
+            } else {
+                $('#search-results').hide();
+            }
+        });
+
+        // Hide results if user clicks outside the search input or results dropdown
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#search-input, #search-results').length) {
+                $('#search-results').hide();
+            }
         });
     });
 </script>
 
 <style>
+    
     .logo {
         height: 35px;
     }
@@ -156,4 +160,25 @@
     .navbar-toggler:hover .navbar-toggler-icon {
         background-color: #FFEA00 !important;
     }
+
+    #search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 9999;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    }
+
+    #search-results .dropdown-item {
+        padding: 8px 16px;
+        text-transform: uppercase;
+    }
+
+    #search-results .dropdown-item:hover {
+        background-color: #FFEA00;
+        color: black;
+    }
+
 </style>
