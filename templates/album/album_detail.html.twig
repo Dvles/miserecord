@@ -4,58 +4,177 @@
 
 {% block body %}
     <div class="container">
-        <h1>{{ album.title }}</h1>
-        <p><strong>Release Date:</strong> {{ album.releaseDate|date('F j, Y') }}</p>
-        <p><strong>Number of Tracks:</strong> {{ album.numTracks }}</p>
-
-        <p><strong>Artist:</strong> <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">{{ artist.artistName }}</a></p>
-
-        {% if producers is not empty %}
-            <h3>Producers</h3>
-            <ul>
-                {% for producer in producers %}
-                    <li>
-                        {{ producer.firstName }} {{ producer.lastName }}
-                        {% if producer.prodRole is not empty %}
-                            : <strong>{{ producer.prodRole|map(role => role.value)|join(', ') }}</strong>
-                        {% else %}
-                            : <em>No role assigned</em>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No producers available.</p>
-        {% endif %}
-
-        {% if genres is not empty %}
-            <h3>Genres</h3>
-            <ul>
-                {% for genre in genres %}
-                    <li>{{ genre.name }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No genres available.</p>
-        {% endif %}
-
-        {% if album.spotifyLink %}
-            <p><a href="{{ album.spotifyLink }}" target="_blank">Listen on Spotify</a></p>
-        {% endif %}
-        
-        {% if album.youtubeLink %}
-            <p><a href="{{ album.youtubeLink }}" target="_blank">Watch on YouTube</a></p>
-        {% endif %}
-        
-        {% if album.soundcloudLink %}
-            <p><a href="{{ album.soundcloudLink }}" target="_blank">Listen on SoundCloud</a></p>
-        {% endif %}
-
-        <!-- Display album artwork -->
-        {% if album.artwork %}
-            <div>
-                <img src="{{ asset(album.artwork) }}" alt="{{ album.title }} Album Artwork" class="img-fluid">
+        <h1 class="glitch-text">{{ album.title }}</h1>
+        <div class="row">
+            <!-- Left Column: Album Artwork -->
+            <div class="col-md-6">
+                {% if album.artwork %}
+                    <div class="album-image">
+                        <img src="{{ asset(album.artwork) }}" alt="{{ album.title }} Album Artwork" class="img-fluid">
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
+
+            <!-- Right Column: Album Details -->
+            <div class="col-md-6">
+                <h3 class="artist-name">
+                    <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">{{ artist.artistName }}</a>
+                </h3>
+
+                <p><strong>Release Date:</strong> {{ album.releaseDate|date('F j, Y') }}</p>
+                <p><strong>{{ album.numTracks }}</strong> tracks </p>
+
+                {% if producers is not empty %}
+                    <h3>Producers</h3>
+                    <ul>
+                        {% for producer in producers %}
+                            <li>
+                                {{ producer.firstName }} {{ producer.lastName }}
+                                {% if producer.prodRole is not empty %}
+                                    : <strong>{{ producer.prodRole|map(role => role.value)|join(', ') }}</strong>
+                                {% else %}
+                                    : <em>No role assigned</em>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No producers available.</p>
+                {% endif %}
+
+                {% if genres is not empty %}
+                    <h3>Genres</h3>
+                    <ul>
+                        {% for genre in genres %}
+                            <li>{{ genre.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No genres available.</p>
+                {% endif %}
+
+                {% if album.spotifyLink %}
+                    <p><a href="{{ album.spotifyLink }}" target="_blank">Listen on Spotify</a></p>
+                {% endif %}
+                
+                {% if album.youtubeLink %}
+                    <p><a href="{{ album.youtubeLink }}" target="_blank">Watch on YouTube</a></p>
+                {% endif %}
+                
+                {% if album.soundcloudLink %}
+                    <p><a href="{{ album.soundcloudLink }}" target="_blank">Listen on SoundCloud</a></p>
+                {% endif %}
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Ensure images are responsive and have a nice margin */
+        .album-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+
+        h2, h3 {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        /* Styling for the artist name */
+        .artist-name a {
+            color: #333 !important; 
+            text-decoration: none !important;
+            font-size: 1.25rem !important;
+            font-weight: bold !important;
+            text-transform: uppercase !important;
+        }
+
+        .artist-name a:hover {
+            color: #FFEA00 !important; 
+        }
+
+        /* Layout adjustments for the two columns */
+        .row {
+            margin-top: 20px;
+        }
+
+        .col-md-6 {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the glitch text */
+        .glitch-text {
+            display: inline-block;
+            overflow: hidden;
+            font-size: 45px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .glitch-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: slideIn 0.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Optional: Add some padding and spacing between sections */
+        .album-image, .album-details {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the return button */
+        .btn {
+            background-color: #FFEA00;
+            color: #000;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #FFC107;
+        }
+
+        /* Optional: Add some hover effects on the album image */
+        .album-image img:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let title = document.querySelector("h1");
+            let text = title.innerText;
+            title.innerHTML = "";
+
+            text.split("").forEach((char, index) => {
+                let span = document.createElement("span");
+                span.innerText = char;
+                span.style.animationDelay = `${index * 0.05}s`; // Stagger effect
+                title.appendChild(span);
+            });
+
+            title.classList.add("glitch-text");
+        });
+    </script>
 {% endblock %}
