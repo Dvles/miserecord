@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Releases{% endblock %}
+
+{% block body %}
+
+    <div class="search-results">
+        {% if artists is not empty %}
+            <h3>Artists</h3>
+            <ul>
+                {% for artist in artists %}
+                    <li><a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">{{ artist.artistName }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if albums is not empty %}
+            <h3>Albums</h3>
+            <ul>
+                {% for album in albums %}
+                    <li><a href="{{ path('album_detail', {'id': album.id}) }}">{{ album.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if singles is not empty %}
+            <h3>Singles</h3>
+            <ul>
+                {% for single in singles %}
+                    <li><a href="{{ path('single_detail', {'id': single.id}) }}">{{ single.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if artists is empty and albums is empty and singles is empty %}
+            <p>No results found for "{{ query }}"</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
