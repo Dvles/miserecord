@@ -4,13 +4,12 @@
 
 {% block body %}
     <div class="container">
-        <!-- Fixed Title -->
-        <h1 class="text-center mb-4 fixed-title">All Releases</h1>
-
-        <!-- Fixed Toggle Buttons -->
-        <div class="d-flex justify-content-center mb-4 fixed-toggle">
-            <button class="btn btn-outline-light mx-2 active" id="show-albums">Albums</button>
-            <button class="btn btn-outline-light mx-2" id="show-singles">Singles</button>
+        <!-- Fixed Toggle Buttons (Albums/Singles) -->
+        <div class="sticky-nav">
+            <div class="mb-3">
+                <a href="javascript:void(0);" class="release-btn active" id="show-albums">Albums</a>
+                <a href="javascript:void(0);" class="release-btn" id="show-singles">Singles</a>
+            </div>
         </div>
 
         <!-- Albums Grid -->
@@ -75,115 +74,131 @@
     </div>
 
 <style>
-/* Fixed Title */
-.fixed-title {
-    position: fixed;
-    top: 90px;
-    left: 0;
-    right: 0;
-    background-color: rgb(0, 0, 0); 
-    padding: 10px 0;
-    z-index: 1000;
-    font-size: 2rem;
-    color: #FFEA00;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 50px; 
-}
+    /* Sticky Navigation */
+    .sticky-nav {
+        position: fixed;
+        z-index: 200;
+        padding-top: 50px;
+        width: 100%;
+    }
 
-/* Fixed Toggle Buttons */
-.fixed-toggle {
-    position: fixed;
-    top: 140px; 
-    left: 0;
-    right: 0;
-    background-color: rgb(0, 0, 0); 
-    z-index: 999;
-    text-align: center;
-    padding: 10px 0;
-    margin-bottom: 20px;
-}
+    /* Styling for the toggle buttons */
+    .release-btn-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.15); /* Background color */
+        backdrop-filter: blur(10px); /* Blurred effect */
+        padding: 8px 15px;
+        border-radius: 10px;
+    }
 
-.release-artwork-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding-top: 100%; /* Makes the container square */
-}
+    /* Style for Release Buttons */
+    .release-btn {
+        text-transform: uppercase;
+        text-decoration: none !important;
+        font-size: 14px;
+        padding: 8px 20px 5px 20px;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        margin-right: 10px;
+        border-radius: 5px; 
+        color: grey;
+        border: 1px solid grey;
+    }
 
-.release-artwork-wrapper img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .release-btn.active {
+        color: #FFEA00;
+        border: 1px solid #FFEA00;
+    }
 
-.release-artwork-wrapper:hover img {
-    transform: scale(1.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
+    .release-btn:hover {
+        border: 1px solid #FFEA00;
+        color: #FFEA00;
+    }
 
-.release-card {
-    background-color: transparent !important;
-    margin-top: 100px;
-}
+    /* Albums and Singles Grid Styles */
+    .release-artwork-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 100%; /* Makes the container square */
+    }
 
-.release-card a {
-    text-decoration: none;
-}
+    .release-artwork-wrapper img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.release-title {
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: right;
-}
+    .release-artwork-wrapper:hover img {
+        transform: scale(1.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
 
-.release-title a {
-    color: white;
-    text-decoration: none;
-}
+    .release-card {
+        background-color: transparent !important;
+        margin-top: 100px;
+    }
 
-.release-title a:hover {
-    color: #FFEA00;
-}
+    .release-card a {
+        text-decoration: none;
+    }
 
-.release-artist {
-    font-size: 0.9rem;
-    text-align: right;
-    text-transform: uppercase;
-    font-weight:bold;
-}
+    .release-title {
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: right;
+    }
 
-.release-artist a {
-    color: grey;
-    text-decoration: none;
-}
+    .release-title a {
+        color: white;
+        text-decoration: none;
+    }
 
-.release-artist a:hover {
-    color: #FFEA00;
-}
+    .release-title a:hover {
+        color: #FFEA00;
+    }
 
-.release-year {
-    font-size: 0.8rem;
-    color: #888;
-    text-align: right;
-    color: #E6007E;
-}
+    .release-artist {
+        font-size: 0.9rem;
+        text-align: right;
+        text-transform: uppercase;
+        font-weight:bold;
+    }
 
-.btn-outline-light {
-    border: 1px solid  #FFEA00 !important;
-    text-transform: uppercase;
-}
+    .release-artist a {
+        color: grey;
+        text-decoration: none;
+    }
 
-.btn-outline-light.active {
-    background-color: #FFEA00;
-    color: black;
-    border: 1px solid  #FFEA00 !important;
-    text-transform: uppercase;
-}
+    .release-artist a:hover {
+        color: #FFEA00;
+    }
+
+    .release-year {
+        font-size: 0.8rem;
+        color: #888;
+        text-align: right;
+        color: #E6007E;
+    }
+
+    /* Button Styles */
+    .btn-outline-light {
+        border: 1px solid  #FFEA00 !important;
+        text-transform: uppercase;
+    }
+
+    .btn-outline-light.active {
+        background-color: #FFEA00;
+        color: black;
+        border: 1px solid  #FFEA00 !important;
+        text-transform: uppercase;
+    }
 </style>
 
 <script>
