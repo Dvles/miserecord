@@ -25,8 +25,59 @@
             <header>{% include "/includes/nav.html.twig" %}</header>
             <main class="content">
                 {% block body %}{% endblock %}
+                <!-- Back to Top Button -->
+                <p id="back-to-top" class="back-to-top-btn">Back to Top ⇥</p>
             </main>
+                    
+                    
             <footer>{% include "/includes/footer.html.twig" %}</footer>
-        </div>
+            </div>
+                
     </body>
+
+    <style>
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: grey;
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: none;
+            transition: opacity 0.3s ease;
+            z-index: 9999; 
+            text-transform: uppercase;
+            writing-mode: vertical-rl; 
+            transform: rotate(180deg); 
+            white-space: nowrap; 
+        }
+
+        .back-to-top-btn:hover {
+            color: #FFEA00;  /* Change color on hover */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const backToTopBtn = document.getElementById("back-to-top");
+
+        // Show the button when the user scrolls down
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 200) {  // Show the button after scrolling down 200px
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        });
+
+        // Scroll to the top when the button is clicked
+        backToTopBtn.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    });
+
+    </script>
+
 </html>
