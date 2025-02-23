@@ -162,11 +162,11 @@ class ArtistFixtures extends Fixture
                 'isBand' => false
             ], 
             [
-                'artistName' => 'Luna Vérité',
+                'artistName' => 'Luna Jadis',
                 'firstName' => "Isabelle",
                 'lastName' => "Mercier",
                 'birthDate' => new DateTime('1995-04-22'),
-                'bio' => 'Luna Vérité is a French electro-pop sensation blending dreamy vocals with deep house and ambient textures. Her music creates a hypnotic, cinematic atmosphere, often exploring themes of love, longing, and self-discovery. With a dedicated European following, she continues to push the boundaries of electronic music.',
+                'bio' => 'Luna Jadis is a French electro-pop sensation blending dreamy vocals with deep house and ambient textures. Her music creates a hypnotic, cinematic atmosphere, often exploring themes of love, longing, and self-discovery. With a dedicated European following, she continues to push the boundaries of electronic music.',
                 'isBand' => false
             ],
             [

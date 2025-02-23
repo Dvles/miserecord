@@ -25,7 +25,7 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
             'Sophia Reyes' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982446/sophia_fnui1k.png',
             'Night Pulse' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740053874/night_xoywpz.jpg',
             'Yung KiXX' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982445/yung_qs31es.png',
-            'Luna Vérité' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/luna_uru4zq.jpg',
+            'Luna Jadis' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/luna_uru4zq.jpg',
             'The Hollow Pines' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/hollow_keihov.jpg',
             'Dante Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740053286/Dante2_xp14tl.png',
             'Eclipse District' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Eclipse_lfq91t.png',
