@@ -47,12 +47,12 @@ class ArtistFixtures extends Fixture
                 'isBand' => false
             ],
             [
-                'artistName' => 'Azealia Banks',
-                'firstName' => 'Azealia',
-                'lastName' => 'Banks',
-                'birthDate' => new DateTime('1991-05-31'),
-                'bio' => 'Azealia Banks is an American rapper, singer, and songwriter known for her genre-blending music and unapologetic persona. Rising to fame with "212," she quickly made a name for herself with rapid-fire flows and bold lyricism. Her influence spans hip-hop, electronic, and house music.',
-                'isBand' => false
+                'artistName' => 'JRSK BOYZ ',
+                'firstName' => null,
+                'lastName' => null,
+                'birthDate' => null,
+                'bio' => "Il y a des millions d'années que le groupe JRSK BOYZ veille sur l'humanité, et entre une cueillette et une chasse aux dinosaures ils ont eu le temps de concocter un album qui fera frémir jusqu'au plus infime organisme.",
+                'isBand' => true
             ],
             [
                 'artistName' => 'Dam Swindle',

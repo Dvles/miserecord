@@ -5,6 +5,18 @@
 {% block body %}
     
     <div class="container">
+        <div class="sticky-nav">
+            <!-- Genre Buttons -->
+            <div class="mb-3">
+                <a href="{{ path('artist_list') }}" class="genre-btn all-genre">All Genres</a>
+                {% for genre in genres %}
+                    <a href="{{ path('artist_list', { 'genre': genre.id }) }}" class="genre-btn solo-genre">
+                        {{ genre.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for artist in artists %}
                 <div class="col">
@@ -21,7 +33,8 @@
                             {% else %}
                                 <p>No photo available</p>
                             {% endif %}
-                                                        <h2 class="artist-name">
+                            
+                            <h2 class="artist-name">
                                 <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
                                     {{ artist.artistName }}
                                 </a>
@@ -36,47 +49,80 @@
     <style>
     
     .artist-card {
-    background-color: transparent !important;
-    margin-top: 100px;
-}
+        background-color: transparent !important;
+        margin-top: 100px;
+    }
 
-.artist-photo-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding-top: 100%; /* Square aspect ratio */
-}
+    .artist-photo-wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 100%; 
+    }
 
-.artist-photo-wrapper img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .artist-photo-wrapper img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.artist-photo-wrapper:hover img {
-    transform: scale(1.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
+    .artist-photo-wrapper:hover img {
+        transform: scale(1.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
 
-.artist-name {
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: right;
-    margin-top: 10px;
-}
+    .artist-name {
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: right;
+        margin-top: 10px;
+    }
 
-.artist-name a {
-    color: grey;
-    text-decoration: none;
-}
+    .artist-name a {
+        color: grey;
+        text-decoration: none;
+    }
 
-.artist-name a:hover {
-    color: #FFEA00;
-}
-</style>
+    .artist-name a:hover {
+        color: #FFEA00;
+    }
+
+    .sticky-nav {
+        position: fixed;
+        z-index: 200;
+        padding-top: 50px;
+        width: 100%;
+    }
+
+    .genre-btn {
+        text-transform: uppercase;
+        text-decoration: none !important;
+        font-size: 14px;
+        padding: 8px 20px 5px 20px;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        margin-right: 10px;
+        border-radius: 5px; 
+    }
+
+    .all-genre {
+        color: white;
+        border: 1px solid white;
+    }
+
+    .solo-genre {
+        color: grey;
+        border: 1px solid grey;
+    }
+
+    .solo-genre:hover {
+        border: 1px solid #FFEA00;
+        color: #FFEA00;
+    }
+    </style>
 {% endblock %}

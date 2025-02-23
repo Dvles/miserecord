@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\GenreRepository;
 use App\Repository\ArtistRepository;
 use App\Repository\ArtistPhotoRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,15 +25,29 @@ final class ArtistController extends AbstractController
 
 
     #[Route('/artist/list', name: 'artist_list')]
-    public function artistList(ArtistRepository $artistRepository): Response
+    public function artistList(Request $request, ArtistRepository $artistRepository, GenreRepository $genreRepository): Response
     {
-        $artists = $artistRepository->findAll();
-        $vars = [
+        $genres = $genreRepository->findAll();
+        $genreId = $request->query->get('genre', null);
+    
+        if ($genreId) {
+            $genre = $genreRepository->find($genreId);
+            if ($genre) {
+                $artists = $artistRepository->findByGenre($genre);
+            } else {
+                $artists = [];
+            }
+        } else {
+            $artists = $artistRepository->findAll();
+        }
+    
+        // Pass the artists and genres to the template
+        return $this->render('artist/artist_list.html.twig', [
             'artists' => $artists,
-        ];
-        
-        return $this->render('artist/artist_list.html.twig', $vars);
+            'genres' => $genres, // Include genres for the filter dropdown
+        ]);
     }
+    
 
     #[Route('/artist/profile/{artist_id}', name: 'artist_profile')]
     public function artistSingle(ArtistRepository $artistRepository, ArtistPhotoRepository $artistPhotoRepository, Request $request): Response
