@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Album;
 use App\Entity\Genre;
 use App\Entity\Artist;
@@ -9,12 +10,85 @@ use App\Entity\Single;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use GuzzleHttp\Client; // Importing Guzzle HTTP Client for making API requests to Spotify and other services
+use GuzzleHttp\Client;
 
 class AlbumFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create("en_UK");
+
+        // Custom artists and their images
+        $customArtists = [
+            'Elias Moreno' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974094/elias_rw1b0g.jpg',
+            'The Velvet Growl' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974094/velvet_echo_oufqz5.png',
+            'Lerato Ndlovu' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974094/openart-image_h1621Lkw_1739972604685_raw_ed7o1u.png',
+            'DA SHO' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739975403/akari_tanakii_tuklyx.jpg',
+            'Zephyr Collective' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739974093/zephyr_colllective_tkdxgm.jpg',
+            'Flow Dan' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739975171/flowdan_zdenoe.jpg',
+            'Akari Tanakii' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982445/openart-image_lSZ6QBaq_1739972516158_raw_uri3bg.jpg',
+            'Sophia Reyes' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982446/sophia_fnui1k.png',
+            'Night Pulse' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740053874/night_xoywpz.jpg',
+            'Yung KiXX' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1739982445/yung_qs31es.png',
+            'Luna Jadis' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/luna_uru4zq.jpg',
+            'The Hollow Pines' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/hollow_keihov.jpg',
+            'Dante Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740053286/Dante2_xp14tl.png',
+            'Eclipse District' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Eclipse_lfq91t.png',
+            'Juno Starlight' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/juno_bbvt3k.png',
+            'Ghost Circuit' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/ghost_eojrm7.png',
+            'Malachai Blade' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/Malachai_e2nweg.png',
+            'Echoes of Orion' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/echoes_kfefrs.jpg',
+            'Velvet Hush' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/velvethush_cl8gyc.png',
+            'Solar Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Solarflux_dopbet.png',
+            'The Obsidian Owls' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/owls_ynoqwp.png',
+            'Cece' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/cece_xtmwma.png',
+            'T-Droplets' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/drop_ssahrn.jpg',
+            'N.D.R.P' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/NDRO_nekbcb.jpg',
+            'Neon Mirage' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/neon_q8drxx.png',
+        ];
+
+        // Custom artist genre assignments
+        $customArtistGenres = [
+            'Elias Moreno' => ['Pop'],
+            'The Velvet Growl' => ['Pop'],
+            'Lerato Ndlovu' => ['Jazz', 'R&B'],
+            'DA SHO' => ['Pop'],
+            'Zephyr Collective' => ['Pop', 'Hip-hop'],
+            'Flow Dan' => ['Hip-hop'],
+            'Akari Tanakii' => ['Hip-hop'],
+            'Sophia Reyes' => ['Pop', 'R&B'],
+            'Night Pulse' => ['Pop'],
+            'Yung KiXX' => ['Hip-hop'],
+            'Luna Jadis' => ['Pop'],
+            'The Hollow Pines' => ['Rock', 'Electronic'],
+            'Dante Flux' => ['R&B', 'Hip-hop'],
+            'Eclipse District' => ['Rock', 'Electronic'],
+            'Juno Starlight' => ['Pop'],
+            'Ghost Circuit' => ['Electronic'],
+            'Malachai Blade' => ['Rock'],
+            'Echoes of Orion' => ['Rock'],
+            'Velvet Hush' => ['Pop', 'R&B'],
+            'Solar Flux' => ['Jazz'],
+            'The Obsidian Owls' => ['Rock', 'Electronic'],
+            'Cece' => ['Pop'],
+            'T-Droplets' => ['Pop'], 'Hip-hop',
+            'N.D.R.P' => ['Rock', 'Hip-hop'],
+            'Neon Mirage' => ['Pop','Electronic'],
+        ];
+
+        // Existing artist genres mapping
+        $existingArtistGenres = [
+            'Rudimental' => ['Pop', 'Electronic'],
+            'JRSK BOYZ' => ['Hip-hop', 'Electronic'],
+            'Tommy guerrero' => ['Electronic', 'Pop'],
+            'Dam Swindle' => ['Electronic'],
+            'Kraftwerk' => ['Electronic'],
+            'Little Dragon' => ['Pop'],
+            'Flow Dan' => ['Hip-hop'],
+            'Reinel Bakole' => ['R&B'],
+            'Geotheory' => ['Electronic'],
+        ];
+
         $client = new Client();
 
         // Step 1: Obtain an Access Token via the Client Credentials Flow
@@ -35,29 +109,45 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
         $singleRepository = $manager->getRepository(Single::class);
         $genreRepository = $manager->getRepository(Genre::class);
 
-        // Artist-to-genre mapping
-        $artistGenreMap = [
-            'Rudimental' => ['Pop', 'Electronic'],
-            'Kraftwerk' => ['Electronic'],
-            'Tommy Guerrero' => ['Electronic'],
-            'Flow Dan' => ['Hip Hop'],
-            'Azealia Banks' => ['Hip Hop', 'Electronic'],
-            'Dam Swindle' => ['Electronic'],
-            'Reinel Bakole' => ['R&B'],
-            'Geotheory' => ['Electronic'],
-            'Little Dragon' => ['Pop', 'Electronic'],
-        ];
-
-
         $artists = $artistRepository->findAll();
 
         foreach ($artists as $artist) {
             $artistName = $artist->getArtistName();
 
-            // Fetch the genres for this artist
+            // Check if the artist is a custom artist
+            if (array_key_exists($artistName, $customArtists)) {
+                echo "Assigning custom image for: $artistName\n";
+
+                // Create a new album for the custom artist
+                $album = new Album();
+                $album->setTitle(ucwords(implode(' ', $faker->words(3))))
+                    ->setReleaseDate(new \DateTime())
+                    ->setArtwork($customArtists[$artistName]) // Custom artwork URL
+                    ->setSpotifyLink('')
+                    ->setYoutubeLink('');
+
+                // Assign genres based on the customArtistGenres mapping
+                if (isset($customArtistGenres[$artistName])) {
+                    foreach ($customArtistGenres[$artistName] as $genreName) {
+                        $genre = $genreRepository->findOneBy(['name' => $genreName]);
+                        if ($genre) {
+                            $album->addGenre($genre);
+                        }
+                    }
+                }
+
+                // Set the artist
+                $album->setArtist($artist);
+                $album->setNumTracks(10);
+
+                $manager->persist($album);
+                continue; // Skip Spotify lookup for custom artists
+            }
+
+            // Assign genres for real artists from the existingArtistGenres list
             $genres = [];
-            if (array_key_exists($artistName, $artistGenreMap)) {
-                foreach ($artistGenreMap[$artistName] as $genreName) {
+            if (array_key_exists($artistName, $existingArtistGenres)) {
+                foreach ($existingArtistGenres[$artistName] as $genreName) {
                     $genre = $genreRepository->findOneBy(['name' => $genreName]);
                     if ($genre) {
                         $genres[] = $genre;
@@ -65,7 +155,7 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
                 }
             }
 
-            // Fetch album data for the artist
+            // Fetch album data for the artist (only if it's not a custom artist)
             $response = $client->get('https://api.spotify.com/v1/search', [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
@@ -87,17 +177,13 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
                 continue;
             }
 
-
             foreach ($data['albums']['items'] as $albumData) {
-
-                // Skip items that are not real album
                 if ($albumData['album_type'] !== 'album') {
                     continue;
                 }
                 $mainArtistFound = $this->isMainArtist($albumData['artists'], $artistName);
 
                 if ($mainArtistFound) {
-                    // Create a new Album entity
                     $album = new Album();
                     $album->setTitle($albumData['name']);
                     $album->setReleaseDate(new \DateTime($albumData['release_date']));
@@ -105,9 +191,9 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
                     $album->setSpotifyLink($albumData['external_urls']['spotify']);
                     $album->setArtist($artist);
 
-                    // Assign genres to the album
+                    // Add genres for album (from existingArtistGenres or customArtistGenres)
                     foreach ($genres as $genre) {
-                        $album->addGenre($genre); 
+                        $album->addGenre($genre);
                     }
 
                     // Fetch tracks for the album
@@ -121,14 +207,12 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
                     $numTracks = 0;
 
                     foreach ($albumTracksData['items'] as $trackData) {
-                        // Check if the track already exists in the database
                         $existingSingle = $singleRepository->findOneBy([
                             'title' => $trackData['name'],
                             'artist' => $artist,
                         ]);
 
                         if (!$existingSingle) {
-                            // Create a new Single entity for this track
                             $single = new Single();
                             $single->setTitle($trackData['name']);
                             $single->setReleaseDate(new \DateTime($albumData['release_date']));
@@ -138,7 +222,6 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
                             $single->SetReleasedAsSingle(false); // Part of an album
                             $single->setArtist($artist);
 
-                            // Persist the new Single
                             $manager->persist($single);
                         } else {
                             $single = $existingSingle;
@@ -152,7 +235,6 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
 
                     $album->setNumTracks($numTracks);
 
-                    // Persist the album if it has tracks
                     if ($numTracks > 0) {
                         $manager->persist($album);
                     }
@@ -163,7 +245,6 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
             }
         }
 
-        // Flush all changes to the database
         $manager->flush();
     }
 
