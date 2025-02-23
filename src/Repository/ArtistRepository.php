@@ -32,12 +32,12 @@ class ArtistRepository extends ServiceEntityRepository
     public function findByGenre(Genre $genre)
     {
         return $this->createQueryBuilder('a')
-            ->innerJoin('a.albums', 'al')
-            ->innerJoin('al.genres', 'g')
-            ->andWhere('g.id = :genreId')
-            ->setParameter('genreId', $genre->getId())
-            ->getQuery()
-            ->getResult();
+        ->innerJoin('a.album', 'al')  
+        ->innerJoin('al.genres', 'g')
+        ->andWhere('g.id = :genreId')
+        ->setParameter('genreId', $genre->getId())
+        ->getQuery()
+        ->getResult();
     }
 
 
