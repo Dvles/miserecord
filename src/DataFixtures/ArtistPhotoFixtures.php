@@ -34,7 +34,12 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
             'Malachai Blade' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/Malachai_e2nweg.png',
             'Echoes of Orion' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052883/echoes_kfefrs.jpg',
             'Velvet Hush' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/velvethush_cl8gyc.png',
-            'Solar Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Solarflux_dopbet.png'
+            'Solar Flux' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Solarflux_dopbet.png',
+            'The Obsidian Owls' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/owls_ynoqwp.png',
+            'Cece' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/cece_xtmwma.png',
+            'T-Droplets' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/drop_ssahrn.jpg',
+            'N.D.R.P' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/NDRO_nekbcb.jpg',
+            'Neon Mirage' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/neon_q8drxx.png',
         ];
         
         

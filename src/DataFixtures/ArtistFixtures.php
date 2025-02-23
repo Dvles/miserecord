@@ -246,6 +246,46 @@ class ArtistFixtures extends Fixture
                 'isBand' => true
             ],
             
+                [
+                    'artistName' => 'Neon Mirage',
+                    'firstName' => 'Jaxon',
+                    'lastName' => 'Rayne',
+                    'birthDate' =>  new DateTime('1991-06-15'),
+                    'bio' => "Neon Mirage is the latest winner of Ru Paul's Drag rage and blends hyperpop and alternative R&B, creating a shimmering sonic landscape reminiscent of late-night city drives. With nostalgic 80s-inspired melodies and lush, atmospheric production, they transport listeners to a world of neon lights and emotional depth.",
+                    'isBand' => false
+                ],
+                [
+                    'artistName' => 'The Obsidian Owls',
+                    'firstName' => null,
+                    'lastName' => null,
+                    'birthDate' => null,
+                    'bio' => 'The Obsidian Owls are a gothic afro folk duo whose haunting melodies and poetic lyrics weave tales of mysticism, love, and tragedy. With ethereal harmonies and acoustic soundscapes, they create a moody and cinematic experience reminiscent of an old-world fairytale.',
+                    'isBand' => true
+                ],
+                [
+                    'artistName' => 'Cece',
+                    'firstName' => 'Celeste',
+                    'lastName' => 'Moore',
+                    'birthDate' => new DateTime('1988-12-03'),
+                    'bio' => 'Cece is an enigmatic alternative indie artist whose haunting voice and poetic lyricism blend. Her music delves into themes of loss, resilience, and transformation, creating a mesmerizing and emotional journey for her listeners.',
+                    'isBand' => false
+                ],
+                [
+                    'artistName' => 'T-Droplets',
+                    'firstName' => null,
+                    'lastName' => null,
+                    'birthDate' => new DateTime('1994-09-22'),
+                    'bio' => 'T-Droplets fuses global sounds with electronic production, combining tribal percussion, ambient textures, and hypnotic beats. Their music explores the intersection of ancient traditions and futuristic soundscapes, creating an immersive and meditative listening experience.',
+                    'isBand' => true
+                ],
+                [
+                    'artistName' => 'N.D.R.P',
+                    'firstName' => null,
+                    'lastName' => null,
+                    'birthDate' => null,
+                    'bio' => 'N.D.R.P is a genre-defying collective blending neo-soul, psychedelic rock, and orchestral elements into a lush, dreamlike sound. With rich instrumentation and evocative vocals, they craft sonic journeys that feel like stepping into a surreal, cinematic world.',
+                    'isBand' => true
+                ]
             
             
             

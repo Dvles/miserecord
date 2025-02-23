@@ -37,6 +37,11 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
             'Echoes of Orion' => 'https://placekitten.com/200/300',
             'Velvet Hush' => 'https://placekitten.com/200/300',
             'Solar Flux' => 'https://placekitten.com/200/300',
+            'The Obsidian Owls' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/owls_ynoqwp.png',
+            'Cece' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/cece_xtmwma.png',
+            'T-Droplets' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299125/drop_ssahrn.jpg',
+            'N.D.R.P' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740299126/NDRO_nekbcb.jpg',
+            'Neon Mirage' => 'https://res.cloudinary.com/dzqge7ico/image/upload/v1740052884/Solarflux_dopbet.png',
         ];
 
 
@@ -72,7 +77,7 @@ class SingleFixtures extends Fixture implements DependentFixtureInterface
 
                 // Create a new single for the custom artist
                 $single = new Single();
-                $single->setTitle($faker->sentence)
+                $single->setTitle(ucwords(implode(' ', $faker->words(3))))
                        ->setReleaseDate(new \DateTime())
                        ->setDuration(rand(180, 300)) // Random duration between 3 and 5 minutes
                        ->setArtwork($customArtists[$artistName]) // Custom artwork URL
