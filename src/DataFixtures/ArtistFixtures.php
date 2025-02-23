@@ -133,7 +133,7 @@ class ArtistFixtures extends Fixture
                 'firstName' => 'Daniella Kim',
                 'lastName' => 'Shimuya',
                 'birthDate' => new DateTime('2000-04-09'),
-                'bio' => 'DA SHO is a Japanese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production. Her music evokes nostalgia with dreamy melodies and introspective songwriting. With a dedicated online following, she continues to push the boundaries of bedroom pop.',
+                'bio' => 'DA SHO is a Chinese indie pop artist combining lo-fi beats with heartfelt lyrics and minimalist production. Her music evokes nostalgia with dreamy melodies and introspective songwriting. With a dedicated online following, she continues to push the boundaries of bedroom pop.',
                 'isBand' => false
             ],
             [
