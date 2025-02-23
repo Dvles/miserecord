@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <!-- Brand / Logo  -->
+        <!-- Brand / Logo -->
         <a class="navbar-brand" href="#"><img class="logo" src="{{ asset('uploads/MISERECORD_Logo_WHITE.png') }}" alt="Miserecord Logo"></a>
         
         <!-- Toggle Button for Mobile Navigation -->
@@ -12,16 +12,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('artist_list') }}">Artists</a>
+                    <a class="nav-link" href="{{ path('artist_list') }}" id="nav-artists">Artists</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('releases_list') }}">Releases</a>
+                    <a class="nav-link" href="{{ path('releases_list') }}" id="nav-releases">Releases</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('product_list') }}">Shop</a>
+                    <a class="nav-link" href="{{ path('product_list') }}" id="nav-shop">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Contact</a>
+                    <a class="nav-link" href="#" id="nav-contact">Contact</a>
                 </li>
             </ul>
             
@@ -34,12 +34,29 @@
     </div>
 </nav>
 
+
 <!-- Search Results Display -->
 <div id="search-results" class="dropdown-menu w-100" style="display: none;"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
+// NAV active page hightlight
+    document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    const currentPath = window.location.pathname;
+    navLinks.forEach(link => {
+        // If the link's href matches the current URL, add 'active' class
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+});
+
+// Dynamic Search AJX
 $(document).ready(function () {
     $('#search-input').on('input', function () {
         var query = $(this).val().trim();
@@ -79,7 +96,6 @@ $(document).ready(function () {
 </script>
 
 <style>
-    
     .logo {
         height: 35px;
     }
@@ -105,6 +121,11 @@ $(document).ready(function () {
 
     .navbar-light .navbar-nav .nav-link:hover {
         color: #ffeA00;
+    }
+
+    /* Active nav-link styling to highlight the active page */
+    .navbar-light .navbar-nav .nav-link.active {
+        color: #FFEA00 !important;  
     }
 
     /* Custom styling for the search bar */
@@ -161,20 +182,20 @@ $(document).ready(function () {
         background-color: #FFEA00 !important;
     }
 
-#search-results {
-    max-height: 250px;
-    overflow-y: auto;
-    position: fixed; 
-    top: 60px; 
-    left: 0;
-    width: 100vw; 
-    background: rgba(0, 0, 0, 0.6); 
-    backdrop-filter: blur(10px); 
-    border-bottom: 2px solid #FFEA00;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-    padding-bottom: 0; 
-}
+    #search-results {
+        max-height: 250px;
+        overflow-y: auto;
+        position: fixed; 
+        top: 60px; 
+        left: 0;
+        width: 100vw; 
+        background: rgba(0, 0, 0, 0.6); 
+        backdrop-filter: blur(10px); 
+        border-bottom: 2px solid #FFEA00;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        padding-bottom: 0; 
+    }
 
     #search-results .dropdown-item {
         padding: 0px 45px;
@@ -191,7 +212,4 @@ $(document).ready(function () {
         background-color: #FFEA00;
         color: black !important;
     }
-
-
-
 </style>
