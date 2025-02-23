@@ -1,8 +1,184 @@
-<nav>
-    <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Releases</a></li>
-        <li><a href="">Shop</a></li>
-        <li><a href="">Contact</a></li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <!-- Brand / Logo (optional) -->
+        <a class="navbar-brand" href="#"><img class="logo" src="{{ asset('uploads/MISERECORD_Logo_WHITE.png') }}" alt="Miserecord Logo"></a>
+        
+        <!-- Toggle Button for Mobile Navigation -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navbar Links & Search Bar -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('artist_list') }}">Artists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('releases_list') }}">Releases</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('product_list') }}">Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Contact</a>
+                </li>
+            </ul>
+            
+            <!-- Search Bar -->
+            <form class="d-flex" id="search-form">
+                <input class="form-control me-2 custom-input" type="search" id="search-input" placeholder="Search" aria-label="Search">
+                <button class="btn custom-btn" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
 </nav>
+
+<!-- Search Results Display -->
+<div id="search-results" class="dropdown-menu w-100" style="display: none;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Trigger search as the user types
+        $('#search-input').on('input', function() {
+            var query = $(this).val();
+
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{{ path('ajax_search') }}", // Define route to handle the search
+                    method: "GET",
+                    data: { query: query },
+                    success: function(response) {
+                        // Display the search results in the dropdown
+                        var resultsHTML = '';
+                        if (response.length > 0) {
+                            response.forEach(function(item) {
+                                resultsHTML += '<a class="dropdown-item" href="' + item.url + '">' + item.name + '</a>';
+                            });
+                        } else {
+                            resultsHTML = '<p class="dropdown-item">No results found</p>';
+                        }
+
+                        $('#search-results').html(resultsHTML).show();
+                    }
+                });
+            } else {
+                $('#search-results').hide();
+            }
+        });
+
+        // Hide results if user clicks outside the search input or results dropdown
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#search-input, #search-results').length) {
+                $('#search-results').hide();
+            }
+        });
+    });
+</script>
+
+<style>
+    
+    .logo {
+        height: 35px;
+    }
+
+    /* Make navbar sticky */
+    .navbar {
+        background-color: black !important;
+        padding: 25px;
+    }
+
+    .navbar.sticky-top {
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        width: 100%;
+    }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: rgba(255, 255, 255, 0.43);
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .navbar-light .navbar-nav .nav-link:hover {
+        color: #ffeA00;
+    }
+
+    /* Custom styling for the search bar */
+    .custom-input {
+        background-color: transparent !important;
+        text-transform: uppercase !important;
+        border: none;
+        border-bottom: 1px solid #FFEA00;
+        color: rgba(255, 255, 255, 0.43);
+    }
+
+    .custom-input:hover {
+        background-color: #FFEA00;
+        color: white;
+    }
+
+    .custom-input:focus {
+        outline: none;
+        border-bottom: 2px solid yellow;
+    }
+
+    button.btn.custom-btn {
+        text-transform: uppercase;
+        color: rgb(255, 255, 255);
+        font-size: 13px;
+    }
+
+    button.btn.custom-btn:hover {
+        color: #FFEA00 !important;
+    }
+
+    input.form-control.me-2.custom-input {
+        border-radius: 0;
+        color: white;
+    }
+
+    /* Custom styling for the search button */
+    .custom-btn {
+        background-color: transparent !important;
+        border-radius: 0;
+    }
+
+    .custom-btn:hover {
+        background-color: transparent;
+        color: #FFEA00 !important;
+    }
+
+    /* Custom Styling for Hamburger Icon */
+    .navbar-toggler-icon {
+        background-color: white !important;
+    }
+
+    .navbar-toggler:hover .navbar-toggler-icon {
+        background-color: #FFEA00 !important;
+    }
+
+    #search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 9999;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    }
+
+    #search-results .dropdown-item {
+        padding: 8px 16px;
+        text-transform: uppercase;
+    }
+
+    #search-results .dropdown-item:hover {
+        background-color: #FFEA00;
+        color: black;
+    }
+
+</style>

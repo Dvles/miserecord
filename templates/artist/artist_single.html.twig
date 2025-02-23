@@ -4,51 +4,218 @@
 
 {% block body %}
     <div class="container">
-        <h1>{{ artist.name }}</h1>
-        {% if artist.firstName is not empty %}
-            <p><strong>Full Name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
-        {% endif %}
-        {% if artist.isBand == 'No' %}
-            <p><strong>Birthdate:</strong> {{ artist.birthdate|date('F j, Y') }}</p>
-        {% endif %}
-        <p><strong>Biography:</strong> {{ artist.bio }}</p>
-        
-        <h2>Discography</h2>
-        
-        {% if artist.album is not empty %}
-            <h3>Albums</h3>
-            <ul>
-                {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
-                {% for album in sortedAlbums %}
-                    <li>
-                        {{ album.title }} ({{ album.releaseDate|date('Y') }})
-                        <a href="{{ path('album_detail', {'id': album.id}) }}" class="info-button" title="More info">
-                            <i class="fas fa-circle-info"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No albums available.</p>
-        {% endif %}
-        
-        {% if artist.single is not empty %}
-            <h3>Singles</h3>
-            <ul>
-                {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
-                    <li>
-                        {{ single.title }} ({{ single.releaseDate|date('Y') }})
-                        {% if single.spotifyLink %}
-                            - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
-                        {% endif %}
-                        <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
-                            <i class="fas fa-circle-info"></i>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No singles available.</p>
-        {% endif %}
+        <h1 class="glitch-text">{{ artist.name }}</h1>
+        <div class="row">
+            <!-- Left Column: Artist Image, Full Name, Bio, Date of Birth -->
+            <div class="col-md-6">
+                <div class="artist-image">
+                    {% if artist.artistPhotos|length > 0 %}
+                        <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.name }}" class="img-fluid">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                </div>
+                {% if artist.firstName is not empty %}
+                    <p><strong></strong> {{ artist.firstName }} {{ artist.lastName }}</p>
+                {% endif %}
+                {% if artist.isBand == false %}                    <p> {{ artist.birthdate|date('F j, Y') }}</p>
+                {% endif %}
+                <p><strong></strong> {{ artist.bio }}</p>
+            </div>
+
+            <!-- Right Column: Discography -->
+            <div class="col-md-6">
+                
+                <h2>Discography</h2>
+                
+{% if artist.album is not empty %}
+                    <h3>Albums</h3>
+                    <div class="row album-gallery">
+                        {% set sortedAlbums = artist.album|sort((a, b) => b.releaseDate <=> a.releaseDate) %}
+                        {% for album in sortedAlbums %}
+                            <div class="col-md-3 col-sm-4 col-xs-6 mb-3">
+                                <div class="album-card">
+                                    <a href="{{ path('album_detail', {'id': album.id}) }}" class="album-link">
+                                        {% if album.artwork %}
+                                            <img src="{{ asset(album.artwork) }}" alt="{{ album.title }}" class="img-fluid album-img">
+                                        {% else %}
+                                            <div class="no-image">No cover</div>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No albums available.</p>
+                {% endif %}
+
+
+                
+                {% if artist.single is not empty %}
+                    <h3>Singles</h3>
+                    <ul>
+                        {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
+                            <li>
+                                {{ single.title }} ({{ single.releaseDate|date('Y') }})
+                                {% if single.spotifyLink %}
+                                    - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
+                                {% endif %}
+                                <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
+                                    <i class="fas fa-circle-info"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No singles available.</p>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{{ path('artist_list') }}" class="btn btn-primary mt-3">Return to Artist List</a>
     </div>
+    
+
+
+
+{% endblock %}
+
+
+{% block stylesheets %}
+    <style>
+        /* Ensure images are responsive and have a nice margin */
+        .artist-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        p{
+            font-size:14px;
+        }
+
+        h2{
+            font-size: 20px !important;
+        }
+
+        h3{
+            font-size: 15px !important;
+        }
+
+        /* Optional: Add some padding and spacing between sections */
+        .artist-image, .artist-bio, .discography {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the return button */
+        .btn {
+            background-color: #FFEA00;
+            color: #000;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #FFC107;
+        }
+
+        .album-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .album-card {
+            position: relative;
+            text-align: center;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .album-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .album-img {
+            width: 100%;
+            height: 150px; /* Make all images same size */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .no-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .album-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+            text-transform: capitalize;
+        }
+
+        .album-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .album-link:hover .album-title {
+            color: #FFEA00;
+        }
+
+        .glitch-text {
+            display: inline-block;
+            overflow: hidden;
+            font-size: 45px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .glitch-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: slideIn 0.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let title = document.querySelector("h1");
+            let text = title.innerText;
+            title.innerHTML = "";
+
+            text.split("").forEach((char, index) => {
+                let span = document.createElement("span");
+                span.innerText = char;
+                span.style.animationDelay = `${index * 0.05}s`; // Stagger effect
+                title.appendChild(span);
+            });
+
+            title.classList.add("glitch-text");
+        });
+    </script>
+
+            
 {% endblock %}

@@ -4,34 +4,208 @@
 
 {% block body %}
     <div class="container">
-        <h1>All Releases</h1>
+        <!-- Fixed Title -->
+        <h1 class="text-center mb-4 fixed-title">All Releases</h1>
 
-        <h2>Albums</h2>
-        {% if albums is not empty %}
-            <ul>
-                {% for album in albums %}
-                    <li>
-                        <a href="{{ path('album_detail', {'id': album.id}) }}">{{ album.title }}</a> 
-                        ({{ album.releaseDate|date('Y') }})
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No albums found.</p>
-        {% endif %}
+        <!-- Fixed Toggle Buttons -->
+        <div class="d-flex justify-content-center mb-4 fixed-toggle">
+            <button class="btn btn-outline-light mx-2 active" id="show-albums">Albums</button>
+            <button class="btn btn-outline-light mx-2" id="show-singles">Singles</button>
+        </div>
 
-        <h2>Singles</h2>
-        {% if singles is not empty %}
-            <ul>
-                {% for single in singles %}
-                    <li>
-                        <a href="{{ path('single_detail', {'id': single.id}) }}">{{ single.title }}</a> 
-                        ({{ single.releaseDate|date('Y') }})
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No singles found.</p>
-        {% endif %}
+        <!-- Albums Grid -->
+        <div id="albums-section">
+            {% if albums is not empty %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for album in albums %}
+                        <div class="col">
+                            <div class="release-card card border-0 shadow-sm">
+                                <a href="{{ path('album_detail', {'id': album.id}) }}">
+                                    <div class="release-artwork-wrapper">
+                                        <img src="{{ album.artwork }}" alt="{{ album.title }}" class="img-fluid release-img">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h3 class="release-title">
+                                        <a href="{{ path('album_detail', {'id': album.id}) }}">{{ album.title }}</a>
+                                    </h3>
+                                    <p class="release-artist">
+                                        <a href="{{ path('artist_profile', {'artist_id': album.artist.id}) }}">{{ album.artist.artistName }}</a></br>
+                                    <span class="release-year">{{ album.releaseDate|date('Y') }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center">No albums found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Singles Grid -->
+        <div id="singles-section" class="d-none">
+            {% if singles is not empty %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for single in singles %}
+                        <div class="col">
+                            <div class="release-card card border-0 shadow-sm">
+                                <a href="{{ path('single_detail', {'id': single.id}) }}">
+                                    <div class="release-artwork-wrapper">
+                                        <img src="{{ single.artwork }}" alt="{{ single.title }}" class="img-fluid release-img">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h3 class="release-title">
+                                        <a href="{{ path('single_detail', {'id': single.id}) }}">{{ single.title }}</a>
+                                    </h3>
+                                    <p class="release-artist">
+                                        <a href="{{ path('artist_profile', {'artist_id': single.artist.id}) }}">{{ single.artist.artistName }}</a></br>
+                                    <span class="release-year">{{ single.releaseDate|date('Y') }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-center">No singles found.</p>
+            {% endif %}
+        </div>
     </div>
+
+<style>
+/* Fixed Title */
+.fixed-title {
+    position: fixed;
+    top: 90px;
+    left: 0;
+    right: 0;
+    background-color: rgb(0, 0, 0); 
+    padding: 10px 0;
+    z-index: 1000;
+    font-size: 2rem;
+    color: #FFEA00;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 50px; 
+}
+
+/* Fixed Toggle Buttons */
+.fixed-toggle {
+    position: fixed;
+    top: 140px; 
+    left: 0;
+    right: 0;
+    background-color: rgb(0, 0, 0); 
+    z-index: 999;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.release-artwork-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 100%; /* Makes the container square */
+}
+
+.release-artwork-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.release-artwork-wrapper:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.release-card {
+    background-color: transparent !important;
+    margin-top: 100px;
+}
+
+.release-card a {
+    text-decoration: none;
+}
+
+.release-title {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+.release-title a {
+    color: white;
+    text-decoration: none;
+}
+
+.release-title a:hover {
+    color: #FFEA00;
+}
+
+.release-artist {
+    font-size: 0.9rem;
+    text-align: right;
+    text-transform: uppercase;
+    font-weight:bold;
+}
+
+.release-artist a {
+    color: grey;
+    text-decoration: none;
+}
+
+.release-artist a:hover {
+    color: #FFEA00;
+}
+
+.release-year {
+    font-size: 0.8rem;
+    color: #888;
+    text-align: right;
+    color: #E6007E;
+}
+
+.btn-outline-light {
+    border: 1px solid  #FFEA00 !important;
+    text-transform: uppercase;
+}
+
+.btn-outline-light.active {
+    background-color: #FFEA00;
+    color: black;
+    border: 1px solid  #FFEA00 !important;
+    text-transform: uppercase;
+}
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const showAlbumsBtn = document.getElementById("show-albums");
+        const showSinglesBtn = document.getElementById("show-singles");
+        const albumsSection = document.getElementById("albums-section");
+        const singlesSection = document.getElementById("singles-section");
+
+        showAlbumsBtn.addEventListener("click", function () {
+            albumsSection.classList.remove("d-none");
+            singlesSection.classList.add("d-none");
+            showAlbumsBtn.classList.add("active");
+            showSinglesBtn.classList.remove("active");
+        });
+
+        showSinglesBtn.addEventListener("click", function () {
+            singlesSection.classList.remove("d-none");
+            albumsSection.classList.add("d-none");
+            showSinglesBtn.classList.add("active");
+            showAlbumsBtn.classList.remove("active");
+        });
+    });
+</script>
 {% endblock %}

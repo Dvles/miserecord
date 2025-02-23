@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Repository\ArtistRepository;
+use App\Repository\ArtistPhotoRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 
 
 final class ArtistController extends AbstractController
@@ -34,14 +35,17 @@ final class ArtistController extends AbstractController
     }
 
     #[Route('/artist/profile/{artist_id}', name: 'artist_profile')]
-    public function artistSingle(ArtistRepository $artistRepository, Request $request): Response
+    public function artistSingle(ArtistRepository $artistRepository, ArtistPhotoRepository $artistPhotoRepository, Request $request): Response
     {
         $artist_id = $request->get('artist_id');
         $artistDetails = $artistRepository->find($artist_id);
-    
+        
         if (!$artistDetails) {
             throw $this->createNotFoundException('Artist not found');
         }
+    
+        // Fetch associated photos for this artist
+        $artistPhotos = $artistPhotoRepository->findBy(['artist' => $artistDetails]);
     
         $artistData = [
             'id' => $artistDetails->getId(),
@@ -53,11 +57,16 @@ final class ArtistController extends AbstractController
             'album' => $artistDetails->getAlbum(),
             'single' => $artistDetails->getSingles(),
             'isBand' => $artistDetails->getIsBand(),
+            'artistPhotos' => $artistPhotos, // Add the photos to the artist data
         ];
-    
+        
+        $relatedProducts = $artistDetails->getArtistProduct();
+
         return $this->render('artist/artist_single.html.twig', [
             'artist' => $artistData,
+            'relatedProducts' => $relatedProducts, // Pass related products
         ]);
     }
+    
     
 }

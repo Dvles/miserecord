@@ -3,41 +3,49 @@
 namespace App\Repository;
 
 use App\Entity\Album;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Psr\Log\LoggerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Album>
  */
 class AlbumRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $logger;
+
+    public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
     {
         parent::__construct($registry, Album::class);
+        $this->logger = $logger;
     }
 
-//    /**
-//     * @return Album[] Returns an array of Album objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByName($name)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.title LIKE :name')
+            ->setParameter('name', '%'.$name.'%')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Album
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findBySearchQuery(string $query)
+    {
+        try {
+            $qb = $this->createQueryBuilder('a')
+                       ->where('a.title LIKE :name')
+                       ->setParameter('query', '%'.$query.'%');
+            
+            $query = $qb->getQuery();
+            $results = $query->getResult();
+    
+            return $results;
+        } catch (\Exception $e) {
+            // Log the exception or return an empty array to prevent 500 error
+            // Log the error message to Symfony log
+            $this->get('logger')->error('Error in findBySearchQuery: '.$e->getMessage());
+            
+            return [];
+        }
+    }
 }
