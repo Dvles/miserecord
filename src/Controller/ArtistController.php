@@ -47,6 +47,17 @@ final class ArtistController extends AbstractController
             'genres' => $genres, // Include genres for the filter dropdown
         ]);
     }
+
+    #[Route('/artist/landing', name: 'artist_landing')]
+    public function artistLanding(Request $request, ArtistRepository $artistRepository, GenreRepository $genreRepository): Response
+    {
+
+        $artists = $artistRepository->findAll();
+        return $this->render('artist/artist_landing.html.twig', [
+            'artists' => $artists,
+
+        ]);
+    }
     
 
     #[Route('/artist/profile/{artist_id}', name: 'artist_profile')]
