@@ -7,13 +7,24 @@ use App\Entity\Album;
 use App\Entity\Genre;
 use App\Entity\Artist;
 use App\Entity\Single;
+use GuzzleHttp\Client;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use GuzzleHttp\Client;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AlbumFixtures extends Fixture implements DependentFixtureInterface
 {
+   
+    private string $clientId;
+    private string $clientSecret;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->clientId = $params->get('spotify_client_id');
+        $this->clientSecret = $params->get('spotify_client_secret');
+    }
+    
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create("en_UK");
@@ -101,7 +112,7 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
         // Step 1: Obtain an Access Token via the Client Credentials Flow
         $response = $client->post('https://accounts.spotify.com/api/token', [
             'headers' => [
-                'Authorization' => 'Basic ' . base64_encode('98e4731639834084a03f720d67200774:ee5679fed4184a7bb842bcfdfa291424'),
+                'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
             ],
             'form_params' => [
                 'grant_type' => 'client_credentials',

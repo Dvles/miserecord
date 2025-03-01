@@ -9,9 +9,19 @@ use App\DataFixtures\ArtistFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
 {
+    private string $clientId;
+    private string $clientSecret;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->clientId = $params->get('spotify_client_id');
+        $this->clientSecret = $params->get('spotify_client_secret');
+    }
+    
     public function load(ObjectManager $manager): void
     {
         $customArtists = [
@@ -51,7 +61,7 @@ class ArtistPhotoFixtures extends Fixture  implements DependentFixtureInterface
         // Get Spotify access token
         $response = $client->post('https://accounts.spotify.com/api/token', [
             'headers' => [
-                'Authorization' => 'Basic ' . base64_encode('98e4731639834084a03f720d67200774:ee5679fed4184a7bb842bcfdfa291424'),
+                'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
             ],
             'form_params' => [
                 'grant_type' => 'client_credentials',
