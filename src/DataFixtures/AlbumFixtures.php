@@ -101,7 +101,7 @@ class AlbumFixtures extends Fixture implements DependentFixtureInterface
         // Step 1: Obtain an Access Token via the Client Credentials Flow
         $response = $client->post('https://accounts.spotify.com/api/token', [
             'headers' => [
-                'Authorization' => 'Basic ' . base64_encode('cd2eb27b27654d679b3559a4ad052e04:362599bd972946d9995f667178a64e3c'),
+                'Authorization' => 'Basic ' . base64_encode('98e4731639834084a03f720d67200774:ee5679fed4184a7bb842bcfdfa291424'),
             ],
             'form_params' => [
                 'grant_type' => 'client_credentials',
