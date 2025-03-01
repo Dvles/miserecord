@@ -3,19 +3,21 @@
 {% block title %}Artist Landing Page{% endblock %}
 
 {% block body %}
-    <div class="container" style="position: relative; height: 100vh; overflow: hidden;">
-        <div class="artists-gallery row row-cols-1 row-cols-md-3 g-4">
+    <div class="container">
+        <div class="artists-gallery">
             {% for artist in artists %}
-                <div class="col artist-container">
+                <div class="artist-item">
                     <div class="artist-photo-wrapper">
                         {% if artist.artistPhotos|length > 0 %}
-                            <!-- Image only, no text -->
-                            <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}">
+                            <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}" class="artist-link">
                                 <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid artist-img artist-image">
+                                <div class="artist-name">{{ artist.artistName }}</div>
                             </a>
                         {% else %}
-                            <!-- Placeholder Image if no artist photo is available -->
-                            <img src="{{ asset('default_artwork.jpg') }}" alt="No Artist Image" class="img-fluid artist-img artist-image">
+                            <div class="artist-item">
+                                <img src="{{ asset('default_artwork.jpg') }}" alt="No Artist Image" class="img-fluid artist-img artist-image">
+                                <div class="artist-name">No Artist Name</div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -23,75 +25,58 @@
         </div>
     </div>
 
-    <!-- GSAP and ScrollTrigger CDN -->
+    <!-- GSAP Core and ScrollTrigger Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/Draggable.min.js"></script> <!-- GSAP Draggable plugin -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             console.log('DOM loaded, initializing GSAP animations');
 
-            // Check if GSAP is loaded
-            if (typeof gsap === 'undefined') {
-                console.error('GSAP is not loaded!');
-                return;
-            }
-            console.log('GSAP loaded successfully');
-
-            // Check if ScrollTrigger and Flip plugins are available
-            if (typeof ScrollTrigger === 'undefined') {
-                console.error('ScrollTrigger plugin is not loaded!');
-            } else {
-                console.log('ScrollTrigger loaded successfully');
-            }
-            if (typeof Draggable === 'undefined') {
-                console.error('Draggable plugin is not loaded!');
-            } else {
-                console.log('Draggable plugin loaded successfully');
-            }
-
-            // Position the artist images randomly using GSAP and load images on scroll
-            const artistImages = document.querySelectorAll(".artist-image");
-
-            artistImages.forEach((image, index) => {
-                // Set the image in a random position within the container
-                gsap.set(image, {
-                    x: gsap.utils.random(0, window.innerWidth - 200), // Random x position (200px is for the width of the image)
-                    y: gsap.utils.random(0, window.innerHeight - 200), // Random y position (200px is for the height of the image)
-                    opacity: 0,  // Start with opacity 0 (invisible)
-                    scale: 0.5,  // Start with smaller scale
-                });
-
-                // GSAP ScrollTrigger to animate the images when they appear on the screen
-                gsap.to(image, {
-                    opacity: 1, // Fade the image in
-                    scale: 1,   // Scale to full size
-                    duration: 1.5,
-                    delay: index * 0.1, // Stagger the animation by 0.1 seconds for each image
-                    scrollTrigger: {
-                        trigger: image, // Trigger the animation when the image enters the viewport
-                        start: "top 80%", // When the image enters 80% of the viewport
-                        end: "top 30%", // End the animation when the top of the image hits 30% of the viewport
-                        scrub: true, // Makes the animation follow the scroll smoothly
-                        once: true, // Trigger animation once
+            // GSAP Animations with ScrollTrigger
+            gsap.utils.toArray('.artist-item').forEach((item, index) => {
+                gsap.fromTo(item, 
+                    {
+                        scale: gsap.utils.random(0.5, 0.9), // Random initial size
+                        opacity: 0, // Start invisible
+                        y: 200, // Start from below
+                        rotation: gsap.utils.random(-45, 45), // Random rotation
                     },
-                    onStart: () => console.log(`GSAP animation started for .artist-image ${index}`),
-                    onComplete: () => console.log(`GSAP animation completed for .artist-image ${index}`)
-                });
+                    {
+                        scale: gsap.utils.random(0.9, 1.5), // Random final size
+                        opacity: 1, // Fully visible
+                        y: 0, // Move to original position
+                        rotation: 0, // Reset rotation
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top bottom', // Trigger when the item is at the bottom of the screen
+                            end: 'bottom top', // End when the item is at the top of the screen
+                            scrub: 1, // Smooth scroll
+                            markers: false, // Disable markers, enable for debugging
+                        }
+                    }
+                );
+            });
 
-                // Making the image draggable using GSAP Draggable plugin
-                Draggable.create(image, {
-                    type: "x,y", // Allow dragging in both x and y directions
-                    bounds: window, // Limit the drag within the window
-                    edgeResistance: 0.65, // Resistance when dragging near the edge
-                    onDrag: function () {
-                        console.log(`Dragging image: ${index}`); // Debug log
+            // Add more interactivity: Zoom & translate as you scroll
+            gsap.utils.toArray('.artist-image').forEach(image => {
+                gsap.fromTo(image, 
+                    {
+                        scale: 1,
+                        opacity: 0,
                     },
-                    onThrowUpdate: function () {
-                        console.log(`Throwing image: ${index}`); // Debug log
-                    },
-                });
+                    {
+                        scale: gsap.utils.random(1.1, 1.5), // Random zoom effect
+                        opacity: 1,
+                        scrollTrigger: {
+                            trigger: image,
+                            start: 'top 90%', // Trigger when 90% of the image enters the viewport
+                            end: 'bottom top', // End when the bottom reaches the top of the screen
+                            scrub: 1, // Smooth animation following the scroll
+                            markers: false, // You can enable markers for debugging
+                        }
+                    }
+                );
             });
         });
     </script>
