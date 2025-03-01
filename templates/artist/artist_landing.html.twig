@@ -10,8 +10,9 @@
                     <div class="artist-photo-wrapper">
                         {% if artist.artistPhotos|length > 0 %}
                             <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}" class="artist-link">
-                                <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid artist-img artist-image">
                                 <div class="artist-name">{{ artist.artistName }}</div>
+                                <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid artist-img artist-image">
+                                
                             </a>
                         {% else %}
                             <div class="artist-item">
@@ -24,6 +25,16 @@
             {% endfor %}
         </div>
     </div>
+    <style>
+        .artist-name {
+            text-transform: uppercase;
+            font-weight:bold;
+            color: white;
+            font-size: 60px;
+            z-index: 100;
+            opacity: 1 !important;
+        }
+        </style>
 
     <!-- GSAP Core and ScrollTrigger Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
@@ -37,15 +48,15 @@
             gsap.utils.toArray('.artist-item').forEach((item, index) => {
                 gsap.fromTo(item, 
                     {
-                        scale: gsap.utils.random(0.5, 0.9), // Random initial size
+                        scale: gsap.utils.random(0.1, 0.4), // Random initial size
                         opacity: 0, // Start invisible
-                        y: 200, // Start from below
+                        y: 800, // Start from below
                         rotation: gsap.utils.random(-45, 45), // Random rotation
                     },
                     {
                         scale: gsap.utils.random(0.9, 1.5), // Random final size
                         opacity: 1, // Fully visible
-                        y: 0, // Move to original position
+                        y: -100, // Move to original position
                         rotation: 0, // Reset rotation
                         scrollTrigger: {
                             trigger: item,
@@ -62,8 +73,8 @@
             gsap.utils.toArray('.artist-image').forEach(image => {
                 gsap.fromTo(image, 
                     {
-                        scale: 1,
-                        opacity: 0,
+                        scale: 0.8,
+                        opacity: 1,
                     },
                     {
                         scale: gsap.utils.random(1.1, 1.5), // Random zoom effect
