@@ -24,23 +24,26 @@
                 <p><strong>Release Date:</strong> {{ album.releaseDate|date('F j, Y') }}</p>
                 <p><strong>{{ album.numTracks }}</strong> tracks </p>
 
-                {% if producers is not empty %}
-                    <h3>Producers</h3>
-                    <ul>
-                        {% for producer in producers %}
-                            <li>
-                                {{ producer.firstName }} {{ producer.lastName }}
-                                {% if producer.prodRole is not empty %}
-                                    : <strong>{{ producer.prodRole|map(role => role.value)|join(', ') }}</strong>
-                                {% else %}
-                                    : <em>No role assigned</em>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
+{% if producers is not empty %}
+    <h3>Producers</h3>
+    <ul>
+        {% for producer in producers %}
+            <li>
+                <a href="{{ path('producer_detail', {'id': producer.id}) }}">
+                    {{ producer.firstName }} {{ producer.lastName }}
+                </a>
+                {% if producer.prodRole is not empty %}
+                    : <strong>{{ producer.prodRole|map(role => role.value)|join(', ') }}</strong>
                 {% else %}
-                    <p>No producers available.</p>
+                    : <em>No role assigned</em>
                 {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No producers available.</p>
+{% endif %}
+
 
                 {% if genres is not empty %}
                     <h3>Genres</h3>
