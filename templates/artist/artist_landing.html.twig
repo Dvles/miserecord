@@ -12,13 +12,14 @@
                             <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}" class="artist-link">
                                 <div class="artist-name">{{ artist.artistName }}</div>
                                 <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid artist-img artist-image">
-                                
-                            </a>
+<!--                                 <div class="artist-name-2">{{ artist.artistName }}</div>
+ -->                            </a>
                         {% else %}
                             <div class="artist-item">
                                 <img src="{{ asset('default_artwork.jpg') }}" alt="No Artist Image" class="img-fluid artist-img artist-image">
                                 <div class="artist-name">No Artist Name</div>
-                            </div>
+<!--                                 <div class="artist-name-2">No Artist Name</div>
+ -->                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -26,15 +27,33 @@
         </div>
     </div>
     <style>
+
+        .artist-link{
+            z-index: 100;
+        }
         .artist-name {
             text-transform: uppercase;
-            font-weight:bold;
+            font-weight: bold;
             color: white;
-            font-size: 60px;
+            font-size: 80px;
             z-index: 100;
             opacity: 1 !important;
         }
-        </style>
+
+/*         .artist-name-2 {
+            position: absolute;
+            top: 110%;
+            left: 50%;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: white;
+            font-size: 40px;
+            z-index: 101;
+            opacity: 1 !important;
+            padding: 5px 10px;
+            border-radius: 5px;
+        } */
+    </style>
 
     <!-- GSAP Core and ScrollTrigger Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
@@ -49,8 +68,8 @@
                 gsap.fromTo(item, 
                     {
                         scale: gsap.utils.random(0.1, 0.4), // Random initial size
-                        opacity: 0, // Start invisible
-                        y: 800, // Start from below
+                        opacity: 0.9, 
+                        y: 800, 
                         rotation: gsap.utils.random(-45, 45), // Random rotation
                     },
                     {
@@ -62,8 +81,8 @@
                             trigger: item,
                             start: 'top bottom', // Trigger when the item is at the bottom of the screen
                             end: 'bottom top', // End when the item is at the top of the screen
-                            scrub: 1, // Smooth scroll
-                            markers: false, // Disable markers, enable for debugging
+                            scrub: 1, 
+                            markers: false, 
                         }
                     }
                 );
@@ -81,10 +100,10 @@
                         opacity: 1,
                         scrollTrigger: {
                             trigger: image,
-                            start: 'top 90%', // Trigger when 90% of the image enters the viewport
-                            end: 'bottom top', // End when the bottom reaches the top of the screen
-                            scrub: 1, // Smooth animation following the scroll
-                            markers: false, // You can enable markers for debugging
+                            start: 'top 70%', 
+                            end: 'bottom top', 
+                            scrub: 1, 
+                            markers: false, 
                         }
                     }
                 );
