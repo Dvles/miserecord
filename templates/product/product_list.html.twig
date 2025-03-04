@@ -5,6 +5,19 @@
 {% block body %}
     <div class="container">
         <h1 class="text-center text-white">SHOP</h1>
+
+        <!-- Product Type Filter Dropdown -->
+<form method="get" action="{{ path('product_list') }}" class="mb-4">
+    <label for="product-type" class="text-white">Filter by Product Type:</label>
+    <select id="product-type" name="type" class="form-select" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="artwork" {% if selectedType == 'artwork' %}selected{% endif %}>Artwork</option>
+        <option value="vinyl" {% if selectedType == 'vinyl' %}selected{% endif %}>Vinyl</option>
+        <option value="merch" {% if selectedType == 'merch' %}selected{% endif %}>Merch</option>
+    </select>
+</form>
+
+
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for product in products %}
                 <div class="col">
@@ -20,7 +33,7 @@
                                     {{ product.name }}
                                 </a>
                             </h2>
-                            
+
                             <!-- Display Artist Name Below Product Name -->
                             <p class="artist-name">
                                 {% for artist in product.artists %}
@@ -78,7 +91,6 @@
             text-transform: uppercase;
             text-align: right;
             margin-top: 10px;
-            
         }
 
         .product-name a {
@@ -90,21 +102,17 @@
             color: #FFEA00;
         }
 
-        /* Artist Name Styling */
         .artist-name {
             font-size: 0.9rem;
             font-weight: normal;
             text-align: right;
             text-transform: uppercase;
-                        font-weight: bold;
-
-
+            font-weight: bold;
         }
 
         .artist-name a {
             color: grey;
             text-decoration: none;
-
         }
 
         .artist-name a:hover {
