@@ -10,13 +10,14 @@
             <!-- Product Image Column -->
             <div class="col-md-6 product-image-col">
                 <img src="{{ asset(product.img) }}" alt="{{ product.name }}" class="product-image img-fluid">
+                <br>
+                <a href="{{ path('product_list') }}" class="btn-back-to-products">Back to Products</a>
             </div>
 
             <!-- Product Information Column -->
             <div class="col-md-6 product-info-col">
-                <p><strong>Price:</strong> ${{ product.price }}</p>
-                <p><strong>Type:</strong> {{ product.type.value }}</p>
-                <p><strong>Description:</strong> {{ product.description }}</p>
+                <p class="product-price"> ${{ product.price }}</p>
+                <p>{{ product.description }}</p>
 
                 {% if product.artists|length > 0 %}
                     <p><strong>Artists:</strong>
@@ -26,8 +27,7 @@
                         {% endfor %}
                     </p>
                 {% endif %}
-
-                <a href="{{ path('product_list') }}" class="btn btn-back-to-products">Back to Products</a>
+                
             </div>
         </div>
     </div>
@@ -36,10 +36,14 @@
 {% block stylesheets %}
     <style>
         /* General layout adjustments */
-        .product-detail-container {
-            margin-top: 30px;
-        }
 
+        .product-price {
+            color: #E6007E;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
         .product-title {
             font-size: 36px;
             font-weight: bold;
@@ -77,31 +81,50 @@
         .product-info-col a {
             color: #333;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .product-info-col a:hover {
             color: #FFEA00;
         }
 
-        .btn-back-to-products {
-            background-color: #FFEA00;
-            color: #000;
+        .product-detail-container .product-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .product-detail-container .btn-back-to-products {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.61);
+            border: 1px solid rgba(255, 255, 255, 0.61);
+            color: white;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
             margin-top: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .btn-back-to-products:hover {
-            background-color: #FFC107;
+        .product-detail-container .btn-back-to-products:hover {
+            color: white;
+            border: 1px solid #FFEA00;
+            background-color: #FFEA00;
         }
+
 
         /* Styling for the artist links */
         .artist-link {
             font-weight: bold;
             color: #333;
+            text-decoration: none;
         }
 
         .artist-link:hover {
