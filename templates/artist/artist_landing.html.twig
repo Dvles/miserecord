@@ -3,6 +3,11 @@
 {% block title %}Artist Landing Page{% endblock %}
 
 {% block body %}
+    <!-- Psychedelic circles -->
+<!--     <div class="box gradient-green left"></div>
+    <div class="box gradient-green right"></div>
+    <div class="box gradient-green center"></div> -->
+
     <div class="container">
         <div class="artists-gallery">
             {% for artist in artists %}
@@ -12,47 +17,69 @@
                             <a href="{{ path('artist_profile', {'artist_id': artist.id}) }}" class="artist-link">
                                 <div class="artist-name">{{ artist.artistName }}</div>
                                 <img src="{{ asset(artist.artistPhotos|first.filePath) }}" alt="{{ artist.artistName }}" class="img-fluid artist-img artist-image">
-<!--                                 <div class="artist-name-2">{{ artist.artistName }}</div>
- -->                            </a>
+                            </a>
                         {% else %}
                             <div class="artist-item">
                                 <img src="{{ asset('default_artwork.jpg') }}" alt="No Artist Image" class="img-fluid artist-img artist-image">
                                 <div class="artist-name">No Artist Name</div>
-<!--                                 <div class="artist-name-2">No Artist Name</div>
- -->                            </div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-    <style>
 
-        .artist-link{
-            z-index: 100;
+    <style>
+        /* Psychedelic background style */
+/*         .box {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgb(70, 233, 102);
+            background: linear-gradient(90deg, rgba(70, 233, 102, 1) 0%, rgba(63, 241, 245, 0.5244755244755245) 100%);
+            z-index: -15;
         }
+
+        .left {
+            top: 20%;
+            left: 10%;
+            z-index: -15;
+        }
+
+        .right {
+            top: 40%;
+            right: 10%;
+            z-index: -15;
+        }
+
+        .center {
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -15;
+        } */
+
         .artist-name {
             text-transform: uppercase;
             font-weight: bold;
             color: white;
-            font-size: 80px;
+            font-size: 60px;
             z-index: 100;
             opacity: 1 !important;
+
+        }
+        .artist-name {
+            z-index: 50;
+
+            
         }
 
-/*         .artist-name-2 {
-            position: absolute;
-            top: 110%;
-            left: 50%;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: white;
-            font-size: 40px;
-            z-index: 101;
-            opacity: 1 !important;
-            padding: 5px 10px;
-            border-radius: 5px;
-        } */
+        .container {
+            position: relative;
+            z-index: 10;
+        }
     </style>
 
     <!-- GSAP Core and ScrollTrigger Plugin -->
@@ -63,51 +90,101 @@
         document.addEventListener('DOMContentLoaded', function () {
             console.log('DOM loaded, initializing GSAP animations');
 
-            // GSAP Animations with ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+/*             // Psychedelic animation for the circles
+            gsap.to(".left", {
+                rotation: 360,
+                scale: 1.5,
+                duration: 5,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut",
+                scrollTrigger: {
+                    trigger: ".left",
+                    start: "top 75%",   // Trigger at 75% of the viewport height
+                    end: "top 25%",     // End when the element hits 25%
+                    scrub: true,        // Sync the animation with scroll
+                    markers: false,     // Turn off markers for debugging
+                }
+            });
+
+            gsap.to(".right", {
+                rotation: 360,
+                scale: 1.5,
+                duration: 5,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut",
+                scrollTrigger: {
+                    trigger: ".right",
+                    start: "top 50%",   // Trigger at 50% of the viewport height
+                    end: "top 0%",      // End when the element hits the top
+                    scrub: true,        // Sync the animation with scroll
+                    markers: false,     // Turn off markers for debugging
+                }
+            });
+
+            gsap.to(".center", {
+                rotation: 360,
+                scale: 1.5,
+                duration: 5,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut",
+                scrollTrigger: {
+                    trigger: ".center",
+                    start: "top 25%",   // Trigger at 25% of the viewport height
+                    end: "top 0%",      // End when the element hits the top
+                    scrub: true,        // Sync the animation with scroll
+                    markers: false,     // Turn off markers for debugging
+                }
+            }); */
+
+            // Artist Item Animations
             gsap.utils.toArray('.artist-item').forEach((item, index) => {
                 gsap.fromTo(item, 
                     {
-                        scale: gsap.utils.random(0.1, 0.4), // Random initial size
-                        opacity: 0.9, 
-                        y: 800, 
-                        rotation: gsap.utils.random(-45, 45), // Random rotation
+                        scale: gsap.utils.random(0.1, 0.4),
+                        opacity: 0,
+                        y: 800,
+                        rotation: gsap.utils.random(-45, 45),
                     },
                     {
-                        scale: gsap.utils.random(0.9, 1.5), // Random final size
-                        opacity: 1, // Fully visible
-                        y: -100, // Move to original position
-                        rotation: 0, // Reset rotation
+                        scale: gsap.utils.random(0.9, 1.5),
+                        opacity: 1,
+                        y: -100,
+                        rotation: 0,
                         scrollTrigger: {
                             trigger: item,
-                            start: 'top bottom', // Trigger when the item is at the bottom of the screen
-                            end: 'bottom top', // End when the item is at the top of the screen
-                            scrub: 1, 
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: 1,
+                            markers: false,
+                        }
+                    }
+                );
+            });
+
+            // Zoom & translate as you scroll for artist images
+            gsap.utils.toArray('.artist-image').forEach(image => {
+                gsap.fromTo(image, 
+                    {
+                        opacity: 0.4,  
+                    },
+                    {
+                        opacity: 1, 
+                        scrollTrigger: {
+                            trigger: image,
+                            start: 'top 90%', 
+                            end: 'bottom top',  
+                            scrub: 5, 
                             markers: false, 
                         }
                     }
                 );
             });
 
-            // Add more interactivity: Zoom & translate as you scroll
-            gsap.utils.toArray('.artist-image').forEach(image => {
-                gsap.fromTo(image, 
-                    {
-                        scale: 0.8,
-                        opacity: 1,
-                    },
-                    {
-                        scale: gsap.utils.random(1.1, 1.5), // Random zoom effect
-                        opacity: 1,
-                        scrollTrigger: {
-                            trigger: image,
-                            start: 'top 70%', 
-                            end: 'bottom top', 
-                            scrub: 1, 
-                            markers: false, 
-                        }
-                    }
-                );
-            });
         });
     </script>
 {% endblock %}
