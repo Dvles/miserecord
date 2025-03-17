@@ -53,13 +53,13 @@
 
                 
                 {% if artist.single is not empty %}
-                    <h3>Singles</h3>
+                    <h3>TOP Singles</h3>
                     <ul>
                         {% for single in artist.single|sort((a, b) => b.releaseDate <=> a.releaseDate)|slice(0, 10) %}
                             <li>
                                 {{ single.title }} ({{ single.releaseDate|date('Y') }})
                                 {% if single.spotifyLink %}
-                                    - <a href="{{ single.spotifyLink }}" target="_blank">Listen on Spotify</a>
+                                    - <a href="{{ single.spotifyLink }}" class="link" target="_blank">Listen on Spotify</a>
                                 {% endif %}
                                 <a href="{{ path('single_detail', {'id': single.id}) }}" class="info-button" title="More info">
                                     <i class="fas fa-circle-info"></i>
@@ -83,7 +83,16 @@
 
 {% block stylesheets %}
     <style>
-        /* Ensure images are responsive and have a nice margin */
+        .link {
+            color: #FFEA00 !important;
+            text-decoration: none !important;
+        }
+
+        .link:hover {
+            color: rgba(255, 234, 0, 0.69) !important;
+            text-decoration: underline !important;
+        }
+        
         .artist-image img {
             max-width: 100%;
             height: auto;
@@ -173,6 +182,8 @@
         .album-link:hover .album-title {
             color: #FFEA00;
         }
+
+
 
         .glitch-text {
             display: inline-block;

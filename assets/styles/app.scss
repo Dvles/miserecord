@@ -1,0 +1,13 @@
+// 1️⃣ Import Bootstrap SCSS first
+@import "~bootstrap/scss/bootstrap";
+
+// 2️⃣ Override Bootstrap variables **before using Bootstrap components**
+:root {
+    --bs-link-color-rgb: 255, 234, 0; /* Sets link color to yellow */
+    --bs-link-hover-color-rgb: 255, 200, 0; /* Optional: Change hover color */
+}
+
+// 3️⃣ Now, apply additional styles (if needed)
+a {
+    text-decoration: none !important; /* Ensures links have no underline */
+}
