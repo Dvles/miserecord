@@ -16,7 +16,7 @@
                     {% endif %}
                 </div>
                 {% if artist.firstName is not empty %}
-                    <p><strong></strong> {{ artist.firstName }} {{ artist.lastName }}</p>
+                    <p><strong>Full name:</strong> {{ artist.firstName }} {{ artist.lastName }}</p>
                 {% endif %}
                 {% if artist.isBand == false %}                    <p> {{ artist.birthdate|date('F j, Y') }}</p>
                 {% endif %}
@@ -199,6 +199,7 @@
             opacity: 0;
             animation: slideIn 0.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
         }
+
 
         @keyframes slideIn {
             from {
